@@ -987,6 +987,24 @@ function initScores() {
   return s;
 }
 
+function PrintStyles() {
+  return (
+    <style>{`
+      @media print {
+        .no-print { display: none !important; }
+        body { background: #fff !important; }
+        .print-shell {
+          box-shadow: none !important;
+          border: none !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+        }
+        .print-shell * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      }
+    `}</style>
+  );
+}
+
 export default function App() {
   const [view, setView] = useState("catalogo"); // "catalogo" | "ferramenta"
   const [step, setStep] = useState(STEP_ROLE);
@@ -1229,8 +1247,8 @@ export default function App() {
 
   if (view === "catalogo") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shellWide}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shellWide} className="print-shell">
           <Catalogo
             onAbrirFerramenta1={abrirFerramenta1}
             onAbrirFerramenta2={abrirFerramenta2}
@@ -1248,8 +1266,8 @@ export default function App() {
 
   if (view === "novaFamilia") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shellWide}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shellWide} className="print-shell">
           <NovaFamilia onVoltar={() => setView("catalogo")} />
         </div>
       </div>
@@ -1258,8 +1276,8 @@ export default function App() {
 
   if (view === "comparacao") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shellWide}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shellWide} className="print-shell">
           <Comparacao onVoltar={() => setView("catalogo")} />
         </div>
       </div>
@@ -1268,8 +1286,8 @@ export default function App() {
 
   if (view === "ferramenta2") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shell}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
           <Ferramenta2App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
@@ -1278,8 +1296,8 @@ export default function App() {
 
   if (view === "ferramenta3") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shell}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
           <Ferramenta3App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
@@ -1288,8 +1306,8 @@ export default function App() {
 
   if (view === "ferramenta4") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shell}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
           <Ferramenta4App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
@@ -1298,8 +1316,8 @@ export default function App() {
 
   if (view === "ferramenta5") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shell}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
           <Ferramenta5App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
@@ -1308,8 +1326,8 @@ export default function App() {
 
   if (view === "ferramenta6") {
     return (
-      <div style={styles.page}>
-        <div style={styles.shell}>
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
           <Ferramenta6App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
@@ -1317,8 +1335,8 @@ export default function App() {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.shell}>
+    <div style={styles.page}><PrintStyles />
+      <div style={styles.shell} className="print-shell">
         <Header
           step={step}
           needsDesempate={needsDesempate}
@@ -1487,7 +1505,7 @@ function Header({ step, needsDesempate, onVoltarCatalogo, tipoDesafio, onChangeT
   const effectiveTotal = needsDesempate ? STEP_FECHAMENTO : STEP_FECHAMENTO - 1;
   const progress = Math.round((step / effectiveTotal) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -2873,7 +2891,10 @@ function StepFechamento({
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -3174,7 +3195,7 @@ function Header2({ step, onVoltarCatalogo }) {
   ];
   const progress = Math.round((step / STEP_F2_FECHAMENTO) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -3956,7 +3977,10 @@ function StepFechamentoF2({
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -4383,7 +4407,7 @@ function Header3({ step, onVoltarCatalogo }) {
   ];
   const progress = Math.round((step / STEP_F3_FECHAMENTO) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -5363,7 +5387,10 @@ function StepFechamentoF3({
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -5664,7 +5691,7 @@ function Header4({ step, onVoltarCatalogo }) {
   ];
   const progress = Math.round((step / STEP_F4_FECHAMENTO) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -6478,7 +6505,10 @@ function StepFechamentoF4({
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -6814,7 +6844,7 @@ function Header5({ step, onVoltarCatalogo }) {
   ];
   const progress = Math.round((step / STEP_F5_FECHAMENTO) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -7498,7 +7528,10 @@ function StepFechamentoF5({
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -7733,7 +7766,7 @@ function Header6({ step, onVoltarCatalogo }) {
   ];
   const progress = Math.round((step / STEP_F6_FECHAMENTO) * 100);
   return (
-    <div style={styles.header}>
+    <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
@@ -8406,7 +8439,10 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
         </p>
       </div>
 
-      <div style={styles.finalButtonsRow}>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
           Enviar resultado por e-mail →
         </button>
@@ -8420,7 +8456,7 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
 
 function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
   return (
-    <div style={styles.footer}>
+    <div style={styles.footer} className="no-print">
       <button
         onClick={onBack}
         disabled={step === STEP_ROLE}
