@@ -4710,6 +4710,11 @@ function StepDecisaoF3({ decisaoF3, setDecisaoF3 }) {
     <div style={styles.stepWrap}>
       <span style={styles.eyebrowSmall}>PASSO 6 DE 8 · DECISÃO</span>
       <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Com os padrões já classificados e a família alinhada na Consolidação, é hora de decidir
+        o que muda a partir de agora. Isso é uma proposta, vale negociar antes de virar
+        definitivo.
+      </p>
 
       <label style={styles.fieldLabel}>Quais padrões devem continuar fortalecendo a família empresária?</label>
       <textarea
@@ -4862,7 +4867,11 @@ function StepImpactosF3({ impactosF3, setImpactosF3 }) {
     <div style={styles.stepWrap}>
       <span style={styles.eyebrowSmall}>PASSO 8 DE 8 · IMPACTOS ESPERADOS</span>
       <h1 style={styles.h1}>As mudanças raramente afetam só um domínio.</h1>
-      <p style={styles.lead}>Antecipe reflexos em cada área.</p>
+      <p style={styles.lead}>
+        Interromper ou transformar um padrão de gerações mexe com mais do que a rotina da
+        empresa. Preencha os três campos abaixo pra antecipar reflexos em cada área, antes que
+        eles apareçam sem aviso.
+      </p>
 
       <label style={styles.fieldLabel}>Família</label>
       <textarea
@@ -5176,8 +5185,8 @@ const FAMILIA_EXEMPLO_F4 = {
   consolidacaoF4: [
     {
       id: 1,
-      descoberta: "Meu pai ainda é procurado em decisões de investimento, mesmo formalmente afastado.",
-      impacto: "Vamos redirecionar formalmente essas decisões pra diretoria financeira.",
+      comportamento: "Meu pai ainda é procurado em decisões de investimento, mesmo formalmente afastado.",
+      motivo: "Vamos redirecionar formalmente essas decisões pra diretoria financeira.",
     },
   ],
   decisaoF4: {
@@ -5219,7 +5228,7 @@ function Ferramenta4App({ onVoltarCatalogo, envioIdInicial }) {
   const [gargalos, setGargalos] = useState(initGargalosF4());
   const [classificacao, setClassificacao] = useState({});
   const [reflexaoF4, setReflexaoF4] = useState({ concentracao: "", vazio: "", surpresa: "" });
-  const [consolidacaoF4, setConsolidacaoF4] = useState([{ id: 1, descoberta: "", impacto: "" }]);
+  const [consolidacaoF4, setConsolidacaoF4] = useState([{ id: 1, comportamento: "", motivo: "" }]);
   const [decisaoF4, setDecisaoF4] = useState({ migrar: "", formalizar: "", foruns: "" });
   const [planoF4, setPlanoF4] = useState([{ id: 1, acao: "", responsavel: "", prazo: "" }]);
   const [impactosF4, setImpactosF4] = useState({ familia: "", negocio: "", patrimonio: "" });
@@ -5287,7 +5296,7 @@ function Ferramenta4App({ onVoltarCatalogo, envioIdInicial }) {
       );
     }
     if (step === STEP_F4_CONSOLIDACAO) {
-      return consolidacaoF4.some((c) => c.descoberta.trim() && c.impacto.trim());
+      return consolidacaoF4.some((c) => c.comportamento.trim() && c.motivo.trim());
     }
     if (step === STEP_F4_DECISAO) {
       return (
@@ -5462,8 +5471,12 @@ function StepMapeamento({ pessoas, addPessoa, removePessoa, setPessoaField, onCa
       <h1 style={styles.h1}>Quem realmente decide nesta família empresária?</h1>
       <p style={styles.lead}>
         Liste as pessoas mais relevantes na dinâmica de decisão, com ou sem cargo formal, e avalie
-        cada uma de 0 a 5 em três dimensões. Pontue o que você observa acontecer na prática, não o
-        que está descrito no cargo ou no contrato.
+        cada uma de 0 a 5 em três dimensões: <strong>Influência</strong> (o quanto a opinião dessa
+        pessoa pesa nas decisões, mesmo sem participar formalmente delas),{" "}
+        <strong>Decisão</strong> (o quanto ela efetivamente decide, na prática) e{" "}
+        <strong>Responsabilidade</strong> (o quanto ela responde pelos resultados, boas ou ruins).
+        A escala vai de 0 (nenhuma) a 5 (dominante). Pontue o que você observa acontecer na
+        prática, não o que está descrito no cargo ou no contrato.
       </p>
 
       <div style={styles.demoLinksRow}>
@@ -5621,9 +5634,22 @@ function StepClassificacaoF4({ gargalos, gargalosPreenchidos, classificacao, set
       <span style={styles.eyebrowSmall}>PASSO 4 DE 9 · CLASSIFICAÇÃO</span>
       <h1 style={styles.h1}>Para cada gargalo, qual padrão está presente?</h1>
       <p style={styles.lead}>
-        Autoridade Ausente é um vazio (ninguém decide); Autoridade Difusa é uma confusão (todos
-        acham que decidem). Não confunda os dois.
+        Nomear o padrão certo muda o que fazer a seguir — um vazio de autoridade se resolve
+        diferente de um excesso dela. Use o guia abaixo pra escolher com mais segurança.
       </p>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>GUIA DE INTERPRETAÇÃO</span>
+        <div style={styles.familiaList}>
+          {PADROES_F4.map((p) => (
+            <div key={p.key} style={styles.padraoGuiaRow}>
+              <span style={styles.padraoGuiaNome}>{p.nome}</span>
+              <span style={styles.papelDescricao}>{p.sinais}</span>
+              <span style={styles.padraoInterpretacao}>Pergunta-chave: "{p.pergunta}"</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <button onClick={detectarAutomatico} disabled={detectando} style={styles.demoLink}>
         {detectando ? "Detectando…" : "✦ Detectar os padrões automaticamente"}
@@ -5671,6 +5697,11 @@ function StepReflexaoF4({ reflexaoF4, setReflexaoF4, classificacao }) {
     <div style={styles.stepWrap}>
       <span style={styles.eyebrowSmall}>PASSO 5 DE 9 · REFLEXÃO INDIVIDUAL</span>
       <h1 style={styles.h1}>Sozinho, antes de qualquer conversa em grupo.</h1>
+      <p style={styles.lead}>
+        Ninguém além de você vai ler isso agora. Essas perguntas não se respondem com planilha ou
+        organograma — pedem coragem pra olhar pra dentro. Escreva o que for verdade, não o que
+        soa bem de dizer em família.
+      </p>
 
       <CampoReflexao
         pergunta="Onde percebo maior concentração de autoridade?"
@@ -5762,6 +5793,11 @@ function StepDecisaoF4({ decisaoF4, setDecisaoF4 }) {
     <div style={styles.stepWrap}>
       <span style={styles.eyebrowSmall}>PASSO 7 DE 9 · DECISÃO</span>
       <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Com o mapa de autoridade e os gargalos já identificados, é hora de decidir o que muda a
+        partir de agora. Isso é uma proposta, vale negociar com quem for afetado antes de virar
+        definitivo.
+      </p>
 
       <label style={styles.fieldLabel}>Quais decisões precisam migrar para a próxima geração?</label>
       <textarea
@@ -5911,7 +5947,10 @@ function StepImpactosF4({ impactosF4, setImpactosF4 }) {
     <div style={styles.stepWrap}>
       <span style={styles.eyebrowSmall}>PASSO 9 DE 9 · IMPACTOS ESPERADOS</span>
       <h1 style={styles.h1}>As mudanças na autoridade raramente afetam só a empresa.</h1>
-      <p style={styles.lead}>Antecipe reflexos em cada área.</p>
+      <p style={styles.lead}>
+        Redesenhar quem decide o quê mexe com relações, não só com processos. Preencha os três
+        campos abaixo pra antecipar reflexos em cada área, antes que eles apareçam sem aviso.
+      </p>
 
       <label style={styles.fieldLabel}>Família</label>
       <textarea
@@ -5960,7 +5999,7 @@ function StepFechamentoF4({
   const [sintese, setSintese] = useState(null);
   const [carregandoSintese, setCarregandoSintese] = useState(false);
 
-  const consolidacaoPreenchida = consolidacaoF4.filter((c) => c.descoberta.trim());
+  const consolidacaoPreenchida = consolidacaoF4.filter((c) => c.comportamento.trim());
 
   useEffect(() => {
     let cancelado = false;
@@ -6033,6 +6072,10 @@ function StepFechamentoF4({
       "",
       sintese ? `Síntese: ${sintese}` : null,
       sintese ? "" : null,
+      consolidacaoPreenchida.length > 0
+        ? `Descobertas: ${consolidacaoPreenchida.map((c) => c.comportamento).join("; ")}`
+        : null,
+      consolidacaoPreenchida.length > 0 ? "" : null,
       `Decisões a migrar: ${decisaoF4.migrar || "—"}`,
       `A formalizar: ${decisaoF4.formalizar || "—"}`,
       `Fóruns a criar: ${decisaoF4.foruns || "—"}`,
@@ -6092,6 +6135,19 @@ function StepFechamentoF4({
           </>
         )}
       </div>
+
+      {consolidacaoPreenchida.length > 0 && (
+        <div style={styles.familiaList}>
+          {consolidacaoPreenchida.map((c) => (
+            <div key={c.id} style={styles.padraoCard}>
+              <span style={styles.padraoInterpretacao}>DESCOBERTA</span>
+              <span style={styles.papelDescricao}>{c.comportamento}</span>
+              <span style={styles.padraoInterpretacao}>IMPACTO</span>
+              <span style={styles.papelDescricao}>{c.motivo || "—"}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div style={styles.fechamentoBox}>
         <div style={styles.fechamentoRow}>
@@ -6768,4 +6824,12 @@ const styles = {
   padraoInterpretacao: { fontSize: 12.5, color: BLUE, fontWeight: 600 },
   scoreLinha: { display: "flex", flexDirection: "column", gap: 4 },
   scoreLinhaLabel: { fontSize: 12.5, color: "#5A6B7A", fontWeight: 600 },
+  padraoGuiaRow: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 3,
+    padding: "10px 0",
+    borderBottom: "1px solid #E4EAF0",
+  },
+  padraoGuiaNome: { fontSize: 13.5, fontWeight: 700, color: NAVY },
 };
