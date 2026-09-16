@@ -566,7 +566,7 @@ async function supabaseInsert(table, row) {
       "Content-Type": "application/json",
       apikey: SUPABASE_KEY,
       Authorization: `Bearer ${SUPABASE_KEY}`,
-      Prefer: "return=representation",
+      Prefer: "return=minimal",
     },
     body: JSON.stringify(row),
   });
@@ -574,8 +574,7 @@ async function supabaseInsert(table, row) {
     const errText = await response.text();
     throw new Error(`Supabase ${table}: ${response.status} ${errText}`);
   }
-  const data = await response.json();
-  return Array.isArray(data) ? data[0] : data;
+  return true;
 }
 
 const FERRAMENTAS_CATALOGO = [
@@ -1623,9 +1622,11 @@ function NovaFamilia({ onVoltar }) {
     const saida = [];
     for (const p of validas) {
       try {
+        const novoId = crypto.randomUUID();
         const row =
           p.ferramenta === "1"
             ? {
+                id: novoId,
                 ferramenta_numero: 1,
                 papel: p.papel,
                 nome_destinatario: p.nome.trim(),
@@ -1633,16 +1634,17 @@ function NovaFamilia({ onVoltar }) {
                 status: "pendente",
               }
             : {
+                id: novoId,
                 ferramenta_numero: Number(p.ferramenta),
                 nome_destinatario: p.nome.trim(),
                 grupo: grupoFamilia.trim() || null,
                 status: "pendente",
               };
-        const envio = await supabaseInsert("envios", row);
+        await supabaseInsert("envios", row);
         const url =
           p.ferramenta === "1"
-            ? `${base}?ferramenta=1&papel=${p.papel}&envio=${envio.id}`
-            : `${base}?ferramenta=${p.ferramenta}&envio=${envio.id}`;
+            ? `${base}?ferramenta=1&papel=${p.papel}&envio=${novoId}`
+            : `${base}?ferramenta=${p.ferramenta}&envio=${novoId}`;
         saida.push({ id: p.id, nome: p.nome.trim(), ferramenta: p.ferramenta, url, erro: false });
       } catch (e) {
         saida.push({ id: p.id, nome: p.nome.trim(), ferramenta: p.ferramenta, url: null, erro: true });
