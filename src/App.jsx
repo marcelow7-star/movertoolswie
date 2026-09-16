@@ -454,6 +454,110 @@ decisões, o líder perpetua a dependência da sua presença, e as gerações se
 caminhar sozinhas."
 `.trim();
 
+const DIMENSOES_ICS = [
+  {
+    key: "Competência",
+    desc: "Conhecimento técnico e experiência prática na área de atuação.",
+    exemploAlto: "domina os processos técnicos há anos, resolve problemas complexos sem ajuda.",
+    exemploBaixo: "ainda depende de apoio constante pra decisões técnicas do dia a dia.",
+  },
+  {
+    key: "Valores",
+    desc: "Alinhamento com os princípios e a cultura da família empresária.",
+    exemploAlto: "age de acordo com os princípios da família mesmo quando ninguém está observando.",
+    exemploBaixo: "já tomou decisões que contradizem os valores que a família diz defender.",
+  },
+  {
+    key: "Liderança",
+    desc: "Capacidade de influenciar, mobilizar e ser seguido por outras pessoas.",
+    exemploAlto: "a equipe o procura espontaneamente e segue suas orientações sem resistência.",
+    exemploBaixo: "precisa recorrer à autoridade formal do cargo pra ser ouvido pela equipe.",
+  },
+  {
+    key: "Autonomia",
+    desc: "Capacidade de tomar decisões e assumir responsabilidades sem depender de aprovação constante.",
+    exemploAlto: "decide e age sozinho em situações do seu escopo, sem precisar de aval prévio.",
+    exemploBaixo: "consulta antes de decisões que já estariam dentro da sua alçada.",
+  },
+  {
+    key: "Responsabilidade Patrimonial",
+    desc: "Capacidade de atuar como guardião consciente do patrimônio da família.",
+    exemploAlto: "entende as implicações patrimoniais de decisões grandes antes de agir.",
+    exemploBaixo: "ainda não participou de decisões que envolvem o patrimônio da família.",
+  },
+];
+
+function classificaICS(score) {
+  if (score < 40) return { label: "Confiança Baixa", cor: "#B3261E" };
+  if (score < 60) return { label: "Confiança Moderada", cor: "#B8860B" };
+  if (score < 80) return { label: "Confiança Consistente", cor: "#1E5A96" };
+  return { label: "Confiança Elevada", cor: "#1E7A3D" };
+}
+
+const LIVRO_CONTEXTO_F6 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 06 · Índice de Confiança
+Sucessória - ICS):
+
+PROPÓSITO: mensurar objetivamente o nível de confiança para a transferência gradual de
+responsabilidades, liderança e patrimônio entre gerações, a partir de cinco dimensões, em vez de
+depender só de impressão subjetiva ou vontade de acelerar o processo.
+
+O QUE RESOLVE: "confiamos nele" ou "ainda não é hora" são afirmações vagas baseadas em impressão,
+não em critério. Isso leva famílias a acelerar demais uma transição pra qual o sucessor ainda não
+estava pronto, ou a atrasar demais uma transição que já poderia acontecer. O ICS transforma
+confiança em um número comparável ao longo do tempo, dividido em dimensões que podem ser
+desenvolvidas uma a uma.
+
+MÉTODO: o ICS é a média simples das notas (0 a 100) atribuídas a cinco dimensões: Competência,
+Valores, Liderança, Autonomia e Responsabilidade Patrimonial.
+
+COMO INTERPRETAR O RESULTADO FINAL: 0 a 39 pontos é Confiança Baixa; 40 a 59 é Confiança
+Moderada; 60 a 79 é Confiança Consistente; 80 a 100 é Confiança Elevada. O ICS faz parte de uma
+família de quatro índices numéricos do método (junto com o Índice de Autenticidade da Escolha, o
+Índice de Maturidade Familiar e o Índice de Equilíbrio Sistêmico), pensados pra acompanhar a
+evolução da família ao longo do tempo com os mesmos critérios.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Família Oliveira (ICS 72, Confiança Consistente): o fundador Carlos queria iniciar a transição
+  pro filho Rafael, 34 anos. Competência (88) e Valores (92) estavam altos, mas Autonomia (54) e
+  Responsabilidade Patrimonial (58) eram os pontos mais baixos — não era um problema de
+  capacidade técnica, era falta de prática em decidir sozinho e em temas patrimoniais. A família
+  ampliou gradualmente as responsabilidades de Rafael e incluiu ele em fóruns patrimoniais, com
+  meta de elevar o ICS de 72 para 85 em 12 meses.
+- Família Menezes (ICS 38, Confiança Baixa): Beatriz, 26 anos, entrou direto numa posição de
+  coordenação por ser a única filha interessada no negócio. A família já cogitava promovê-la à
+  diretoria em poucos meses. O ICS baixo em praticamente todas as dimensões evitou uma decisão
+  precipitada: em vez de avançar o cargo, estruturaram um período formal de mentoria de 18 meses,
+  com metas trimestrais por dimensão. "Foi mais difícil ouvir o número do que eu esperava. Mas
+  foi mais fácil aceitar um plano do que uma sensação vaga de que eu não estava pronta", disse
+  Beatriz.
+- Família Vasconcelos (ICS 87, Confiança Elevada): Camila, 38 anos, já ocupava a vice-presidência
+  executiva há cinco anos, assumindo na prática boa parte das decisões estratégicas. O ICS alto
+  em todas as dimensões confirmou, com dados, o que a família já sentia mas nunca tinha
+  formalizado — ela estava pronta havia tempo. A família antecipou em 8 meses a posse formal de
+  Camila, com o fundador migrando pra um conselho consultivo com poder de veto só em decisões
+  patrimoniais. "O número não me deu a confiança. Ele só mostrou a confiança que já existia, e
+  que a gente tinha medo de admitir", disse o fundador.
+
+O QUE OS TRÊS CASOS VALIDAM: o mesmo instrumento orientou três decisões completamente diferentes
+(acelerar, pausar e confirmar), porque a decisão certa depende do número real, não da intuição
+isolada de quem está mais próximo ou mais distante emocionalmente do sucessor.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): tratar o ICS como veredito definitivo e
+permanente, quando deve ser medido periodicamente; deixar uma única pessoa (geralmente o
+fundador) preencher a avaliação sozinha, sem contribuição de quem convive com o sucessor; usar o
+resultado como arma em discussões familiares, em vez de ponto de partida pra desenvolvimento;
+focar só na média final e ignorar as cinco dimensões individualmente; definir metas de evolução
+sem prazo nem plano de desenvolvimento concreto.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Histórias são revisitadas,
+decisões são discutidas e pactos começam a ser construídos. Mais do que reuniões, são momentos de
+construção de confiança."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -493,7 +597,7 @@ const FERRAMENTAS_CATALOGO = [
     ferramentas: [
       { n: 4, nome: "Matriz de Autoridade Real", ativa: true },
       { n: 5, nome: "Ponte de Gerações", ativa: true },
-      { n: 6, nome: "Índice de Confiança Sucessória", ativa: false },
+      { n: 6, nome: "Índice de Confiança Sucessória", ativa: true },
     ],
   },
   {
@@ -945,6 +1049,8 @@ export default function App() {
         setView("ferramenta4");
       } else if (ferramentaParam === "5") {
         setView("ferramenta5");
+      } else if (ferramentaParam === "6") {
+        setView("ferramenta6");
       }
     } catch (e) {
       /* ignore */
@@ -1117,6 +1223,10 @@ export default function App() {
     setView("ferramenta5");
   };
 
+  const abrirFerramenta6 = () => {
+    setView("ferramenta6");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}>
@@ -1127,6 +1237,7 @@ export default function App() {
             onAbrirFerramenta3={abrirFerramenta3}
             onAbrirFerramenta4={abrirFerramenta4}
             onAbrirFerramenta5={abrirFerramenta5}
+            onAbrirFerramenta6={abrirFerramenta6}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1190,6 +1301,16 @@ export default function App() {
       <div style={styles.page}>
         <div style={styles.shell}>
           <Ferramenta5App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta6") {
+    return (
+      <div style={styles.page}>
+        <div style={styles.shell}>
+          <Ferramenta6App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1389,6 +1510,7 @@ function Catalogo({
   onAbrirFerramenta3,
   onAbrirFerramenta4,
   onAbrirFerramenta5,
+  onAbrirFerramenta6,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -1398,8 +1520,8 @@ function Catalogo({
         <span style={styles.eyebrow}>MÉTODO MOVER · 15 FERRAMENTAS</span>
         <h1 style={styles.catalogoH1}>Catálogo de diagnósticos</h1>
         <p style={styles.lead}>
-          Organizadas pelas cinco etapas do método. As Ferramentas 01, 02, 03, 04 e 05 já estão
-          digitalizadas, as demais aparecem como referência.
+          Organizadas pelas cinco etapas do método. As Ferramentas 01, 02, 03, 04, 05 e 06 já
+          estão digitalizadas, as demais aparecem como referência.
         </p>
       </div>
 
@@ -1460,6 +1582,10 @@ function Catalogo({
 
       <button onClick={onAbrirFerramenta5} style={styles.ctaButton}>
         Abrir Ferramenta 05 agora →
+      </button>
+
+      <button onClick={onAbrirFerramenta6} style={styles.ctaButton}>
+        Abrir Ferramenta 06 agora →
       </button>
 
       <button onClick={onAbrirComparacao} style={styles.restartButton}>
@@ -1540,6 +1666,7 @@ function NovaFamilia({ onVoltar }) {
       "3": "Ferramenta 03 · Linha de Repetição",
       "4": "Ferramenta 04 · Autoridade Real",
       "5": "Ferramenta 05 · Ponte de Gerações",
+      "6": "Ferramenta 06 · Índice de Confiança",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -1583,6 +1710,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="3">Ferramenta 03 · Repetição</option>
               <option value="4">Ferramenta 04 · Autoridade</option>
               <option value="5">Ferramenta 05 · Ponte</option>
+              <option value="6">Ferramenta 06 · ICS</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -1718,7 +1846,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -5575,6 +5703,50 @@ function LinhaScore({ label, valor, onChange, max = 5 }) {
   );
 }
 
+function SliderScore({ label, desc, exemploAlto, exemploBaixo, valor, onChange }) {
+  const v = valor ?? 0;
+  return (
+    <div style={styles.padraoCard}>
+      <div style={styles.timelineTopRow}>
+        <span style={styles.papelNome}>{label}</span>
+        <span style={{ ...styles.papelNome, color: BLUE }}>{valor === null ? "—" : v}</span>
+      </div>
+      {desc && <span style={styles.papelDescricao}>{desc}</span>}
+      <input
+        type="range"
+        min={0}
+        max={100}
+        step={1}
+        value={v}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={styles.sliderInput}
+        aria-label={`${label}: nota de 0 a 100`}
+      />
+      <div style={styles.sliderTicks}>
+        <span>0</span>
+        <span>25</span>
+        <span>50</span>
+        <span>75</span>
+        <span>100</span>
+      </div>
+      {(exemploAlto || exemploBaixo) && (
+        <div style={styles.icsExemplosBox}>
+          {exemploBaixo && (
+            <span style={styles.icsExemploLinha}>
+              <strong>Nota baixa parece com:</strong> {exemploBaixo}
+            </span>
+          )}
+          {exemploAlto && (
+            <span style={styles.icsExemploLinha}>
+              <strong>Nota alta parece com:</strong> {exemploAlto}
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StepMapeamento({ pessoas, addPessoa, removePessoa, setPessoaField, onCarregarExemplo }) {
   return (
     <div style={styles.stepWrap}>
@@ -7335,6 +7507,914 @@ function StepFechamentoF5({
   );
 }
 
+const STEP_F6_AVALIACAO = 0;
+const STEP_F6_RESULTADO = 1;
+const STEP_F6_MAPA = 2;
+const STEP_F6_REFLEXAO = 3;
+const STEP_F6_CONSOLIDACAO = 4;
+const STEP_F6_DECISAO = 5;
+const STEP_F6_PLANO = 6;
+const STEP_F6_FECHAMENTO = 7;
+
+function initNotasICS() {
+  return DIMENSOES_ICS.reduce((acc, d) => {
+    acc[d.key] = null;
+    return acc;
+  }, {});
+}
+
+function initMapaEvolucao() {
+  return DIMENSOES_ICS.reduce((acc, d) => {
+    acc[d.key] = { notaDesejada: null, acao: "" };
+    return acc;
+  }, {});
+}
+
+const OLIVEIRA_EXEMPLO_F6 = {
+  notasICS: {
+    Competência: 88,
+    Valores: 92,
+    Liderança: 70,
+    Autonomia: 54,
+    "Responsabilidade Patrimonial": 58,
+  },
+  mapaEvolucao: {
+    Competência: { notaDesejada: 90, acao: "Manter, já é ponto forte." },
+    Valores: { notaDesejada: 95, acao: "Manter e reforçar em conversas com a diretoria." },
+    Liderança: { notaDesejada: 80, acao: "Assumir a condução de duas reuniões estratégicas por trimestre." },
+    Autonomia: { notaDesejada: 70, acao: "Incluir Rafael em 3 decisões operacionais autônomas por trimestre." },
+    "Responsabilidade Patrimonial": {
+      notaDesejada: 75,
+      acao: "Incluir Rafael em 2 fóruns patrimoniais por trimestre.",
+    },
+  },
+  reflexaoF6: {
+    maiorNota: "Valores — Rafael já demonstra estar plenamente alinhado com os princípios da família.",
+    menorNota: "Autonomia — ele ainda espera aprovação em decisões que já poderia tomar sozinho.",
+    fortalece: "O fato de Rafael nunca ter escondido uma dificuldade técnica, sempre pediu ajuda quando precisou.",
+    limita: "Eu (o fundador) ainda respondo perguntas que ele já sabe responder, só pra me sentir útil.",
+  },
+  consolidacaoF6: [
+    {
+      id: 1,
+      comportamento: "A autonomia está mais baixa do que todos imaginavam antes de ver o número.",
+      motivo: "Vamos criar decisões de teste com autonomia real, sem aprovação prévia do meu pai.",
+    },
+  ],
+  decisaoF6: {
+    transferirAgora: "As decisões técnicas do dia a dia, onde Competência e Valores já são altos.",
+    exigemPreparo: "Decisões patrimoniais maiores e representação da empresa em fóruns externos.",
+    competenciasDesenvolver: "Tomada de decisão autônoma e leitura de contratos patrimoniais.",
+  },
+  planoF6: [
+    {
+      id: 1,
+      prioridade: "1",
+      acao: "Incluir Rafael em 2 fóruns patrimoniais por trimestre.",
+      responsavel: "Sr. Carlos",
+      prazo: "Início em 30 dias",
+    },
+    {
+      id: 2,
+      prioridade: "2",
+      acao: "Definir 3 decisões operacionais que passam a ser autônomas de Rafael.",
+      responsavel: "Sr. Carlos e Rafael",
+      prazo: "60 dias",
+    },
+  ],
+};
+
+function Ferramenta6App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F6_AVALIACAO);
+  const [nomeSucessor, setNomeSucessor] = useState("");
+  const [notasICS, setNotasICS] = useState(initNotasICS());
+  const [mapaEvolucao, setMapaEvolucao] = useState(initMapaEvolucao());
+  const [reflexaoF6, setReflexaoF6] = useState({
+    maiorNota: "",
+    menorNota: "",
+    fortalece: "",
+    limita: "",
+  });
+  const [consolidacaoF6, setConsolidacaoF6] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [decisaoF6, setDecisaoF6] = useState({
+    transferirAgora: "",
+    exigemPreparo: "",
+    competenciasDesenvolver: "",
+  });
+  const [planoF6, setPlanoF6] = useState([{ id: 1, prioridade: "1", acao: "", responsavel: "", prazo: "" }]);
+
+  const todasPreenchidas = DIMENSOES_ICS.every((d) => notasICS[d.key] !== null);
+  const icsFinal = useMemo(() => {
+    if (!todasPreenchidas) return null;
+    const soma = DIMENSOES_ICS.reduce((s, d) => s + notasICS[d.key], 0);
+    return Math.round(soma / DIMENSOES_ICS.length);
+  }, [notasICS, todasPreenchidas]);
+
+  const carregarExemploF6 = () => {
+    setNomeSucessor("Rafael");
+    setNotasICS(OLIVEIRA_EXEMPLO_F6.notasICS);
+    setMapaEvolucao(OLIVEIRA_EXEMPLO_F6.mapaEvolucao);
+    setReflexaoF6(OLIVEIRA_EXEMPLO_F6.reflexaoF6);
+    setConsolidacaoF6(OLIVEIRA_EXEMPLO_F6.consolidacaoF6);
+    setDecisaoF6(OLIVEIRA_EXEMPLO_F6.decisaoF6);
+    setPlanoF6(OLIVEIRA_EXEMPLO_F6.planoF6);
+    setStep(STEP_F6_RESULTADO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F6_AVALIACAO) return todasPreenchidas;
+    if (step === STEP_F6_RESULTADO) return true;
+    if (step === STEP_F6_MAPA) {
+      return DIMENSOES_ICS.some((d) => mapaEvolucao[d.key].notaDesejada !== null && mapaEvolucao[d.key].acao.trim());
+    }
+    if (step === STEP_F6_REFLEXAO) {
+      return (
+        reflexaoF6.maiorNota.trim().length > 3 &&
+        reflexaoF6.menorNota.trim().length > 3 &&
+        reflexaoF6.fortalece.trim().length > 3 &&
+        reflexaoF6.limita.trim().length > 3
+      );
+    }
+    if (step === STEP_F6_CONSOLIDACAO) {
+      return consolidacaoF6.some((c) => c.comportamento.trim() && c.motivo.trim());
+    }
+    if (step === STEP_F6_DECISAO) {
+      return (
+        decisaoF6.transferirAgora.trim().length > 3 &&
+        decisaoF6.exigemPreparo.trim().length > 3 &&
+        decisaoF6.competenciasDesenvolver.trim().length > 3
+      );
+    }
+    if (step === STEP_F6_PLANO) {
+      return planoF6.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F6_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F6_AVALIACAO, s - 1));
+
+  return (
+    <>
+      <Header6 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F6_AVALIACAO && (
+          <StepAvaliacaoICS
+            nomeSucessor={nomeSucessor}
+            setNomeSucessor={setNomeSucessor}
+            notasICS={notasICS}
+            setNotasICS={setNotasICS}
+            onCarregarExemplo={carregarExemploF6}
+          />
+        )}
+        {step === STEP_F6_RESULTADO && (
+          <StepResultadoICS nomeSucessor={nomeSucessor} notasICS={notasICS} icsFinal={icsFinal} />
+        )}
+        {step === STEP_F6_MAPA && (
+          <StepMapaEvolucao notasICS={notasICS} mapaEvolucao={mapaEvolucao} setMapaEvolucao={setMapaEvolucao} />
+        )}
+        {step === STEP_F6_REFLEXAO && (
+          <StepReflexaoF6 reflexaoF6={reflexaoF6} setReflexaoF6={setReflexaoF6} icsFinal={icsFinal} />
+        )}
+        {step === STEP_F6_CONSOLIDACAO && (
+          <StepConsolidacaoF6
+            consolidacaoF6={consolidacaoF6}
+            setConsolidacaoF6={setConsolidacaoF6}
+            icsFinal={icsFinal}
+          />
+        )}
+        {step === STEP_F6_DECISAO && <StepDecisaoF6 decisaoF6={decisaoF6} setDecisaoF6={setDecisaoF6} />}
+        {step === STEP_F6_PLANO && (
+          <StepPlanoF6 planoF6={planoF6} setPlanoF6={setPlanoF6} decisaoF6={decisaoF6} icsFinal={icsFinal} />
+        )}
+        {step === STEP_F6_FECHAMENTO && (
+          <StepFechamentoF6
+            nomeSucessor={nomeSucessor}
+            notasICS={notasICS}
+            icsFinal={icsFinal}
+            mapaEvolucao={mapaEvolucao}
+            decisaoF6={decisaoF6}
+            planoF6={planoF6}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F6_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F6_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header6({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Avaliação das dimensões",
+    "Resultado do ICS",
+    "Mapa de evolução",
+    "Reflexão individual",
+    "Consolidação familiar",
+    "Decisão",
+    "Plano de desenvolvimento",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F6_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header}>
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Índice de Confiança Sucessória · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepAvaliacaoICS({ nomeSucessor, setNomeSucessor, notasICS, setNotasICS, onCarregarExemplo }) {
+  const preenchidas = DIMENSOES_ICS.filter((d) => notasICS[d.key] !== null);
+  const previaICS =
+    preenchidas.length > 0
+      ? Math.round(preenchidas.reduce((s, d) => s + notasICS[d.key], 0) / preenchidas.length)
+      : null;
+  const previaClassif = previaICS !== null ? classificaICS(previaICS) : null;
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 1 DE 7 · AVALIAÇÃO DAS DIMENSÕES</span>
+      <h1 style={styles.h1}>Quanto realmente confiamos na capacidade do sucessor?</h1>
+      <p style={styles.lead}>
+        Dê uma nota de 0 a 100 pra cada dimensão, baseada em evidências concretas que você
+        observa na prática — não na impressão geral ou no afeto. Idealmente, reúna mais de uma
+        pessoa (o sucessor, o fundador, e se possível um observador próximo) antes de preencher.
+        Cada dimensão vem com exemplos do que uma nota alta ou baixa parece na prática, pra
+        ajudar a calibrar.
+      </p>
+      <p style={styles.lead}>
+        Se houver mais de um candidato à sucessão, rode esta ferramenta uma vez pra cada um,
+        identificando o nome abaixo — assim dá pra comparar os resultados depois.
+      </p>
+
+      <label style={styles.fieldLabel}>Nome do sucessor avaliado</label>
+      <input
+        style={{ ...styles.input, flex: "none" }}
+        value={nomeSucessor}
+        onChange={(e) => setNomeSucessor(e.target.value)}
+        placeholder="Ex.: Rafael"
+      />
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Oliveira (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {DIMENSOES_ICS.map((d) => (
+          <SliderScore
+            key={d.key}
+            label={d.key}
+            desc={d.desc}
+            exemploAlto={d.exemploAlto}
+            exemploBaixo={d.exemploBaixo}
+            valor={notasICS[d.key]}
+            onChange={(n) => setNotasICS((prev) => ({ ...prev, [d.key]: n }))}
+          />
+        ))}
+      </div>
+
+      {previaICS !== null && (
+        <div style={{ ...styles.icsPreviaBox, borderColor: previaClassif.cor }}>
+          <span style={styles.papelDescricao}>
+            Prévia com {preenchidas.length} de {DIMENSOES_ICS.length} dimensões preenchidas:
+          </span>
+          <span style={{ ...styles.papelNome, color: previaClassif.cor }}>
+            {previaICS} — {previaClassif.label}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepResultadoICS({ nomeSucessor, notasICS, icsFinal }) {
+  const [insight, setInsight] = useState(null);
+  const [gerando, setGerando] = useState(false);
+  const classif = icsFinal !== null ? classificaICS(icsFinal) : null;
+
+  const gerarInsight = () => {
+    setGerando(true);
+    setInsight(null);
+    const ranking = [...DIMENSOES_ICS].sort((a, b) => notasICS[b.key] - notasICS[a.key]);
+    const maisForte = ranking[0];
+    const maisFraca = ranking[ranking.length - 1];
+    const resumo = DIMENSOES_ICS.map((d) => `${d.key}: ${notasICS[d.key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F6}\n\n` +
+      `${nomeSucessor.trim() ? `Sucessor avaliado: ${nomeSucessor.trim()}.` : ""} ICS Final: ${icsFinal} ` +
+      `(${classif.label}). Notas completas: ${resumo}.\n` +
+      `Dimensão mais forte: ${maisForte.key} (${notasICS[maisForte.key]}).\n` +
+      `Dimensão mais fraca: ${maisFraca.key} (${notasICS[maisFraca.key]}).\n\n` +
+      `Escreva um parágrafo curto (3-4 frases, no máximo 80 palavras) explicando que a dimensão mais ` +
+      `fraca (use exatamente o nome indicado acima) é o que mais puxa o resultado pra baixo hoje, e ` +
+      `o que isso costuma significar na prática, inspirando-se, sem citar nomes, no padrão de algum ` +
+      `dos três casos reais do método. Tom direto, acolhedor, sem clichês. Responda só com o texto, ` +
+      `sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => setInsight(texto))
+      .catch(() => setInsight("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 2 DE 7 · RESULTADO DO ICS</span>
+      <h1 style={styles.h1}>O número que resume a confiança, hoje.</h1>
+      <p style={styles.lead}>
+        O ICS é a média das cinco dimensões. Faixas: 0-39 Confiança Baixa, 40-59 Moderada, 60-79
+        Consistente, 80-100 Elevada. Isso não é um veredito definitivo, é uma fotografia de agora
+        — vale reavaliar periodicamente.
+      </p>
+
+      {icsFinal !== null && (
+        <div style={{ ...styles.unlockBox, borderColor: classif.cor }}>
+          <span style={styles.unlockLabel}>ICS FINAL</span>
+          <div style={styles.icsPainelRow}>
+            <span style={{ ...styles.icsPainelNumero, color: classif.cor }}>{icsFinal}</span>
+            <span style={{ ...styles.padraoGuiaNome, color: classif.cor }}>{classif.label}</span>
+          </div>
+        </div>
+      )}
+
+      <div style={styles.familiaList}>
+        {DIMENSOES_ICS.map((d) => {
+          const faixaDim = classificaICS(notasICS[d.key]);
+          return (
+            <div key={d.key} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>{d.key}</span>
+                <span style={styles.papelNome}>{notasICS[d.key]}</span>
+              </div>
+              <div style={styles.icsBarTrack}>
+                <div
+                  style={{
+                    ...styles.icsBarFill,
+                    width: `${notasICS[d.key]}%`,
+                    background: faixaDim.cor,
+                  }}
+                />
+              </div>
+              <span style={{ ...styles.padraoInterpretacao, color: faixaDim.cor }}>{faixaDim.label}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {!insight && (
+        <button onClick={gerarInsight} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando leitura…" : "✦ O que esse resultado pode significar"}
+        </button>
+      )}
+      {insight && (
+        <div style={styles.unlockBox}>
+          <span style={styles.unlockLabel}>LEITURA DO RESULTADO</span>
+          <p style={styles.unlockHow}>{insight}</p>
+          <span style={styles.aiTag}>✦ gerado pra sua situação</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepMapaEvolucao({ notasICS, mapaEvolucao, setMapaEvolucao }) {
+  const setCampo = (dim, campo, val) =>
+    setMapaEvolucao((prev) => ({ ...prev, [dim]: { ...prev[dim], [campo]: val } }));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 3 DE 7 · MAPA DE EVOLUÇÃO DA CONFIANÇA</span>
+      <h1 style={styles.h1}>Pra onde cada dimensão precisa ir?</h1>
+      <p style={styles.lead}>
+        Pra cada dimensão, defina a nota desejada pra próxima reavaliação e a ação principal pra
+        chegar lá. Não precisa preencher todas agora, comece pelas mais baixas.
+      </p>
+
+      <div style={styles.familiaList}>
+        {DIMENSOES_ICS.map((d) => (
+          <div key={d.key} style={styles.padraoCard}>
+            <span style={styles.papelNome}>{d.key}</span>
+            <span style={styles.papelDescricao}>Nota atual: {notasICS[d.key]}</span>
+            <label style={styles.fieldLabel}>Nota desejada na próxima reavaliação</label>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={1}
+              value={mapaEvolucao[d.key].notaDesejada ?? notasICS[d.key] ?? 0}
+              onChange={(e) => setCampo(d.key, "notaDesejada", Number(e.target.value))}
+              style={styles.sliderInput}
+            />
+            <span style={styles.padraoInterpretacao}>{mapaEvolucao[d.key].notaDesejada ?? "—"}</span>
+            <label style={styles.fieldLabel}>Ação principal pra chegar lá</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={mapaEvolucao[d.key].acao}
+              onChange={(e) => setCampo(d.key, "acao", e.target.value)}
+              placeholder="Ex.: incluir em 3 decisões operacionais autônomas por trimestre"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepReflexaoF6({ reflexaoF6, setReflexaoF6, icsFinal }) {
+  const set = (field) => (e) => setReflexaoF6((r) => ({ ...r, [field]: e.target.value }));
+  const contexto = icsFinal !== null ? `ICS final de ${icsFinal} (${classificaICS(icsFinal).label})` : "avaliação de confiança sucessória";
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 4 DE 7 · REFLEXÃO INDIVIDUAL</span>
+      <h1 style={styles.h1}>Sozinho, depois de ver o resultado e o mapa.</h1>
+      <p style={styles.lead}>
+        Ninguém além de você vai ler isso agora. Escreva o que for verdade, não o que soa bem de
+        dizer em família.
+      </p>
+
+      <CampoReflexao
+        pergunta="Qual dimensão apresentou a maior nota?"
+        valor={reflexaoF6.maiorNota}
+        onChange={set("maiorNota")}
+        placeholder="A área em que o sucessor já demonstra mais prontidão hoje…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F6}
+      />
+      <CampoReflexao
+        pergunta="Qual dimensão precisa de maior desenvolvimento?"
+        valor={reflexaoF6.menorNota}
+        onChange={set("menorNota")}
+        placeholder="A área que mais limita o ICS Final atualmente…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F6}
+      />
+      <CampoReflexao
+        pergunta="O que mais fortalece a confiança da família?"
+        valor={reflexaoF6.fortalece}
+        onChange={set("fortalece")}
+        placeholder="Um fator concreto que já contribui positivamente pra confiança sucessória…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F6}
+      />
+      <CampoReflexao
+        pergunta="O que mais limita a confiança da família?"
+        valor={reflexaoF6.limita}
+        onChange={set("limita")}
+        placeholder="Um fator concreto que hoje trava a evolução dessa confiança…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F6}
+      />
+    </div>
+  );
+}
+
+function StepConsolidacaoF6({ consolidacaoF6, setConsolidacaoF6, icsFinal }) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const classif = icsFinal !== null ? classificaICS(icsFinal) : null;
+    const prompt =
+      `${LIVRO_CONTEXTO_F6}\n\n` +
+      `Você ajuda alguém que calculou o ICS a se preparar para a Consolidação Familiar. ` +
+      `${classif ? `O ICS Final foi ${icsFinal} (${classif.label}).` : ""}\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa começar essa conversa em família, ` +
+      `apresentando o número como ponto de partida pra desenvolvimento, nunca como julgamento ` +
+      `pessoal do sucessor. Formate como lista curta. Responda só com as frases, sem introdução, ` +
+      `em português do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 5 DE 7 · CONSOLIDAÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
+      <p style={styles.lead}>
+        Registrem como cada descoberta da Reflexão Individual muda o plano de desenvolvimento do
+        sucessor.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <TabelaComportamentos
+        titulo="Descobertas e impactos"
+        linhas={consolidacaoF6}
+        setLinhas={setConsolidacaoF6}
+        labelComportamento="DESCOBERTA"
+        labelMotivo="IMPACTO"
+        placeholderComportamento="Ex.: a autonomia está mais baixa do que todos imaginavam"
+        placeholderMotivo="Ex.: vamos criar decisões de teste com autonomia real, sem aprovação prévia"
+      />
+    </div>
+  );
+}
+
+function StepDecisaoF6({ decisaoF6, setDecisaoF6 }) {
+  const set = (field) => (e) => setDecisaoF6((d) => ({ ...d, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 6 DE 7 · DECISÃO</span>
+      <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Com o número, o mapa e as descobertas na mesa, é hora de decidir o que pode avançar
+        agora e o que ainda precisa de preparo.
+      </p>
+
+      <label style={styles.fieldLabel}>Quais responsabilidades podem ser transferidas imediatamente?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF6.transferirAgora}
+        onChange={set("transferirAgora")}
+        placeholder="Responsabilidades ligadas às dimensões com nota mais alta, já prontas pra transferência…"
+      />
+      <label style={styles.fieldLabel}>Quais responsabilidades exigem preparação adicional?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF6.exigemPreparo}
+        onChange={set("exigemPreparo")}
+        placeholder="Responsabilidades ligadas às dimensões com nota mais baixa, que exigem desenvolvimento antes…"
+      />
+      <label style={styles.fieldLabel}>Quais competências precisam ser desenvolvidas?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF6.competenciasDesenvolver}
+        onChange={set("competenciasDesenvolver")}
+        placeholder="Competências específicas a trabalhar até a próxima reavaliação do ICS…"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF6({ planoF6, setPlanoF6, decisaoF6, icsFinal }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setPlanoF6((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, prioridade: String(prev.length + 1), acao: "", responsavel: "", prazo: "" },
+    ]);
+  const removeAcao = (id) => setPlanoF6((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF6((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F6}\n\n` +
+      `Você ajuda alguém que já calculou o ICS a transformar a decisão em um plano de ` +
+      `desenvolvimento sucessório. Contexto:\n` +
+      `${icsFinal !== null ? `- ICS Final: ${icsFinal} (${classificaICS(icsFinal).label})\n` : ""}` +
+      `${decisaoF6.exigemPreparo ? `- Responsabilidades que exigem preparo: "${decisaoF6.exigemPreparo}"\n` : ""}` +
+      `${decisaoF6.competenciasDesenvolver ? `- Competências a desenvolver: "${decisaoF6.competenciasDesenvolver}"\n` : ""}\n` +
+      `Sugira 2-3 ações priorizadas (1 = mais urgente), cada uma no infinitivo, com responsável e ` +
+      `prazo. Lembre que isso ainda precisa ser negociado em família.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"prioridade":"1","acao":"","responsavel":"","prazo":""},` +
+      `{"prioridade":"2","acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF6(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              prioridade: a.prioridade || String(i + 1),
+              acao: a.acao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 7 DE 7 · PLANO DE DESENVOLVIMENTO SUCESSÓRIO</span>
+      <h1 style={styles.h1}>Transforme a decisão em ações priorizadas.</h1>
+      <p style={styles.lead}>
+        Cada ação tem uma prioridade — comece pela que destrava mais rápido o desenvolvimento do
+        sucessor.
+      </p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações priorizadas"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {planoF6.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>Prioridade {a.prioridade || i + 1}</span>
+              {planoF6.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: incluir Rafael em 2 fóruns patrimoniais por trimestre…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: início em 30 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, decisaoF6, planoF6, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const classif = icsFinal !== null ? classificaICS(icsFinal) : null;
+  const rankingDims =
+    icsFinal !== null ? [...DIMENSOES_ICS].sort((a, b) => notasICS[b.key] - notasICS[a.key]) : [];
+  const maisForteDim = rankingDims[0];
+  const maisFracaDim = rankingDims[rankingDims.length - 1];
+  const sinteseFallback =
+    icsFinal !== null
+      ? `Este número não é um veredito definitivo sobre ${nomeSucessor.trim() || "a pessoa"}, é uma fotografia de agora. Hoje, ${maisForteDim.key} é o ponto mais forte, e ${maisFracaDim.key} é o que mais limita o resultado — e é exatamente aí que o desenvolvimento pode ter mais impacto na próxima reavaliação.`
+      : "";
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 6,
+      nome: nomeSucessor.trim() || null,
+      notas: { ...notasICS, ICS_Final: icsFinal },
+      conflito: { classificacao: classif ? classif.label : null, mapaEvolucao },
+      decisao_final: decisaoF6,
+      plano_acao: planoF6,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    if (icsFinal === null) return;
+    setCarregandoSintese(true);
+    const ranking = [...DIMENSOES_ICS].sort((a, b) => notasICS[b.key] - notasICS[a.key]);
+    const maisForte = ranking[0];
+    const maisFraca = ranking[ranking.length - 1];
+    const resumo = DIMENSOES_ICS.map((d) => `${d.key}: ${notasICS[d.key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F6}\n\n` +
+      `${nomeSucessor.trim() ? `Sucessor avaliado: ${nomeSucessor.trim()}.` : ""} ICS Final: ${icsFinal} ` +
+      `(${classif.label}). Notas completas: ${resumo}.\n` +
+      `Dimensão mais forte: ${maisForte.key} (${notasICS[maisForte.key]}).\n` +
+      `Dimensão mais fraca: ${maisFraca.key} (${notasICS[maisFraca.key]}).\n` +
+      `${decisaoF6.transferirAgora ? `Decidiram transferir agora: "${decisaoF6.transferirAgora}".` : ""}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre isso ` +
+      `numa síntese concreta e acolhedora. Mencione explicitamente a dimensão mais forte e a mais ` +
+      `fraca pelo nome (use exatamente os nomes indicados acima, não invente outra dimensão), e ` +
+      `reforce que o ICS não é um veredito definitivo, é uma fotografia que pode e deve mudar com ` +
+      `desenvolvimento. Tom direto, sem clichês de autoajuda. Responda só com o texto, sem ` +
+      `introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Índice de Confiança Sucessória (ICS)",
+      nomeSucessor.trim() ? `Sucessor avaliado: ${nomeSucessor.trim()}` : null,
+      "",
+      `ICS Final: ${icsFinal} — ${classif ? classif.label : "—"}`,
+      `Notas por dimensão: ${DIMENSOES_ICS.map((d) => `${d.key} ${notasICS[d.key]}`).join(", ")}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      `Transferir imediatamente: ${decisaoF6.transferirAgora || "—"}`,
+      `Exige preparo: ${decisaoF6.exigemPreparo || "—"}`,
+      `Competências a desenvolver: ${decisaoF6.competenciasDesenvolver || "—"}`,
+      "",
+      "Plano de desenvolvimento sucessório:",
+      planoF6
+        .filter((a) => a.acao.trim())
+        .map((a) => `Prioridade ${a.prioridade}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  const handleEnviar = () => {
+    const assunto = nomeSucessor.trim()
+      ? `Índice de Confiança Sucessória — ${nomeSucessor.trim()}`
+      : "Nosso resultado — Índice de Confiança Sucessória";
+    const corpo = montarResumo();
+    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && (
+          <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente, use o e-mail abaixo</span>
+        )}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>
+        {nomeSucessor.trim() ? `ICS de ${nomeSucessor.trim()}, resumido.` : "Seu Índice de Confiança Sucessória, resumido."}
+      </h1>
+
+      {icsFinal !== null && (
+        <div style={{ ...styles.unlockBox, borderColor: classif.cor }}>
+          <span style={styles.unlockLabel}>ICS FINAL</span>
+          <div style={styles.icsPainelRow}>
+            <span style={{ ...styles.icsPainelNumero, color: classif.cor }}>{icsFinal}</span>
+            <span style={{ ...styles.padraoGuiaNome, color: classif.cor }}>{classif.label}</span>
+          </div>
+        </div>
+      )}
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || sinteseFallback}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <p style={{ ...styles.papelNome, marginTop: 8 }}>O que a família decidiu</p>
+      <div style={styles.fechamentoBox}>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>TRANSFERIR AGORA</span>
+          <span style={styles.fechamentoValue}>{decisaoF6.transferirAgora || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>EXIGE PREPARO</span>
+          <span style={styles.fechamentoValue}>{decisaoF6.exigemPreparo || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>COMPETÊNCIAS A DESENVOLVER</span>
+          <span style={styles.fechamentoValue}>{decisaoF6.competenciasDesenvolver || "—"}</span>
+        </div>
+      </div>
+
+      <p style={{ ...styles.papelNome, marginTop: 8 }}>Plano de desenvolvimento sucessório</p>
+      <div style={styles.familiaList}>
+        {planoF6
+          .filter((a) => a.acao.trim())
+          .map((a) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>Prioridade {a.prioridade}</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês mediram a confiança em cinco dimensões, mapearam a evolução desejada, refletiram
+          sozinhos, consolidaram em família, decidiram e planejaram. O que falta agora é colocar
+          em prática, e reavaliar o ICS daqui a alguns meses.
+        </p>
+      </div>
+
+      <div style={styles.finalButtonsRow}>
+        <button onClick={handleEnviar} style={styles.ctaButton}>
+          Enviar resultado por e-mail →
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
   return (
     <div style={styles.footer}>
@@ -7964,4 +9044,40 @@ const styles = {
     borderBottom: "1px solid #E4EAF0",
   },
   padraoGuiaNome: { fontSize: 13.5, fontWeight: 700, color: NAVY },
+  sliderInput: { width: "100%", accentColor: BLUE, cursor: "pointer" },
+  sliderTicks: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: 11,
+    color: "#9AA7B4",
+    marginTop: -4,
+  },
+  icsPainelRow: { display: "flex", alignItems: "baseline", gap: 12 },
+  icsPainelNumero: { fontSize: 42, fontWeight: 800, lineHeight: 1 },
+  icsBarTrack: { height: 10, background: "#EEF2F6", borderRadius: 5, overflow: "hidden" },
+  icsBarFill: { height: "100%", borderRadius: 5, transition: "width 0.3s ease" },
+  icsExemplosBox: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 3,
+    marginTop: 2,
+    padding: "8px 10px",
+    background: "#fff",
+    borderRadius: 8,
+    border: "1px solid #E4EAF0",
+  },
+  icsExemploLinha: { fontSize: 12, color: "#5A6B7A", lineHeight: 1.4 },
+  icsPreviaBox: {
+    position: "sticky",
+    bottom: 0,
+    marginTop: 8,
+    padding: "12px 16px",
+    background: "#fff",
+    border: "1.5px solid #E4EAF0",
+    borderRadius: 12,
+    boxShadow: "0 -4px 16px rgba(26,42,58,0.06)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 };
