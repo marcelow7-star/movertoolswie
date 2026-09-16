@@ -18,7 +18,8 @@ async function callClaude(prompt, maxTokens = 300) {
 }
 
 const SUPABASE_URL = "https://ffoenurvsibztibpabtm.supabase.co";
-const SUPABASE_KEY = "sb_publishable_GbZzWmzU2OBtDKzMHf3jUw_71QOYuIS";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmb2VudXJ2c2lienRpYnBhYnRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1MjQ2MzQsImV4cCI6MjEwMzEwMDYzNH0.d3YDLtkuZKuNMFW88_KfXMaov9-NGAUNJp7APUVsOj0";
 
 const LIVRO_CONTEXTO = `
 Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 01 · Raízes das Lealdades Invisíveis):
