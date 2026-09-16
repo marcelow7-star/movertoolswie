@@ -369,6 +369,91 @@ CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Essas perguntas
 com planilhas, protocolos ou organogramas. Elas pedem coragem para olhar para dentro."
 `.trim();
 
+const ASPECTOS_F5 = [
+  "Confiança",
+  "Comunicação",
+  "Liderança",
+  "Autonomia",
+  "Capacidade de Delegar",
+  "Visão de Futuro",
+];
+
+const GERACOES_F5 = [
+  { key: "atual", label: "Geração atual", desc: "Fundador(a) ou liderança presente hoje" },
+  { key: "proxima", label: "Próxima geração", desc: "Sucessor(a) em processo de assumir" },
+];
+
+function interpretaDiferencaF5(diff) {
+  const d = Math.abs(diff);
+  if (d <= 2) return { label: "Alinhamento", texto: "as duas gerações percebem esse aspecto de forma semelhante." };
+  if (d <= 4) return { label: "Vale conversar", texto: "diferença que merece uma conversa estruturada — investiguem a origem dela." };
+  return { label: "Desalinhamento relevante", texto: "risco real de conflito geracional se não for endereçado." };
+}
+
+function corSemaforoF5(diff) {
+  const d = Math.abs(diff);
+  if (d <= 2) return "#1E7A3D";
+  if (d <= 4) return "#B8860B";
+  return "#B3261E";
+}
+
+const LIVRO_CONTEXTO_F5 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 05 · Ponte de Gerações):
+
+PROPÓSITO: compreender como fundadores e sucessores se percebem mutuamente em aspectos centrais
+pra continuidade — confiança, comunicação, liderança, autonomia, capacidade de delegar e visão de
+futuro — e transformar essas percepções em compromissos concretos entre as gerações.
+
+O QUE RESOLVE: a maior parte dos conflitos geracionais nasce de expectativas nunca verbalizadas —
+o fundador acha que o sucessor não tem paciência, o sucessor acha que o fundador não confia nele.
+Sem comparar como cada geração avalia a si mesma, a família discute sintomas (uma decisão
+específica, uma frase mal interpretada) sem nunca acessar a causa: o gap de percepção entre elas.
+
+COMO INTERPRETAR A DIFERENÇA ENTRE AS NOTAS (escala de 0 a 10 por aspecto): até 2 pontos é
+alinhamento (as duas gerações percebem o aspecto de forma semelhante); 3 a 4 pontos indica
+necessidade de conversa estruturada (vale investigar a origem da diferença); acima de 4 pontos é
+desalinhamento relevante, com risco real de conflito geracional se não for endereçado. O objetivo
+não é descobrir qual geração está certa, é compreender como cada uma percebe a realidade, e a
+partir daí construir pontes, não vencedores.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Hélio e Diego (gap de Confiança e Capacidade de Delegar, diferença de 5 pontos): Hélio, fundador,
+  achava que Diego tinha pouca paciência pra aprender o negócio; Diego achava que o pai não
+  delegava por falta de confiança nele. Ao comparar as notas, os dois ficaram surpresos — nenhum
+  jamais tinha verbalizado essas expectativas pro outro. Criaram um plano de delegação progressiva
+  com marcos claros, e reuniões mensais de alinhamento. Em 90 dias, Diego assumiu formalmente três
+  decisões que antes dependiam da aprovação de Hélio. "A gente nunca tinha dito isso um pro outro.
+  Só supunha", disse Diego.
+- Marta e Júlia (gap de Comunicação e Visão de Futuro, diferença de 4 pontos): Marta sentia que
+  Júlia não valorizava a tradição da empresa; Júlia sentia que a mãe não queria ouvir novas ideias.
+  Na consolidação, ficou claro que Marta interpretava as sugestões de Júlia como rejeição ao
+  passado, enquanto Júlia via suas ideias como forma de honrar esse passado, atualizando-o.
+  Criaram um ritual mensal só pra discutir novas ideias, separado das reuniões operacionais. Em 60
+  dias, duas propostas de Júlia foram testadas em pequena escala. "Eu não queria mudar a empresa
+  da minha mãe. Queria continuar construindo ela", disse Júlia.
+- Família Prado (gap de Autonomia, diferença de 5 pontos, apesar de boa avaliação mútua em
+  Liderança): o pai achava que já dava autonomia suficiente ao filho na fábrica; o filho sentia
+  que toda decisão relevante ainda precisava da aprovação informal do pai. Definiram por escrito
+  três categorias de decisão exclusivas do filho, sem validação prévia. Em 45 dias, o filho
+  relatou decidir com mais segurança e menos consultas informais. "Ele achava que já tinha me
+  soltado. Eu ainda sentia a mão dele no volante", disse o filho sucessor.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): comparar as notas em busca de quem está
+certo, quando o objetivo é compreender as duas percepções, não julgá-las; uma geração preencher a
+ficha pela outra, presumindo a resposta, o que invalida a comparação; reagir emocionalmente a
+qualquer diferença, mesmo pequena, sem consultar o guia de interpretação antes; tratar as
+expectativas listadas como cobranças unilaterais, em vez de ponto de partida pra negociação
+conjunta; parar no preenchimento das notas sem avançar pra Consolidação Familiar, perdendo a
+chance de transformar percepção em compromisso.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Ao resistir a compartilhar
+decisões, o líder perpetua a dependência da sua presença, e as gerações seguintes não aprendem a
+caminhar sozinhas."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -407,7 +492,7 @@ const FERRAMENTAS_CATALOGO = [
     cor: "#3A6FA8",
     ferramentas: [
       { n: 4, nome: "Matriz de Autoridade Real", ativa: true },
-      { n: 5, nome: "Ponte de Gerações", ativa: false },
+      { n: 5, nome: "Ponte de Gerações", ativa: true },
       { n: 6, nome: "Índice de Confiança Sucessória", ativa: false },
     ],
   },
@@ -858,6 +943,8 @@ export default function App() {
         setView("ferramenta3");
       } else if (ferramentaParam === "4") {
         setView("ferramenta4");
+      } else if (ferramentaParam === "5") {
+        setView("ferramenta5");
       }
     } catch (e) {
       /* ignore */
@@ -1026,6 +1113,10 @@ export default function App() {
     setView("ferramenta4");
   };
 
+  const abrirFerramenta5 = () => {
+    setView("ferramenta5");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}>
@@ -1035,6 +1126,7 @@ export default function App() {
             onAbrirFerramenta2={abrirFerramenta2}
             onAbrirFerramenta3={abrirFerramenta3}
             onAbrirFerramenta4={abrirFerramenta4}
+            onAbrirFerramenta5={abrirFerramenta5}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1088,6 +1180,16 @@ export default function App() {
       <div style={styles.page}>
         <div style={styles.shell}>
           <Ferramenta4App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta5") {
+    return (
+      <div style={styles.page}>
+        <div style={styles.shell}>
+          <Ferramenta5App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1286,6 +1388,7 @@ function Catalogo({
   onAbrirFerramenta2,
   onAbrirFerramenta3,
   onAbrirFerramenta4,
+  onAbrirFerramenta5,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -1295,7 +1398,7 @@ function Catalogo({
         <span style={styles.eyebrow}>MÉTODO MOVER · 15 FERRAMENTAS</span>
         <h1 style={styles.catalogoH1}>Catálogo de diagnósticos</h1>
         <p style={styles.lead}>
-          Organizadas pelas cinco etapas do método. As Ferramentas 01, 02, 03 e 04 já estão
+          Organizadas pelas cinco etapas do método. As Ferramentas 01, 02, 03, 04 e 05 já estão
           digitalizadas, as demais aparecem como referência.
         </p>
       </div>
@@ -1353,6 +1456,10 @@ function Catalogo({
 
       <button onClick={onAbrirFerramenta4} style={styles.ctaButton}>
         Abrir Ferramenta 04 agora →
+      </button>
+
+      <button onClick={onAbrirFerramenta5} style={styles.ctaButton}>
+        Abrir Ferramenta 05 agora →
       </button>
 
       <button onClick={onAbrirComparacao} style={styles.restartButton}>
@@ -1432,6 +1539,7 @@ function NovaFamilia({ onVoltar }) {
       "2": "Ferramenta 02 · Radar de Papéis",
       "3": "Ferramenta 03 · Linha de Repetição",
       "4": "Ferramenta 04 · Autoridade Real",
+      "5": "Ferramenta 05 · Ponte de Gerações",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -1474,6 +1582,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="2">Ferramenta 02 · Papéis</option>
               <option value="3">Ferramenta 03 · Repetição</option>
               <option value="4">Ferramenta 04 · Autoridade</option>
+              <option value="5">Ferramenta 05 · Ponte</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -1609,7 +1718,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -5438,12 +5547,13 @@ function Header4({ step, onVoltarCatalogo }) {
   );
 }
 
-function LinhaScore({ label, valor, onChange }) {
+function LinhaScore({ label, valor, onChange, max = 5 }) {
+  const opcoes = Array.from({ length: max + 1 }, (_, i) => i);
   return (
     <div style={styles.scoreLinha}>
       <span style={styles.scoreLinhaLabel}>{label}</span>
       <div style={styles.dots}>
-        {[0, 1, 2, 3, 4, 5].map((n) => (
+        {opcoes.map((n) => (
           <button
             key={n}
             type="button"
@@ -5451,6 +5561,7 @@ function LinhaScore({ label, valor, onChange }) {
             aria-label={`${label}: nota ${n}`}
             style={{
               ...styles.dot,
+              ...(max > 5 ? styles.dotSmall : null),
               background: valor === n ? BLUE : "#fff",
               borderColor: valor === n ? BLUE : "#D7DEE6",
               color: valor === n ? "#fff" : "#8A97A3",
@@ -6204,6 +6315,1026 @@ function StepFechamentoF4({
   );
 }
 
+const STEP_F5_GERACAO = 0;
+const STEP_F5_AUTOAVALIACAO = 1;
+const STEP_F5_AVALIACAO_OUTRA = 2;
+const STEP_F5_COMPARACAO = 3;
+const STEP_F5_EXPECTATIVAS = 4;
+const STEP_F5_REFLEXAO = 5;
+const STEP_F5_CONSOLIDACAO = 6;
+const STEP_F5_DECISAO = 7;
+const STEP_F5_PLANO = 8;
+const STEP_F5_FECHAMENTO = 9;
+
+function initNotasF5() {
+  return ASPECTOS_F5.reduce((acc, a) => {
+    acc[a] = null;
+    return acc;
+  }, {});
+}
+
+const ANTONIO_EXEMPLO_F5 = {
+  geracao: "atual",
+  notasPropria: {
+    Confiança: 8,
+    Comunicação: 6,
+    Liderança: 7,
+    Autonomia: 5,
+    "Capacidade de Delegar": 4,
+    "Visão de Futuro": 8,
+  },
+  notasOutra: {
+    Confiança: 4,
+    Comunicação: 5,
+    Liderança: 6,
+    Autonomia: 3,
+    "Capacidade de Delegar": 3,
+    "Visão de Futuro": 6,
+  },
+  expectativas: [
+    {
+      id: 1,
+      comportamento: "Mais paciência para aprender os detalhes do negócio antes de propor mudanças.",
+      motivo: "Alguns processos só fazem sentido depois de vividos na prática.",
+    },
+  ],
+  reflexaoF5: {
+    surpresa: "Achei que ela sentia mais confiança da minha parte do que realmente sente.",
+    aprendizado: "Ela não vê minha hesitação em delegar como falta de confiança, e sim como medo de errar.",
+    expectativaNuncaDita: "Eu nunca disse claramente que espero que ela pergunte mais antes de agir sozinha.",
+    mudarEu: "Vou parar de esperar que ela adivinhe o que eu quero e começar a falar diretamente.",
+  },
+  consolidacaoF5: [
+    {
+      id: 1,
+      comportamento: "Nenhum dos dois havia verbalizado a expectativa de confiança um pro outro.",
+      motivo: "Vamos criar reuniões mensais só para alinhar expectativas, separadas do operacional.",
+    },
+  ],
+  decisaoF5: {
+    atualDesenvolver: "Delegar por escrito três decisões que hoje ainda dependem da minha aprovação.",
+    proximaDesenvolver: "Perguntar antes de agir sozinha em decisões acima de um valor combinado.",
+    compromissos: "Reunião mensal de alinhamento, sem falar de operação — só de expectativas.",
+  },
+  planoF5: [
+    {
+      id: 1,
+      acao: "Marcar a primeira reunião mensal de alinhamento entre nós dois.",
+      responsavel: "Eu",
+      prazo: "15 dias",
+      indicador: "Reunião realizada, com pauta registrada",
+    },
+    {
+      id: 2,
+      acao: "Formalizar por escrito as três decisões que passam a ser dela.",
+      responsavel: "Eu e ela",
+      prazo: "45 dias",
+      indicador: "Documento assinado pelos dois",
+    },
+  ],
+};
+
+const MARINA_EXEMPLO_F5 = {
+  geracao: "proxima",
+  notasPropria: {
+    Confiança: 6,
+    Comunicação: 7,
+    Liderança: 6,
+    Autonomia: 6,
+    "Capacidade de Delegar": 5,
+    "Visão de Futuro": 8,
+  },
+  notasOutra: {
+    Confiança: 5,
+    Comunicação: 5,
+    Liderança: 8,
+    Autonomia: 3,
+    "Capacidade de Delegar": 3,
+    "Visão de Futuro": 5,
+  },
+  expectativas: [
+    {
+      id: 1,
+      comportamento: "Que ele confie decisões operacionais a mim sem precisar aprovar tudo antes.",
+      motivo: "Enquanto tudo passa por ele, eu não desenvolvo segurança pra decidir sozinha.",
+    },
+    {
+      id: 2,
+      comportamento: "Que ele ouça minhas ideias novas sem achar que estou querendo mudar tudo de uma vez.",
+      motivo: "Eu quero continuar o que ele construiu, só atualizando o que já não funciona mais.",
+    },
+  ],
+  reflexaoF5: {
+    surpresa: "Eu achava que ele confiava mais em mim do que a nota dele mostrou.",
+    aprendizado: "Ele não segura as decisões por controle, ele segura porque tem medo de eu errar sozinha e a empresa sofrer.",
+    expectativaNuncaDita: "Eu nunca disse claramente que quero autonomia real, não só ouvir 'pode fazer' e depois ser questionada.",
+    mudarEu: "Vou parar de esperar ele notar que estou pronta e vou pedir a autonomia diretamente.",
+  },
+  consolidacaoF5: [
+    {
+      id: 1,
+      comportamento: "Eu interpreto as perguntas dele como desconfiança, e ele interpreta como cuidado.",
+      motivo: "Vamos combinar um limite de valor claro, pra ele parar de perguntar dentro desse limite.",
+    },
+  ],
+  decisaoF5: {
+    atualDesenvolver: "Ele precisa soltar as aprovações de rotina, mesmo sentindo desconforto no início.",
+    proximaDesenvolver: "Eu preciso avisar antes de agir em decisões grandes, não só depois.",
+    compromissos: "Reunião mensal de alinhamento, só de expectativas, sem falar de operação do dia a dia.",
+  },
+  planoF5: [
+    {
+      id: 1,
+      acao: "Propor a ele o valor-limite pra aprovações que passam a ser só minhas.",
+      responsavel: "Marina",
+      prazo: "15 dias",
+      indicador: "Valor definido e registrado por escrito",
+    },
+    {
+      id: 2,
+      acao: "Testar um mês decidindo sozinha dentro desse limite, e revisar juntos como foi.",
+      responsavel: "Marina e o pai",
+      prazo: "45 dias",
+      indicador: "Reunião de revisão realizada, com ajustes se necessário",
+    },
+  ],
+};
+
+function Ferramenta5App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F5_GERACAO);
+  const [geracao, setGeracao] = useState(null);
+  const [notasPropria, setNotasPropria] = useState(initNotasF5());
+  const [notasOutra, setNotasOutra] = useState(initNotasF5());
+  const [expectativas, setExpectativas] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [reflexaoF5, setReflexaoF5] = useState({
+    surpresa: "",
+    aprendizado: "",
+    expectativaNuncaDita: "",
+    mudarEu: "",
+  });
+  const [consolidacaoF5, setConsolidacaoF5] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [decisaoF5, setDecisaoF5] = useState({ atualDesenvolver: "", proximaDesenvolver: "", compromissos: "" });
+  const [planoF5, setPlanoF5] = useState([{ id: 1, acao: "", responsavel: "", prazo: "", indicador: "" }]);
+
+  const diferencas = useMemo(
+    () =>
+      ASPECTOS_F5.map((a) => ({
+        aspecto: a,
+        propria: notasPropria[a],
+        outra: notasOutra[a],
+        diff: notasPropria[a] !== null && notasOutra[a] !== null ? notasPropria[a] - notasOutra[a] : null,
+      })),
+    [notasPropria, notasOutra]
+  );
+
+  const outroLabel = geracao === "atual" ? "a próxima geração" : "a geração atual";
+  const proprioLabel = geracao === "atual" ? "a geração atual" : "a próxima geração";
+
+  const carregarExemploF5 = (exemplo) => {
+    setGeracao(exemplo.geracao);
+    setNotasPropria(exemplo.notasPropria);
+    setNotasOutra(exemplo.notasOutra);
+    setExpectativas(exemplo.expectativas);
+    setReflexaoF5(exemplo.reflexaoF5);
+    setConsolidacaoF5(exemplo.consolidacaoF5);
+    setDecisaoF5(exemplo.decisaoF5);
+    setPlanoF5(exemplo.planoF5);
+    setStep(STEP_F5_COMPARACAO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F5_GERACAO) return geracao !== null;
+    if (step === STEP_F5_AUTOAVALIACAO) return ASPECTOS_F5.every((a) => notasPropria[a] !== null);
+    if (step === STEP_F5_AVALIACAO_OUTRA) return ASPECTOS_F5.every((a) => notasOutra[a] !== null);
+    if (step === STEP_F5_COMPARACAO) return true;
+    if (step === STEP_F5_EXPECTATIVAS) {
+      return expectativas.some((e) => e.comportamento.trim() && e.motivo.trim());
+    }
+    if (step === STEP_F5_REFLEXAO) {
+      return (
+        reflexaoF5.surpresa.trim().length > 3 &&
+        reflexaoF5.aprendizado.trim().length > 3 &&
+        reflexaoF5.expectativaNuncaDita.trim().length > 3 &&
+        reflexaoF5.mudarEu.trim().length > 3
+      );
+    }
+    if (step === STEP_F5_CONSOLIDACAO) {
+      return consolidacaoF5.some((c) => c.comportamento.trim() && c.motivo.trim());
+    }
+    if (step === STEP_F5_DECISAO) {
+      return (
+        decisaoF5.atualDesenvolver.trim().length > 3 &&
+        decisaoF5.proximaDesenvolver.trim().length > 3 &&
+        decisaoF5.compromissos.trim().length > 3
+      );
+    }
+    if (step === STEP_F5_PLANO) {
+      return planoF5.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F5_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F5_GERACAO, s - 1));
+
+  return (
+    <>
+      <Header5 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F5_GERACAO && (
+          <StepGeracao
+            geracao={geracao}
+            setGeracao={setGeracao}
+            onCarregarExemploAtual={() => carregarExemploF5(ANTONIO_EXEMPLO_F5)}
+            onCarregarExemploProxima={() => carregarExemploF5(MARINA_EXEMPLO_F5)}
+          />
+        )}
+        {step === STEP_F5_AUTOAVALIACAO && (
+          <StepAvaliacaoF5
+            titulo="Avalie sua própria geração"
+            passo="PASSO 2 DE 9 · AUTOAVALIAÇÃO"
+            pergunta={`De 0 a 10, como você avalia ${proprioLabel} em cada aspecto?`}
+            explicacao="Pontue com honestidade, mesmo sabendo que a outra geração pode ler isso depois."
+            notas={notasPropria}
+            setNotas={setNotasPropria}
+          />
+        )}
+        {step === STEP_F5_AVALIACAO_OUTRA && (
+          <StepAvaliacaoF5
+            titulo="Agora avalie a outra geração"
+            passo="PASSO 3 DE 9 · AVALIAÇÃO DA OUTRA GERAÇÃO"
+            pergunta={`De 0 a 10, como você avalia ${outroLabel} nos mesmos aspectos?`}
+            explicacao="Isso não é para acertar a nota que ela daria a si mesma, é a sua percepção sincera."
+            notas={notasOutra}
+            setNotas={setNotasOutra}
+          />
+        )}
+        {step === STEP_F5_COMPARACAO && (
+          <StepComparacaoF5 diferencas={diferencas} geracao={geracao} proprioLabel={proprioLabel} outroLabel={outroLabel} />
+        )}
+        {step === STEP_F5_EXPECTATIVAS && (
+          <StepExpectativasF5
+            expectativas={expectativas}
+            setExpectativas={setExpectativas}
+            outroLabel={outroLabel}
+          />
+        )}
+        {step === STEP_F5_REFLEXAO && (
+          <StepReflexaoF5 reflexaoF5={reflexaoF5} setReflexaoF5={setReflexaoF5} diferencas={diferencas} />
+        )}
+        {step === STEP_F5_CONSOLIDACAO && (
+          <StepConsolidacaoF5
+            consolidacaoF5={consolidacaoF5}
+            setConsolidacaoF5={setConsolidacaoF5}
+            diferencas={diferencas}
+          />
+        )}
+        {step === STEP_F5_DECISAO && <StepDecisaoF5 decisaoF5={decisaoF5} setDecisaoF5={setDecisaoF5} />}
+        {step === STEP_F5_PLANO && (
+          <StepPlanoF5 planoF5={planoF5} setPlanoF5={setPlanoF5} decisaoF5={decisaoF5} diferencas={diferencas} />
+        )}
+        {step === STEP_F5_FECHAMENTO && (
+          <StepFechamentoF5
+            geracao={geracao}
+            diferencas={diferencas}
+            expectativas={expectativas}
+            reflexaoF5={reflexaoF5}
+            consolidacaoF5={consolidacaoF5}
+            decisaoF5={decisaoF5}
+            planoF5={planoF5}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F5_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F5_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header5({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Qual geração você é",
+    "Autoavaliação",
+    "Avaliação da outra geração",
+    "Comparação",
+    "Expectativas",
+    "Reflexão individual",
+    "Consolidação familiar",
+    "Decisão",
+    "Plano de ação",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F5_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header}>
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Ponte de Gerações · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepGeracao({ geracao, setGeracao, onCarregarExemploAtual, onCarregarExemploProxima }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 1 DE 9 · QUAL GERAÇÃO VOCÊ REPRESENTA</span>
+      <h1 style={styles.h1}>O que cada geração precisa compreender da outra?</h1>
+      <p style={styles.lead}>
+        Isso ajusta as perguntas seguintes pro seu lado da ponte. Responda pensando na sua própria
+        experiência, mesmo sabendo que a outra geração pode preencher isso também depois.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemploAtual} style={styles.demoLink}>
+          ⚡ Exemplo: Antônio (geração atual)
+        </button>
+        <button onClick={onCarregarExemploProxima} style={styles.demoLink}>
+          ⚡ Exemplo: Marina (próxima geração)
+        </button>
+      </div>
+
+      <div style={styles.roleGrid}>
+        {GERACOES_F5.map((g) => (
+          <button
+            key={g.key}
+            onClick={() => setGeracao(g.key)}
+            style={{
+              ...styles.roleCard,
+              borderColor: geracao === g.key ? BLUE : "#E4EAF0",
+              background: geracao === g.key ? "#EAF2FB" : "#fff",
+            }}
+          >
+            <span style={styles.roleLabel}>{g.label}</span>
+            <span style={styles.roleDesc}>{g.desc}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepAvaliacaoF5({ titulo, passo, pergunta, explicacao, notas, setNotas }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>{passo}</span>
+      <h1 style={styles.h1}>{titulo}</h1>
+      <p style={styles.lead}>{pergunta}</p>
+      <p style={styles.lead}>
+        Use 0 quando o aspecto está praticamente ausente, 5 quando está presente de forma
+        moderada, e 10 quando está plenamente presente. {explicacao}
+      </p>
+
+      <div style={styles.familiaList}>
+        {ASPECTOS_F5.map((a) => (
+          <LinhaScore
+            key={a}
+            label={a}
+            valor={notas[a]}
+            onChange={(n) => setNotas((prev) => ({ ...prev, [a]: n }))}
+            max={10}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepComparacaoF5({ diferencas, geracao, proprioLabel, outroLabel }) {
+  const [insight, setInsight] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const maioresGaps = [...diferencas]
+    .filter((d) => d.diff !== null)
+    .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
+    .slice(0, 2);
+
+  const gerarInsight = () => {
+    setGerando(true);
+    setInsight(null);
+    const resumo = diferencas
+      .filter((d) => d.diff !== null)
+      .map((d) => `${d.aspecto}: nota própria ${d.propria}, percepção da outra geração ${d.outra} (diferença ${Math.abs(d.diff)})`)
+      .join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F5}\n\n` +
+      `Alguém que representa ${proprioLabel} comparou suas notas com sua percepção sobre ${outroLabel}: ${resumo}.\n\n` +
+      `Escreva um parágrafo curto (3-4 frases, no máximo 80 palavras) apontando qual aspecto parece ` +
+      `ter o gap mais relevante e o que isso costuma significar pra uma conversa entre gerações, ` +
+      `inspirando-se, sem citar nomes, no padrão de algum dos três casos reais do método. Tom ` +
+      `direto, acolhedor, sem clichês. Responda só com o texto, sem introdução, em português do ` +
+      `Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => setInsight(texto))
+      .catch(() => setInsight("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 4 DE 9 · COMPARAÇÃO</span>
+      <h1 style={styles.h1}>Onde a percepção se encontra, e onde ela se afasta.</h1>
+      <p style={styles.lead}>
+        Em cada linha abaixo, a primeira nota é a que você deu para {proprioLabel.toLowerCase()}{" "}
+        (a sua própria), e a segunda é a nota que você deu, na sua percepção, para{" "}
+        {outroLabel.toLowerCase()}. A diferença entre as duas é o que importa observar.
+      </p>
+      <p style={styles.lead}>
+        O objetivo não é descobrir quem está certo, é enxergar onde as duas percepções se
+        distanciam. Até 2 pontos de diferença é alinhamento; 3 a 4 vale conversa estruturada;
+        acima de 4 é desalinhamento relevante — veja o guia abaixo de cada aspecto.
+      </p>
+
+      <div style={styles.familiaList}>
+        {diferencas.map((d) => {
+          const interp = d.diff !== null ? interpretaDiferencaF5(d.diff) : null;
+          return (
+            <div key={d.aspecto} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{d.aspecto}</span>
+              <div style={styles.envioButtonsRow}>
+                <span style={styles.papelDescricao}>
+                  Nota que dei pra {proprioLabel.replace(/^a /i, "").toLowerCase()}:{" "}
+                  <strong>{d.propria ?? "—"}</strong>
+                </span>
+                <span style={styles.papelDescricao}>
+                  Nota que dei pra {outroLabel.replace(/^a /i, "").toLowerCase()}:{" "}
+                  <strong>{d.outra ?? "—"}</strong>
+                </span>
+              </div>
+              {interp && (
+                <span style={{ ...styles.padraoInterpretacao, color: corSemaforoF5(d.diff) }}>
+                  Diferença de {Math.abs(d.diff)} ponto{Math.abs(d.diff) === 1 ? "" : "s"} —{" "}
+                  <strong>{interp.label}</strong>: {interp.texto}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {maioresGaps.length > 0 && (
+        <>
+          {!insight && (
+            <button onClick={gerarInsight} disabled={gerando} style={styles.demoLink}>
+              {gerando ? "Gerando leitura…" : "✦ O que esses gaps podem significar"}
+            </button>
+          )}
+          {insight && (
+            <div style={styles.unlockBox}>
+              <span style={styles.unlockLabel}>LEITURA DA COMPARAÇÃO</span>
+              <p style={styles.unlockHow}>{insight}</p>
+              <span style={styles.aiTag}>✦ gerado pra sua situação</span>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function StepExpectativasF5({ expectativas, setExpectativas, outroLabel }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 5 DE 9 · EXPECTATIVAS</span>
+      <h1 style={styles.h1}>O que você espera d{outroLabel}, e por quê?</h1>
+      <p style={styles.lead}>
+        Nomear a expectativa é o primeiro passo pra ela deixar de ser uma cobrança silenciosa e
+        virar um ponto de partida pra negociação.
+      </p>
+
+      <TabelaComportamentos
+        titulo="Minhas expectativas"
+        linhas={expectativas}
+        setLinhas={setExpectativas}
+        labelComportamento="O QUE ESPERO"
+        labelMotivo="POR QUE ISSO IMPORTA"
+        placeholderComportamento="Ex.: mais paciência para aprender os detalhes do negócio"
+        placeholderMotivo="Ex.: alguns processos só fazem sentido depois de vividos na prática"
+      />
+    </div>
+  );
+}
+
+function StepReflexaoF5({ reflexaoF5, setReflexaoF5, diferencas }) {
+  const set = (field) => (e) => setReflexaoF5((r) => ({ ...r, [field]: e.target.value }));
+  const maiorGap = [...diferencas].filter((d) => d.diff !== null).sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))[0];
+  const contexto = maiorGap ? `maior diferença de percepção em "${maiorGap.aspecto}"` : "comparação entre gerações";
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 6 DE 9 · REFLEXÃO INDIVIDUAL</span>
+      <h1 style={styles.h1}>Sozinho, depois de ver a comparação.</h1>
+      <p style={styles.lead}>
+        Ninguém além de você vai ler isso agora. Escreva o que for verdade, não o que soa bem de
+        dizer em família.
+      </p>
+
+      <CampoReflexao
+        pergunta="O que mais me surpreendeu?"
+        valor={reflexaoF5.surpresa}
+        onChange={set("surpresa")}
+        placeholder="A descoberta mais inesperada ao comparar sua percepção com a da outra geração…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F5}
+      />
+      <CampoReflexao
+        pergunta="O que aprendi sobre a outra geração?"
+        valor={reflexaoF5.aprendizado}
+        onChange={set("aprendizado")}
+        placeholder="Um entendimento novo sobre como a outra geração pensa ou sente…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F5}
+      />
+      <CampoReflexao
+        pergunta="Qual expectativa nunca havia sido explicitada?"
+        valor={reflexaoF5.expectativaNuncaDita}
+        onChange={set("expectativaNuncaDita")}
+        placeholder="Algo que você (ou a outra geração) sempre esperou, mas nunca disse em voz alta…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F5}
+      />
+      <CampoReflexao
+        pergunta="O que preciso fazer diferente?"
+        valor={reflexaoF5.mudarEu}
+        onChange={set("mudarEu")}
+        placeholder="Uma mudança concreta de comportamento que depende só de você…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F5}
+      />
+    </div>
+  );
+}
+
+function StepConsolidacaoF5({ consolidacaoF5, setConsolidacaoF5, diferencas }) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const maiorGap = [...diferencas].filter((d) => d.diff !== null).sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))[0];
+    const prompt =
+      `${LIVRO_CONTEXTO_F5}\n\n` +
+      `Você ajuda alguém que usou a Ponte de Gerações a se preparar para a Consolidação Familiar. ` +
+      `${maiorGap ? `O aspecto com maior diferença de percepção foi "${maiorGap.aspecto}" (diferença de ${Math.abs(maiorGap.diff)} pontos).` : ""}\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa começar essa conversa com a outra ` +
+      `geração, deixando claro que o objetivo não é descobrir quem está certo, é entender as duas ` +
+      `percepções. Formate como lista curta. Responda só com as frases, sem introdução, em ` +
+      `português do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 7 DE 9 · CONSOLIDAÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
+      <p style={styles.lead}>
+        Registrem como cada descoberta muda a forma como vocês pretendem se relacionar daqui pra
+        frente.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <TabelaComportamentos
+        titulo="Descobertas e impactos"
+        linhas={consolidacaoF5}
+        setLinhas={setConsolidacaoF5}
+        labelComportamento="DESCOBERTA"
+        labelMotivo="IMPACTO"
+        placeholderComportamento="Ex.: nenhum dos dois havia verbalizado a expectativa de confiança"
+        placeholderMotivo="Ex.: vamos criar reuniões mensais só pra alinhar expectativas"
+      />
+    </div>
+  );
+}
+
+function StepDecisaoF5({ decisaoF5, setDecisaoF5 }) {
+  const set = (field) => (e) => setDecisaoF5((d) => ({ ...d, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 8 DE 9 · DECISÃO</span>
+      <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Com a comparação e as expectativas na mesa, é hora de decidir o que cada geração leva
+        como compromisso — não é uma cobrança de um lado só.
+      </p>
+
+      <label style={styles.fieldLabel}>Quais comportamentos a geração atual precisa desenvolver?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF5.atualDesenvolver}
+        onChange={set("atualDesenvolver")}
+        placeholder="Mudanças concretas esperadas de quem ainda está à frente da liderança…"
+      />
+      <label style={styles.fieldLabel}>Quais comportamentos a próxima geração precisa desenvolver?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF5.proximaDesenvolver}
+        onChange={set("proximaDesenvolver")}
+        placeholder="Mudanças concretas esperadas de quem está assumindo a liderança…"
+      />
+      <label style={styles.fieldLabel}>Quais compromissos serão assumidos por ambas as gerações?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF5.compromissos}
+        onChange={set("compromissos")}
+        placeholder="Acordos mútuos, não unilaterais, que as duas gerações se comprometem a cumprir…"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF5({ planoF5, setPlanoF5, decisaoF5, diferencas }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setPlanoF5((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "", indicador: "" },
+    ]);
+  const removeAcao = (id) => setPlanoF5((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF5((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const maiorGap = [...diferencas].filter((d) => d.diff !== null).sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))[0];
+    const prompt =
+      `${LIVRO_CONTEXTO_F5}\n\n` +
+      `Você ajuda alguém que já percorreu a Ponte de Gerações a transformar os compromissos em um ` +
+      `plano de ação. Contexto:\n` +
+      `${maiorGap ? `- Maior gap de percepção: "${maiorGap.aspecto}" (diferença de ${Math.abs(maiorGap.diff)})\n` : ""}` +
+      `${decisaoF5.compromissos ? `- Compromissos mútuos combinados: "${decisaoF5.compromissos}"\n` : ""}\n` +
+      `Sugira 2-3 ações em sequência cronológica, cada uma no infinitivo, com responsável, prazo e ` +
+      `um indicador de sucesso (como saber se o compromisso está sendo cumprido). Lembre que isso ` +
+      `ainda precisa ser negociado entre as gerações.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":"","indicador":""},` +
+      `{"acao":"","responsavel":"","prazo":"","indicador":""}]`;
+
+    callClaude(prompt, 450)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF5(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              acao: a.acao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+              indicador: a.indicador || "",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 9 DE 9 · PLANO DE AÇÃO</span>
+      <h1 style={styles.h1}>Transforme os compromissos em ações, com um jeito de medir.</h1>
+      <p style={styles.lead}>
+        Além de ação, responsável e prazo, cada linha tem um indicador de sucesso — como vocês vão
+        saber que o compromisso está sendo cumprido de verdade.
+      </p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações com indicadores"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {planoF5.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF5.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: reuniões mensais de alinhamento entre pai e filho…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: início em 15 dias"
+                />
+              </div>
+            </div>
+            <label style={styles.fieldLabel}>Indicador de sucesso</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={a.indicador}
+              onChange={(e) => setAcao(a.id, "indicador", e.target.value)}
+              placeholder="Ex.: reunião realizada todo mês, sem faltas"
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF5({
+  geracao,
+  diferencas,
+  expectativas,
+  reflexaoF5,
+  consolidacaoF5,
+  decisaoF5,
+  planoF5,
+  onReiniciar,
+  envioId,
+}) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const expectativasPreenchidas = expectativas.filter((e) => e.comportamento.trim());
+  const consolidacaoPreenchida = consolidacaoF5.filter((c) => c.comportamento.trim());
+  const gapsRelevantes = diferencas.filter((d) => d.diff !== null && Math.abs(d.diff) > 2);
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 5,
+      papel: geracao,
+      notas: diferencas.reduce((acc, d) => {
+        acc[d.aspecto] = { propria: d.propria, outra: d.outra, diff: d.diff };
+        return acc;
+      }, {}),
+      conflito: { gaps: gapsRelevantes },
+      reflexao: reflexaoF5,
+      consolidacao: { expectativas: expectativasPreenchidas, descobertas: consolidacaoPreenchida },
+      decisao_final: decisaoF5,
+      plano_acao: planoF5,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    if (gapsRelevantes.length === 0) return;
+    setCarregandoSintese(true);
+    const resumo = gapsRelevantes.map((d) => `${d.aspecto} (diferença de ${Math.abs(d.diff)})`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F5}\n\n` +
+      `Alguém completou a Ponte de Gerações. Os aspectos com maior diferença de percepção foram: ` +
+      `${resumo}.${decisaoF5.compromissos ? ` Compromissos combinados: "${decisaoF5.compromissos}".` : ""}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre isso ` +
+      `numa síntese concreta e acolhedora, reforçando que o objetivo nunca foi descobrir quem está ` +
+      `certo, foi entender as duas percepções. Tom direto, sem clichês de autoajuda. Responda só ` +
+      `com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Ponte de Gerações",
+      "",
+      `Aspectos com maior diferença: ${gapsRelevantes.map((d) => `${d.aspecto} (${Math.abs(d.diff)})`).join(", ") || "—"}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      `Comportamento a desenvolver (geração atual): ${decisaoF5.atualDesenvolver || "—"}`,
+      `Comportamento a desenvolver (próxima geração): ${decisaoF5.proximaDesenvolver || "—"}`,
+      `Compromissos mútuos: ${decisaoF5.compromissos || "—"}`,
+      "",
+      "Plano de ação:",
+      planoF5
+        .filter((a) => a.acao.trim())
+        .map(
+          (a, i) =>
+            `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"} — Indicador: ${a.indicador || "—"}`
+        )
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  const handleEnviar = () => {
+    const assunto = "Nosso resultado — Ponte de Gerações";
+    const corpo = montarResumo();
+    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && (
+          <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente, use o e-mail abaixo</span>
+        )}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Sua Ponte de Gerações, resumida.</h1>
+      <p style={styles.lead}>
+        Abaixo estão os aspectos em que sua nota e sua percepção da outra geração mais se
+        distanciaram — verde é alinhamento, amarelo vale uma conversa, vermelho é desalinhamento
+        que pede atenção.
+      </p>
+
+      <div style={styles.resumoGrid}>
+        {diferencas
+          .filter((d) => d.diff !== null)
+          .map((d) => {
+            const interp = interpretaDiferencaF5(d.diff);
+            return (
+              <div key={d.aspecto} style={styles.resumoCard}>
+                <div
+                  style={{
+                    ...styles.resumoBar,
+                    background: corSemaforoF5(d.diff),
+                  }}
+                />
+                <div style={styles.resumoCardInner}>
+                  <span style={styles.resumoName}>{d.aspecto}</span>
+                  <span style={styles.resumoValue}>diferença {Math.abs(d.diff)}</span>
+                  <span style={styles.resumoScore}>{interp.label}</span>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese ||
+                "O objetivo nunca foi descobrir quem está certo, foi entender como cada geração enxerga a mesma realidade — e a partir daí, construir pontes, não vencedores."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <p style={{ ...styles.papelNome, marginTop: 8 }}>O que cada geração leva como compromisso</p>
+      <div style={styles.fechamentoBox}>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>GERAÇÃO ATUAL DESENVOLVE</span>
+          <span style={styles.fechamentoValue}>{decisaoF5.atualDesenvolver || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>PRÓXIMA GERAÇÃO DESENVOLVE</span>
+          <span style={styles.fechamentoValue}>{decisaoF5.proximaDesenvolver || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>COMPROMISSOS MÚTUOS</span>
+          <span style={styles.fechamentoValue}>{decisaoF5.compromissos || "—"}</span>
+        </div>
+      </div>
+
+      <p style={{ ...styles.papelNome, marginTop: 8 }}>Plano de ação combinado</p>
+      <div style={styles.familiaList}>
+        {planoF5
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>INDICADOR DE SUCESSO</span>
+                <span style={styles.fechamentoValue}>{a.indicador || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês compararam percepções, nomearam expectativas, refletiram sozinhos, consolidaram em
+          família, decidiram e planejaram. O que falta agora é colocar em prática, e revisitar a
+          Ponte daqui a alguns meses pra ver se a distância diminuiu.
+        </p>
+      </div>
+
+      <div style={styles.finalButtonsRow}>
+        <button onClick={handleEnviar} style={styles.ctaButton}>
+          Enviar resultado por e-mail →
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
   return (
     <div style={styles.footer}>
@@ -6560,7 +7691,7 @@ const styles = {
     borderBottom: "1px solid #EEF2F6",
   },
   itemName: { fontSize: 14.5, color: NAVY, fontWeight: 500, flex: "1 1 180px" },
-  dots: { display: "flex", gap: 6 },
+  dots: { display: "flex", gap: 6, flexWrap: "wrap" },
   dot: {
     width: 30,
     height: 30,
@@ -6571,6 +7702,7 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.15s ease",
   },
+  dotSmall: { width: 26, height: 26, fontSize: 11 },
   dotNA: {
     height: 30,
     padding: "0 8px",
