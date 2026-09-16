@@ -1,4 +1,4 @@
-# Sucessão em Movimento® — Diagnósticos MOVER
+# Sucessão em Movimento® — Diagnósticos MOVER de Marcelo
 
 Guia rápido para publicar este app num link de verdade, pronto pra enviar pra família.
 
