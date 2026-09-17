@@ -17,6 +17,17 @@ async function callClaude(prompt, maxTokens = 300) {
   return data.text || "";
 }
 
+function notifyConsultor(assunto, corpo) {
+  fetch("/api/notify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ assunto, corpo }),
+  }).catch(() => {
+    /* silencioso: a pessoa já tem o PDF e o botão de e-mail manual como reforço */
+  });
+}
+
+const EMAIL_CONSULTOR = "marcelo@wietha.com.br";
 const SUPABASE_URL = "https://ffoenurvsibztibpabtm.supabase.co";
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmb2VudXJ2c2lienRpYnBhYnRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1MjQ2MzQsImV4cCI6MjEwMzEwMDYzNH0.d3YDLtkuZKuNMFW88_KfXMaov9-NGAUNJp7APUVsOj0";
@@ -1069,6 +1080,8 @@ export default function App() {
         setView("ferramenta5");
       } else if (ferramentaParam === "6") {
         setView("ferramenta6");
+      } else if (params.get("admin") !== null) {
+        setView("admin");
       }
     } catch (e) {
       /* ignore */
@@ -1329,6 +1342,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta6App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "admin") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shellWide} className="print-shell">
+          <AdminApp onVoltarCatalogo={() => setView("catalogo")} />
         </div>
       </div>
     );
@@ -2947,7 +2970,12 @@ function StepFechamento({
   const handleEnviar = () => {
     const assunto = "Meu resultado — Raízes das Lealdades Invisíveis";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    notifyConsultor("Meu resultado — Raízes das Lealdades Invisíveis", montarResumo());
+    window.print();
   };
 
   return (
@@ -3007,12 +3035,16 @@ function StepFechamento({
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
@@ -3990,7 +4022,12 @@ function StepFechamentoF2({
   const handleEnviar = () => {
     const assunto = "Meu resultado — Radar de Papéis Ocultos";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    notifyConsultor("Meu resultado — Radar de Papéis Ocultos", montarResumo());
+    window.print();
   };
 
   return (
@@ -4093,12 +4130,16 @@ function StepFechamentoF2({
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
@@ -5404,7 +5445,12 @@ function StepFechamentoF3({
   const handleEnviar = () => {
     const assunto = "Nosso resultado — Linha de Repetição Familiar";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    notifyConsultor("Nosso resultado — Linha de Repetição Familiar", montarResumo());
+    window.print();
   };
 
   return (
@@ -5503,12 +5549,16 @@ function StepFechamentoF3({
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
@@ -6521,7 +6571,12 @@ function StepFechamentoF4({
   const handleEnviar = () => {
     const assunto = "Nosso resultado — Matriz de Autoridade Real";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    notifyConsultor("Nosso resultado — Matriz de Autoridade Real", montarResumo());
+    window.print();
   };
 
   return (
@@ -6621,12 +6676,16 @@ function StepFechamentoF4({
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
@@ -7535,7 +7594,12 @@ function StepFechamentoF5({
   const handleEnviar = () => {
     const assunto = "Nosso resultado — Ponte de Gerações";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    notifyConsultor("Nosso resultado — Ponte de Gerações", montarResumo());
+    window.print();
   };
 
   return (
@@ -7644,12 +7708,16 @@ function StepFechamentoF5({
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
@@ -8467,7 +8535,15 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
       ? `Índice de Confiança Sucessória — ${nomeSucessor.trim()}`
       : "Nosso resultado — Índice de Confiança Sucessória";
     const corpo = montarResumo();
-    window.location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = `mailto:${EMAIL_CONSULTOR}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  };
+
+  const handleBaixarPDF = () => {
+    const assunto = nomeSucessor.trim()
+      ? `Índice de Confiança Sucessória — ${nomeSucessor.trim()}`
+      : "Nosso resultado — Índice de Confiança Sucessória";
+    notifyConsultor(assunto, montarResumo());
+    window.print();
   };
 
   return (
@@ -8555,12 +8631,16 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
         </p>
       </div>
 
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Ao baixar o PDF, um resumo já é enviado automaticamente pro consultor. Se quiser
+        garantir que o PDF em si chegue também, anexe ele no botão de e-mail abaixo.
+      </p>
       <div style={styles.finalButtonsRow} className="no-print">
-        <button onClick={() => window.print()} style={styles.restartButton}>
+        <button onClick={handleBaixarPDF} style={styles.restartButton}>
           🖨️ Baixar / imprimir PDF
         </button>
         <button onClick={handleEnviar} style={styles.ctaButton}>
-          Enviar resultado por e-mail →
+          Enviar resultado pro consultor →
         </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
