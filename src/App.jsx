@@ -569,6 +569,97 @@ decisões são discutidas e pactos começam a ser construídos. Mais do que reun
 construção de confiança."
 `.trim();
 
+const ETAPAS_CLARO = [
+  {
+    letra: "C",
+    nome: "Contextualizar",
+    fazer: "Definir o tema, a importância e o motivo da conversa antes de começar.",
+    cuidado: "Não iniciar a conversa sem que todos saibam exatamente sobre o que ela é.",
+  },
+  {
+    letra: "L",
+    nome: "Levantar Percepções",
+    fazer: "Ouvir todos os participantes, sem interromper e sem julgar.",
+    cuidado: "Resistir à vontade de responder ou se defender antes de todos falarem.",
+  },
+  {
+    letra: "A",
+    nome: "Alinhar Interesses",
+    fazer: "Identificar objetivos e interesses em comum entre os participantes.",
+    cuidado: "Não pular esta etapa: é ela que sustenta a resolução das divergências.",
+  },
+  {
+    letra: "R",
+    nome: "Resolver Divergências",
+    fazer: "Trabalhar cada ponto de discordância de forma estruturada.",
+    cuidado: "Separar o que é negociável do que não é, antes de tentar resolver.",
+  },
+  {
+    letra: "O",
+    nome: "Organizar Próximos Passos",
+    fazer: "Transformar a conversa em decisões, responsáveis e prazos.",
+    cuidado: "Registrar tudo por escrito, decisões faladas se perdem com o tempo.",
+  },
+];
+
+const STATUS_ACAO_F7 = ["Não iniciado", "Em andamento", "Concluído"];
+
+const LIVRO_CONTEXTO_F7 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 07 · Protocolo CLARO):
+
+PROPÓSITO: estruturar conversas difíceis — sobre sucessão, remuneração, dividendos, venda da
+empresa ou qualquer tema sensível — em um processo claro de cinco etapas, pra que elas terminem
+em decisão e compromisso, não em mais um ciclo de discussão sem resolução.
+
+O QUE RESOLVE: muitas famílias empresárias evitam conversas importantes porque, historicamente,
+elas sempre terminam em conflito, silêncio ou impasse. Sem uma estrutura, a conversa vira disputa
+de quem fala mais alto ou de quem cede primeiro. O Protocolo CLARO separa etapas — ouvir, alinhar,
+resolver, decidir — que normalmente se misturam de forma caótica numa conversa difícil sem
+estrutura.
+
+AS CINCO ETAPAS (a ordem importa — cada etapa só deve começar depois que a anterior foi
+concluída):
+${ETAPAS_CLARO.map((e) => `- ${e.letra} — ${e.nome}: ${e.fazer} Cuidado: ${e.cuidado}`).join("\n")}
+
+TRÊS CASOS REAIS DE VALIDAÇÃO (em todos, a etapa Alinhar Interesses foi o ponto de virada — não
+porque eliminou a divergência, mas porque revelou que ela era menor e mais tratável do que a
+briga que vinha causando):
+- Família Andrade (disputa pela liderança): dois irmãos sócios disputavam a liderança há anos,
+  com conversas terminando em portas batendo e silêncios de semanas. Na etapa Alinhar Interesses,
+  reconheceram pela primeira vez em voz alta que os dois queriam a mesma coisa: preservar a
+  empresa e a união familiar. A divergência real — o modelo de liderança — foi separada da
+  disputa pessoal e tratada como questão técnica. Resultado: conselho consultivo criado, com
+  critérios objetivos de liderança, prazo de 60 dias pra formalizar.
+- Irmãs Ferraz (remuneração desigual): duas irmãs com cargos e remunerações diferentes guardavam
+  ressentimento havia anos, sem nunca ter discutido abertamente. Na etapa Alinhar Interesses,
+  perceberam que o interesse comum não era "ganhar o mesmo", era ter um critério claro e público,
+  mesmo que os valores finais continuassem diferentes. Resultado: contratação de consultoria de
+  cargos e salários, com política formal esperada em 90 dias. "A gente não discordava do valor.
+  Discordava do critério, e nunca tinha dito isso em voz alta", disse uma das irmãs.
+- Família Bezerra (vender ou não vender): diante de uma proposta de compra, a família se dividiu
+  entre vender e manter o negócio, com reuniões virando torcida organizada. Na etapa Alinhar
+  Interesses, perceberam que o objetivo comum de todos era a segurança financeira de longo prazo
+  — vender ou manter eram só dois caminhos possíveis pro mesmo objetivo, vistos até então como
+  posições morais opostas. Resultado: contratação de avaliação profissional independente antes de
+  decidir. "A gente discutia se devia vender. Devíamos era decidir o que realmente queríamos
+  proteger", disse um membro da família.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): pular direto pra Resolver Divergências
+sem ter feito Contextualizar e Levantar Percepções, perdendo a base da conversa; confundir
+Alinhar Interesses com concordar em tudo — alinhar interesses é achar o objetivo comum, não
+eliminar divergências reais; deixar a etapa Organizar Próximos Passos apenas verbal, sem
+registrar por escrito decisões, responsáveis e prazos; permitir que uma pessoa domine o tempo de
+fala; usar o protocolo pra temas que exigem mediação profissional especializada, quando o apoio
+de um terceiro qualificado é indispensável (ex.: segurança pessoal em risco).
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "O silêncio custa caro. Evitar
+conversas por medo de conflito é um erro clássico. O que parece paz é apenas calmaria
+superficial."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -616,7 +707,7 @@ const FERRAMENTAS_CATALOGO = [
     categoria: "Conversas Difíceis e Alinhamento",
     cor: BLUE,
     ferramentas: [
-      { n: 7, nome: "Protocolo CLARO", ativa: false },
+      { n: 7, nome: "Protocolo CLARO", ativa: true },
       { n: 8, nome: "Semáforo dos Temas Sensíveis", ativa: false },
       { n: 9, nome: "Mapa de Ruídos Relacionais", ativa: false },
     ],
@@ -1079,8 +1170,8 @@ export default function App() {
         setView("ferramenta5");
       } else if (ferramentaParam === "6") {
         setView("ferramenta6");
-      } else if (params.get("admin") !== null) {
-        setView("admin");
+      } else if (ferramentaParam === "7") {
+        setView("ferramenta7");
       }
     } catch (e) {
       /* ignore */
@@ -1257,6 +1348,10 @@ export default function App() {
     setView("ferramenta6");
   };
 
+  const abrirFerramenta7 = () => {
+    setView("ferramenta7");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1268,6 +1363,7 @@ export default function App() {
             onAbrirFerramenta4={abrirFerramenta4}
             onAbrirFerramenta5={abrirFerramenta5}
             onAbrirFerramenta6={abrirFerramenta6}
+            onAbrirFerramenta7={abrirFerramenta7}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1346,11 +1442,11 @@ export default function App() {
     );
   }
 
-  if (view === "admin") {
+  if (view === "ferramenta7") {
     return (
       <div style={styles.page}><PrintStyles />
-        <div style={styles.shellWide} className="print-shell">
-          <AdminApp onVoltarCatalogo={() => setView("catalogo")} />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta7App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1551,6 +1647,7 @@ function Catalogo({
   onAbrirFerramenta4,
   onAbrirFerramenta5,
   onAbrirFerramenta6,
+  onAbrirFerramenta7,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -1561,6 +1658,7 @@ function Catalogo({
     4: onAbrirFerramenta4,
     5: onAbrirFerramenta5,
     6: onAbrirFerramenta6,
+    7: onAbrirFerramenta7,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -1826,6 +1924,7 @@ function NovaFamilia({ onVoltar }) {
       "4": "Ferramenta 04 · Autoridade Real",
       "5": "Ferramenta 05 · Ponte de Gerações",
       "6": "Ferramenta 06 · Índice de Confiança",
+      "7": "Ferramenta 07 · Protocolo CLARO",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -1870,6 +1969,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="4">Ferramenta 04 · Autoridade</option>
               <option value="5">Ferramenta 05 · Ponte</option>
               <option value="6">Ferramenta 06 · ICS</option>
+              <option value="7">Ferramenta 07 · CLARO</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2005,7 +2105,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -4990,6 +5090,61 @@ function TabelaTransformar({ titulo, linhas, setLinhas }) {
               value={l.para}
               onChange={(e) => set(l.id, "para", e.target.value)}
               placeholder="Ex.: decisão por consenso qualificado entre os sócios"
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar
+      </button>
+    </div>
+  );
+}
+
+function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placeholders }) {
+  const [c1, c2, c3] = campos;
+  const add = () =>
+    setLinhas((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, [c1]: "", [c2]: "", [c3]: "" },
+    ]);
+  const remove = (id) => setLinhas((prev) => prev.filter((l) => l.id !== id));
+  const set = (id, field, val) =>
+    setLinhas((prev) => prev.map((l) => (l.id === id ? { ...l, [field]: val } : l)));
+
+  return (
+    <div style={styles.padraoCard}>
+      <span style={styles.papelNome}>{titulo}</span>
+      <div style={styles.familiaList}>
+        {linhas.map((l) => (
+          <div key={l.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.padraoInterpretacao}>{labels[0]}</span>
+              {linhas.length > 1 && (
+                <button onClick={() => remove(l.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={l[c1]}
+              onChange={(e) => set(l.id, c1, e.target.value)}
+              placeholder={placeholders[0]}
+            />
+            <span style={styles.padraoInterpretacao}>{labels[1]}</span>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={l[c2]}
+              onChange={(e) => set(l.id, c2, e.target.value)}
+              placeholder={placeholders[1]}
+            />
+            <span style={styles.padraoInterpretacao}>{labels[2]}</span>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={l[c3]}
+              onChange={(e) => set(l.id, c3, e.target.value)}
+              placeholder={placeholders[2]}
             />
           </div>
         ))}
@@ -8605,6 +8760,1023 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
   );
 }
 
+const STEP_F7_CONTEXTUALIZAR = 0;
+const STEP_F7_LEVANTAR = 1;
+const STEP_F7_ALINHAR = 2;
+const STEP_F7_RESOLVER = 3;
+const STEP_F7_ORGANIZAR = 4;
+const STEP_F7_REFLEXAO = 5;
+const STEP_F7_CONSOLIDACAO = 6;
+const STEP_F7_DECISAO = 7;
+const STEP_F7_PLANO = 8;
+const STEP_F7_FECHAMENTO = 9;
+
+const ANDRADE_EXEMPLO_F7 = {
+  contexto: {
+    assunto: "Quem vai liderar a empresa",
+    porque: "Os dois irmãos disputam a liderança há anos, desde que o pai saiu do dia a dia, e o assunto vem sendo evitado.",
+    participantes: "Eduardo (irmão mais velho), Rogério (irmão mais novo), facilitador externo",
+    data: "15/04",
+    facilitador: "Facilitador externo (consultor de família)",
+  },
+  percepcoes: [
+    {
+      id: 1,
+      participante: "Eduardo",
+      pensa: "Deveria assumir a presidência por ser o mais velho e mais experiente na operação.",
+      preocupa: "Perder o respeito da equipe se não for reconhecido como líder formal.",
+    },
+    {
+      id: 2,
+      participante: "Rogério",
+      pensa: "A liderança deveria ser decidida por competência, não por ordem de nascimento.",
+      preocupa: "Ficar eternamente na sombra do irmão mais velho, mesmo entregando resultados melhores.",
+    },
+  ],
+  interesses: [
+    {
+      id: 1,
+      comportamento: "Preservar a empresa que o pai construiu",
+      motivo: "Eduardo e Rogério",
+    },
+    {
+      id: 2,
+      comportamento: "Manter a união entre os irmãos",
+      motivo: "Eduardo e Rogério",
+    },
+  ],
+  divergencias: [
+    {
+      id: 1,
+      divergencia: "Qual modelo de liderança adotar (um presidente único vs. liderança compartilhada)",
+      negociavel: "Sim",
+      tratamento: "Tratado como questão técnica, decidido por critérios objetivos definidos por um conselho consultivo",
+    },
+  ],
+  organizacao: [
+    {
+      id: 1,
+      decisao: "Criar um conselho consultivo com critérios objetivos de liderança",
+      responsavel: "Eduardo e Rogério",
+      prazo: "60 dias",
+    },
+  ],
+  reflexaoF7: {
+    chamouAtencao: "O momento em que os dois reconheceram, pela primeira vez em voz alta, que queriam a mesma coisa.",
+    aprendiSobreOutros: "Meu irmão não quer o poder pelo poder, ele tem medo real de ficar invisível.",
+    conduzirDiferente: "Deveríamos ter feito essa conversa com facilitador anos atrás, antes do ressentimento acumular.",
+  },
+  consolidacaoF7: [
+    {
+      id: 1,
+      comportamento: "Os dois irmãos nunca tinham verbalizado que queriam a mesma coisa.",
+      motivo: "Vamos sempre começar futuras conversas alinhando interesses antes de discutir posições.",
+    },
+  ],
+  decisaoF7: {
+    decisoesTomadas: "Criar um conselho consultivo com critérios objetivos de liderança, tirando a disputa do campo pessoal.",
+    temasNovaConversa: "A remuneração de cada um dentro do novo modelo de liderança ainda precisa ser conversada à parte.",
+  },
+  planoF7: [
+    {
+      id: 1,
+      acao: "Formalizar os critérios do conselho consultivo com apoio jurídico.",
+      responsavel: "Advogado da família",
+      prazo: "45 dias",
+      status: "Em andamento",
+    },
+    {
+      id: 2,
+      acao: "Realizar a primeira reunião do conselho consultivo.",
+      responsavel: "Eduardo e Rogério",
+      prazo: "60 dias",
+      status: "Não iniciado",
+    },
+  ],
+};
+
+function Ferramenta7App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F7_CONTEXTUALIZAR);
+  const [contexto, setContexto] = useState({
+    assunto: "",
+    porque: "",
+    participantes: "",
+    data: "",
+    facilitador: "",
+  });
+  const [percepcoes, setPercepcoes] = useState([
+    { id: 1, participante: "", pensa: "", preocupa: "" },
+  ]);
+  const [interesses, setInteresses] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [divergencias, setDivergencias] = useState([
+    { id: 1, divergencia: "", negociavel: "", tratamento: "" },
+  ]);
+  const [organizacao, setOrganizacao] = useState([
+    { id: 1, decisao: "", responsavel: "", prazo: "" },
+  ]);
+  const [reflexaoF7, setReflexaoF7] = useState({
+    chamouAtencao: "",
+    aprendiSobreOutros: "",
+    conduzirDiferente: "",
+  });
+  const [consolidacaoF7, setConsolidacaoF7] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [decisaoF7, setDecisaoF7] = useState({ decisoesTomadas: "", temasNovaConversa: "" });
+  const [planoF7, setPlanoF7] = useState([
+    { id: 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+  ]);
+
+  const carregarExemploF7 = () => {
+    setContexto(ANDRADE_EXEMPLO_F7.contexto);
+    setPercepcoes(ANDRADE_EXEMPLO_F7.percepcoes);
+    setInteresses(ANDRADE_EXEMPLO_F7.interesses);
+    setDivergencias(ANDRADE_EXEMPLO_F7.divergencias);
+    setOrganizacao(ANDRADE_EXEMPLO_F7.organizacao);
+    setReflexaoF7(ANDRADE_EXEMPLO_F7.reflexaoF7);
+    setConsolidacaoF7(ANDRADE_EXEMPLO_F7.consolidacaoF7);
+    setDecisaoF7(ANDRADE_EXEMPLO_F7.decisaoF7);
+    setPlanoF7(ANDRADE_EXEMPLO_F7.planoF7);
+    setStep(STEP_F7_RESOLVER);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F7_CONTEXTUALIZAR) {
+      return contexto.assunto.trim().length > 3 && contexto.participantes.trim().length > 0;
+    }
+    if (step === STEP_F7_LEVANTAR) {
+      return percepcoes.some((p) => p.participante.trim() && p.pensa.trim());
+    }
+    if (step === STEP_F7_ALINHAR) {
+      return interesses.some((i) => i.comportamento.trim());
+    }
+    if (step === STEP_F7_RESOLVER) {
+      return divergencias.some((d) => d.divergencia.trim());
+    }
+    if (step === STEP_F7_ORGANIZAR) {
+      return organizacao.some((o) => o.decisao.trim() && o.responsavel.trim());
+    }
+    if (step === STEP_F7_REFLEXAO) {
+      return (
+        reflexaoF7.chamouAtencao.trim().length > 3 &&
+        reflexaoF7.aprendiSobreOutros.trim().length > 3 &&
+        reflexaoF7.conduzirDiferente.trim().length > 3
+      );
+    }
+    if (step === STEP_F7_CONSOLIDACAO) {
+      return consolidacaoF7.some((c) => c.comportamento.trim() && c.motivo.trim());
+    }
+    if (step === STEP_F7_DECISAO) {
+      return (
+        decisaoF7.decisoesTomadas.trim().length > 3 && decisaoF7.temasNovaConversa.trim().length > 0
+      );
+    }
+    if (step === STEP_F7_PLANO) {
+      return planoF7.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F7_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F7_CONTEXTUALIZAR, s - 1));
+
+  return (
+    <>
+      <Header7 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F7_CONTEXTUALIZAR && (
+          <StepContextualizar contexto={contexto} setContexto={setContexto} onCarregarExemplo={carregarExemploF7} />
+        )}
+        {step === STEP_F7_LEVANTAR && (
+          <StepLevantarPercepcoes percepcoes={percepcoes} setPercepcoes={setPercepcoes} />
+        )}
+        {step === STEP_F7_ALINHAR && (
+          <StepAlinharInteresses interesses={interesses} setInteresses={setInteresses} />
+        )}
+        {step === STEP_F7_RESOLVER && (
+          <StepResolverDivergencias divergencias={divergencias} setDivergencias={setDivergencias} />
+        )}
+        {step === STEP_F7_ORGANIZAR && (
+          <StepOrganizarPassos organizacao={organizacao} setOrganizacao={setOrganizacao} />
+        )}
+        {step === STEP_F7_REFLEXAO && (
+          <StepReflexaoF7 reflexaoF7={reflexaoF7} setReflexaoF7={setReflexaoF7} contexto={contexto} />
+        )}
+        {step === STEP_F7_CONSOLIDACAO && (
+          <StepConsolidacaoF7
+            consolidacaoF7={consolidacaoF7}
+            setConsolidacaoF7={setConsolidacaoF7}
+            contexto={contexto}
+          />
+        )}
+        {step === STEP_F7_DECISAO && <StepDecisaoF7 decisaoF7={decisaoF7} setDecisaoF7={setDecisaoF7} />}
+        {step === STEP_F7_PLANO && (
+          <StepPlanoF7 planoF7={planoF7} setPlanoF7={setPlanoF7} decisaoF7={decisaoF7} contexto={contexto} />
+        )}
+        {step === STEP_F7_FECHAMENTO && (
+          <StepFechamentoF7
+            contexto={contexto}
+            divergencias={divergencias}
+            decisaoF7={decisaoF7}
+            planoF7={planoF7}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F7_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F7_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header7({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Contextualizar",
+    "Levantar Percepções",
+    "Alinhar Interesses",
+    "Resolver Divergências",
+    "Organizar Próximos Passos",
+    "Reflexão individual",
+    "Consolidação familiar",
+    "Decisão",
+    "Plano de ação",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F7_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Protocolo CLARO · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function ClaroGuiaMini({ atual }) {
+  return (
+    <div style={styles.claroGuiaRow}>
+      {ETAPAS_CLARO.map((e) => (
+        <div
+          key={e.letra}
+          style={{
+            ...styles.claroLetraBox,
+            background: e.letra === atual ? BLUE : "#EEF2F6",
+            color: e.letra === atual ? "#fff" : "#8A97A3",
+          }}
+        >
+          {e.letra}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function StepContextualizar({ contexto, setContexto, onCarregarExemplo }) {
+  const set = (field) => (e) => setContexto((c) => ({ ...c, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <ClaroGuiaMini atual="C" />
+      <span style={styles.eyebrowSmall}>PASSO 1 DE 9 · C — CONTEXTUALIZAR</span>
+      <h1 style={styles.h1}>Antes de reunir todo mundo, deixe claro sobre o quê é a conversa.</h1>
+      <p style={styles.lead}>
+        Preencha isso antes da conversa, e compartilhe com todos os participantes com
+        antecedência — ninguém deve chegar sem saber exatamente sobre o que vão falar.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Andrade (caso do livro)
+        </button>
+      </div>
+
+      <label style={styles.fieldLabel}>Assunto principal</label>
+      <input
+        style={{ ...styles.input, flex: "none" }}
+        value={contexto.assunto}
+        onChange={set("assunto")}
+        placeholder="Ex.: revisão da política de remuneração dos sócios"
+      />
+      <label style={styles.fieldLabel}>Por que é importante agora?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={contexto.porque}
+        onChange={set("porque")}
+        placeholder="O motivo real de tratar isso agora, não em outro momento…"
+      />
+      <label style={styles.fieldLabel}>Participantes</label>
+      <input
+        style={{ ...styles.input, flex: "none" }}
+        value={contexto.participantes}
+        onChange={set("participantes")}
+        placeholder="Ex.: os dois irmãos sócios e um facilitador externo"
+      />
+      <div style={styles.planoRow}>
+        <div style={styles.planoField}>
+          <label style={styles.fieldLabel}>Data</label>
+          <input
+            style={{ ...styles.input, flex: "none" }}
+            value={contexto.data}
+            onChange={set("data")}
+            placeholder="Ex.: 15/04"
+          />
+        </div>
+        <div style={styles.planoField}>
+          <label style={styles.fieldLabel}>Facilitador</label>
+          <input
+            style={{ ...styles.input, flex: "none" }}
+            value={contexto.facilitador}
+            onChange={set("facilitador")}
+            placeholder="Quem conduz as cinco etapas"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StepLevantarPercepcoes({ percepcoes, setPercepcoes }) {
+  const add = () =>
+    setPercepcoes((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, participante: "", pensa: "", preocupa: "" },
+    ]);
+  const remove = (id) => setPercepcoes((prev) => prev.filter((p) => p.id !== id));
+  const set = (id, field, val) =>
+    setPercepcoes((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: val } : p)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <ClaroGuiaMini atual="L" />
+      <span style={styles.eyebrowSmall}>PASSO 2 DE 9 · L — LEVANTAR PERCEPÇÕES</span>
+      <h1 style={styles.h1}>Durante a conversa, ouça todo mundo, sem interromper.</h1>
+      <p style={styles.lead}>
+        Registre o que cada participante pensa e o que mais o preocupa em relação ao tema.
+        Resista à vontade de responder ou se defender antes de todos falarem.
+      </p>
+
+      <div style={styles.familiaList}>
+        {percepcoes.map((p) => (
+          <div key={p.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <input
+                style={{ ...styles.input, flex: "1 1 200px" }}
+                value={p.participante}
+                onChange={(e) => set(p.id, "participante", e.target.value)}
+                placeholder="Nome do participante"
+              />
+              {percepcoes.length > 1 && (
+                <button onClick={() => remove(p.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <span style={styles.padraoInterpretacao}>O QUE PENSA</span>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={p.pensa}
+              onChange={(e) => set(p.id, "pensa", e.target.value)}
+              placeholder="Ex.: deveria assumir a presidência por ser o mais experiente"
+            />
+            <span style={styles.padraoInterpretacao}>O QUE PREOCUPA</span>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={p.preocupa}
+              onChange={(e) => set(p.id, "preocupa", e.target.value)}
+              placeholder="Ex.: perder espaço se o critério mudar"
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar participante
+      </button>
+    </div>
+  );
+}
+
+function StepAlinharInteresses({ interesses, setInteresses }) {
+  return (
+    <div style={styles.stepWrap}>
+      <ClaroGuiaMini atual="A" />
+      <span style={styles.eyebrowSmall}>PASSO 3 DE 9 · A — ALINHAR INTERESSES</span>
+      <h1 style={styles.h1}>Depois de ouvir todos, o que vocês querem, no fundo, em comum?</h1>
+      <p style={styles.lead}>
+        Identifique os interesses que aparecem em comum entre os participantes, mesmo que as
+        posições declaradas pareçam opostas. Não pule esta etapa: é ela que sustenta a resolução
+        das divergências.
+      </p>
+
+      <TabelaComportamentos
+        titulo="Interesses em comum"
+        linhas={interesses}
+        setLinhas={setInteresses}
+        labelComportamento="INTERESSE"
+        labelMotivo="QUEM COMPARTILHA"
+        placeholderComportamento="Ex.: preservar a união entre os irmãos"
+        placeholderMotivo="Ex.: todos os participantes"
+      />
+    </div>
+  );
+}
+
+function StepResolverDivergencias({ divergencias, setDivergencias }) {
+  return (
+    <div style={styles.stepWrap}>
+      <ClaroGuiaMini atual="R" />
+      <span style={styles.eyebrowSmall}>PASSO 4 DE 9 · R — RESOLVER DIVERGÊNCIAS</span>
+      <h1 style={styles.h1}>Agora sim: trate cada divergência, uma de cada vez.</h1>
+      <p style={styles.lead}>
+        Liste cada divergência específica, identifique se ela é negociável, e combine como será
+        tratada. Separar o que é negociável do que não é vem antes de tentar resolver.
+      </p>
+
+      <TabelaTresColunas
+        titulo="Divergências"
+        linhas={divergencias}
+        setLinhas={setDivergencias}
+        campos={["divergencia", "negociavel", "tratamento"]}
+        labels={["DIVERGÊNCIA", "NEGOCIÁVEL?", "COMO SERÁ TRATADA"]}
+        placeholders={[
+          "Ex.: quem assume a presidência",
+          "Sim ou não",
+          "Ex.: critério técnico definido pelo conselho consultivo",
+        ]}
+      />
+    </div>
+  );
+}
+
+function StepOrganizarPassos({ organizacao, setOrganizacao }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setOrganizacao((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, decisao: "", responsavel: "", prazo: "" },
+    ]);
+  const removeAcao = (id) => setOrganizacao((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setOrganizacao((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirDecisoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F7}\n\n` +
+      `Você ajuda alguém que acabou de conduzir uma conversa difícil pelo Protocolo CLARO a ` +
+      `transformar isso em decisões concretas. Sugira 2 decisões plausíveis de exemplo pra uma ` +
+      `conversa sobre um tema sensível de sucessão familiar, cada uma no infinitivo, com ` +
+      `responsável e prazo. Isso é só um rascunho pra pessoa editar.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"decisao":"","responsavel":"","prazo":""},{"decisao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setOrganizacao(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              decisao: a.decisao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <ClaroGuiaMini atual="O" />
+      <span style={styles.eyebrowSmall}>PASSO 5 DE 9 · O — ORGANIZAR PRÓXIMOS PASSOS</span>
+      <h1 style={styles.h1}>Transforme a conversa em decisão, não em mais um ciclo sem fim.</h1>
+      <p style={styles.lead}>
+        Registre por escrito o que ficou decidido, com responsável e prazo — decisões faladas se
+        perdem com o tempo.
+      </p>
+
+      <button onClick={sugerirDecisoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando exemplo…" : "✦ Ver um exemplo de como registrar"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {organizacao.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>Decisão {i + 1}</span>
+              {organizacao.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.decisao}
+              onChange={(e) => setAcao(a.id, "decisao", e.target.value)}
+              placeholder="Ex.: criar conselho consultivo"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 60 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra decisão
+      </button>
+    </div>
+  );
+}
+
+function StepReflexaoF7({ reflexaoF7, setReflexaoF7, contexto }) {
+  const set = (field) => (e) => setReflexaoF7((r) => ({ ...r, [field]: e.target.value }));
+  const contextoTexto = contexto.assunto ? `conversa sobre "${contexto.assunto}"` : "conversa difícil pelo Protocolo CLARO";
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 6 DE 9 · REFLEXÃO INDIVIDUAL</span>
+      <h1 style={styles.h1}>Sozinho, logo depois da conversa.</h1>
+      <p style={styles.lead}>
+        Ninguém além de você vai ler isso agora. Escreva o que for verdade, não o que soa bem de
+        dizer em família.
+      </p>
+
+      <CampoReflexao
+        pergunta="O que mais me chamou atenção nesta conversa?"
+        valor={reflexaoF7.chamouAtencao}
+        onChange={set("chamouAtencao")}
+        placeholder="O momento ou a fala que mais se destacou pra você durante o processo…"
+        contexto={contextoTexto}
+        contextoLivro={LIVRO_CONTEXTO_F7}
+      />
+      <CampoReflexao
+        pergunta="O que aprendi sobre os demais participantes?"
+        valor={reflexaoF7.aprendiSobreOutros}
+        onChange={set("aprendiSobreOutros")}
+        placeholder="Uma percepção nova sobre como a outra pessoa pensa ou sente em relação ao tema…"
+        contexto={contextoTexto}
+        contextoLivro={LIVRO_CONTEXTO_F7}
+      />
+      <CampoReflexao
+        pergunta="O que poderia ter sido conduzido de forma diferente?"
+        valor={reflexaoF7.conduzirDiferente}
+        onChange={set("conduzirDiferente")}
+        placeholder="Um ajuste que melhoraria a condução dessa conversa da próxima vez…"
+        contexto={contextoTexto}
+        contextoLivro={LIVRO_CONTEXTO_F7}
+      />
+    </div>
+  );
+}
+
+function StepConsolidacaoF7({ consolidacaoF7, setConsolidacaoF7, contexto }) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const prompt =
+      `${LIVRO_CONTEXTO_F7}\n\n` +
+      `Você ajuda alguém que conduziu uma conversa pelo Protocolo CLARO, sobre "${contexto.assunto || "um tema sensível"}", ` +
+      `a se preparar pra Consolidação Familiar.\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa começar essa conversa de consolidação, ` +
+      `focando em como as descobertas individuais devem mudar futuras conversas. Formate como ` +
+      `lista curta. Responda só com as frases, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 7 DE 9 · CONSOLIDAÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
+      <p style={styles.lead}>
+        Registrem, na coluna Impacto, como cada descoberta deve influenciar futuras conversas.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <TabelaComportamentos
+        titulo="Descobertas e impactos"
+        linhas={consolidacaoF7}
+        setLinhas={setConsolidacaoF7}
+        labelComportamento="DESCOBERTA"
+        labelMotivo="IMPACTO"
+        placeholderComportamento="Ex.: os dois irmãos nunca tinham verbalizado que queriam a mesma coisa"
+        placeholderMotivo="Ex.: vamos sempre alinhar interesses antes de discutir posições"
+      />
+    </div>
+  );
+}
+
+function StepDecisaoF7({ decisaoF7, setDecisaoF7 }) {
+  const set = (field) => (e) => setDecisaoF7((d) => ({ ...d, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 8 DE 9 · DECISÃO</span>
+      <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Um resumo objetivo do que ficou decidido, e do que ainda precisa de uma nova conversa.
+      </p>
+
+      <label style={styles.fieldLabel}>Quais decisões foram tomadas?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF7.decisoesTomadas}
+        onChange={set("decisoesTomadas")}
+        placeholder="Resumo objetivo do que ficou decidido ao final da conversa…"
+      />
+      <label style={styles.fieldLabel}>Quais temas exigirão novas conversas?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF7.temasNovaConversa}
+        onChange={set("temasNovaConversa")}
+        placeholder="Assuntos que ainda não foram resolvidos e precisam de um novo ciclo do Protocolo CLARO…"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF7({ planoF7, setPlanoF7, decisaoF7, contexto }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setPlanoF7((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+    ]);
+  const removeAcao = (id) => setPlanoF7((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF7((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F7}\n\n` +
+      `Você ajuda alguém que já percorreu o Protocolo CLARO a transformar a decisão em um plano ` +
+      `de ação. Contexto:\n` +
+      `${contexto.assunto ? `- Assunto da conversa: "${contexto.assunto}"\n` : ""}` +
+      `${decisaoF7.decisoesTomadas ? `- Decisões tomadas: "${decisaoF7.decisoesTomadas}"\n` : ""}\n` +
+      `Sugira 2-3 ações em sequência cronológica, cada uma no infinitivo, com responsável e ` +
+      `prazo. Lembre que isso ainda precisa ser negociado em família.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF7(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              acao: a.acao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+              status: "Não iniciado",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 9 DE 9 · PLANO DE AÇÃO</span>
+      <h1 style={styles.h1}>Transforme as decisões em ações, com status de acompanhamento.</h1>
+      <p style={styles.lead}>
+        Cada ação tem um status — volte aqui daqui a algumas semanas e atualize, pra saber se os
+        compromissos foram cumpridos de verdade.
+      </p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {planoF7.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF7.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: formalizar os critérios do conselho consultivo…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 45 dias"
+                />
+              </div>
+            </div>
+            <label style={styles.fieldLabel}>Status</label>
+            <div style={styles.envioButtonsRow}>
+              {STATUS_ACAO_F7.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setAcao(a.id, "status", s)}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: a.status === s ? BLUE : "#E4EAF0",
+                    background: a.status === s ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF7({ contexto, divergencias, decisaoF7, planoF7, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const divergenciasPreenchidas = divergencias.filter((d) => d.divergencia.trim());
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 7,
+      notas: { assunto: contexto.assunto, contexto },
+      conflito: { divergencias: divergenciasPreenchidas },
+      decisao_final: decisaoF7,
+      plano_acao: planoF7,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const prompt =
+      `${LIVRO_CONTEXTO_F7}\n\n` +
+      `Alguém completou o Protocolo CLARO sobre "${contexto.assunto || "um tema sensível"}". ` +
+      `${decisaoF7.decisoesTomadas ? `Decisões tomadas: "${decisaoF7.decisoesTomadas}".` : ""}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que o silêncio custa caro e que a ` +
+      `estrutura da conversa é o que faz a diferença entre impasse e decisão. Tom direto, sem ` +
+      `clichês de autoajuda. Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const assunto = contexto.assunto
+        ? `Protocolo CLARO — ${contexto.assunto}`
+        : "Nosso resultado — Protocolo CLARO";
+      notifyConsultor(assunto, montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Protocolo CLARO",
+      "",
+      `Assunto: ${contexto.assunto || "—"}`,
+      `Participantes: ${contexto.participantes || "—"}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      `Decisões tomadas: ${decisaoF7.decisoesTomadas || "—"}`,
+      `Temas que exigem nova conversa: ${decisaoF7.temasNovaConversa || "—"}`,
+      "",
+      "Plano de ação:",
+      planoF7
+        .filter((a) => a.acao.trim())
+        .map(
+          (a, i) =>
+            `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"} — Status: ${a.status || "—"}`
+        )
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && (
+          <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>
+        )}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Protocolo CLARO, resumido.</h1>
+      <p style={styles.decisionEcho}>&ldquo;{contexto.assunto}&rdquo;</p>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese ||
+                "O silêncio custa caro. Estruturar a conversa é o que separa impasse de decisão."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.fechamentoBox}>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>DECISÕES TOMADAS</span>
+          <span style={styles.fechamentoValue}>{decisaoF7.decisoesTomadas || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>TEMAS PRA NOVA CONVERSA</span>
+          <span style={styles.fechamentoValue}>{decisaoF7.temasNovaConversa || "—"}</span>
+        </div>
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF7
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>STATUS</span>
+                <span style={styles.fechamentoValue}>{a.status || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês contextualizaram, ouviram, alinharam interesses, resolveram divergências e
+          organizaram próximos passos. O que falta agora é colocar em prática, e revisar em 30
+          dias se os compromissos foram cumpridos.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
   return (
     <div style={styles.footer} className="no-print">
@@ -9328,5 +10500,17 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  claroGuiaRow: { display: "flex", gap: 6, marginBottom: 4 },
+  claroLetraBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 800,
+    fontSize: 14,
+    transition: "all 0.2s ease",
   },
 };
