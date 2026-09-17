@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: "Sucessão em Movimento <onboarding@resend.dev>",
-        to: ["marcelo@wietha.com.br"],
+        to: ["marcelow7@gmail.com"],
         subject: assunto,
         text: corpo,
       }),
@@ -43,4 +43,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: String(err) });
   }
 }
-
