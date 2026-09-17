@@ -1532,14 +1532,82 @@ function Catalogo({
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
+  const handlers = {
+    1: onAbrirFerramenta1,
+    2: onAbrirFerramenta2,
+    3: onAbrirFerramenta3,
+    4: onAbrirFerramenta4,
+    5: onAbrirFerramenta5,
+    6: onAbrirFerramenta6,
+  };
+
+  const [envioAberto, setEnvioAberto] = useState(null);
+  const [nomeEnvio, setNomeEnvio] = useState("");
+  const [papelEnvio, setPapelEnvio] = useState("fundador");
+  const [linkGerado, setLinkGerado] = useState(null);
+  const [gerandoEnvio, setGerandoEnvio] = useState(false);
+  const [erroEnvio, setErroEnvio] = useState(false);
+  const [copiado, setCopiado] = useState(false);
+
+  const abrirEnvio = (n) => (e) => {
+    e.stopPropagation();
+    setEnvioAberto(envioAberto === n ? null : n);
+    setNomeEnvio("");
+    setPapelEnvio("fundador");
+    setLinkGerado(null);
+    setErroEnvio(false);
+    setCopiado(false);
+  };
+
+  const gerarLinkRapido = async (n) => {
+    if (!nomeEnvio.trim()) return;
+    setGerandoEnvio(true);
+    setErroEnvio(false);
+    try {
+      const novoId = crypto.randomUUID();
+      const row =
+        n === 1
+          ? {
+              id: novoId,
+              ferramenta_numero: 1,
+              papel: papelEnvio,
+              nome_destinatario: nomeEnvio.trim(),
+              status: "pendente",
+            }
+          : {
+              id: novoId,
+              ferramenta_numero: n,
+              nome_destinatario: nomeEnvio.trim(),
+              status: "pendente",
+            };
+      await supabaseInsert("envios", row);
+      const base = window.location.href.split("?")[0];
+      const url =
+        n === 1 ? `${base}?ferramenta=1&papel=${papelEnvio}&envio=${novoId}` : `${base}?ferramenta=${n}&envio=${novoId}`;
+      setLinkGerado(url);
+    } catch (e) {
+      setErroEnvio(true);
+    } finally {
+      setGerandoEnvio(false);
+    }
+  };
+
+  const copiarLink = () => {
+    navigator.clipboard.writeText(linkGerado).then(() => {
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    });
+  };
+
   return (
     <div style={styles.catalogoWrap}>
       <div style={styles.catalogoHeader}>
         <span style={styles.eyebrow}>MÉTODO MOVER · 15 FERRAMENTAS</span>
         <h1 style={styles.catalogoH1}>Catálogo de diagnósticos</h1>
         <p style={styles.lead}>
-          Organizadas pelas cinco etapas do método. As Ferramentas 01, 02, 03, 04, 05 e 06 já
-          estão digitalizadas, as demais aparecem como referência.
+          Organizadas pelas cinco etapas do método. Clique num card disponível pra abrir a
+          ferramenta na hora, ou use "Enviar pra alguém" pra gerar um link individual sem sair
+          daqui. As demais ferramentas aparecem como referência.
         </p>
       </div>
 
@@ -1553,20 +1621,92 @@ function Catalogo({
             </div>
           </div>
           <div style={styles.ferramentasGrid}>
-            {grupo.ferramentas.map((f) => (
-              <div
-                key={f.n}
-                style={{ ...styles.ferramentaCard, opacity: f.ativa ? 1 : 0.55 }}
-              >
-                <span style={styles.ferramentaNum}>{String(f.n).padStart(2, "0")}</span>
-                <span style={styles.ferramentaNome}>{f.nome}</span>
-                {f.ativa ? (
-                  <span style={styles.ferramentaAtiva}>Disponível</span>
-                ) : (
-                  <span style={styles.ferramentaEmBreve}>Em breve</span>
-                )}
-              </div>
-            ))}
+            {grupo.ferramentas.map((f) => {
+              const abrir = handlers[f.n];
+              const clicavel = f.ativa && abrir;
+              const envioAbertoAqui = envioAberto === f.n;
+              return (
+                <div
+                  key={f.n}
+                  onClick={clicavel ? abrir : undefined}
+                  role={clicavel ? "button" : undefined}
+                  tabIndex={clicavel ? 0 : undefined}
+                  onKeyDown={
+                    clicavel
+                      ? (e) => {
+                          if (e.key === "Enter" || e.key === " ") abrir();
+                        }
+                      : undefined
+                  }
+                  style={{
+                    ...styles.ferramentaCard,
+                    opacity: f.ativa ? 1 : 0.55,
+                    cursor: clicavel ? "pointer" : "default",
+                    borderColor: f.ativa ? BLUE : "#EEF2F6",
+                    background: f.ativa ? "#F5F9FE" : "#FAFBFC",
+                  }}
+                >
+                  <span style={styles.ferramentaNum}>{String(f.n).padStart(2, "0")}</span>
+                  <span style={styles.ferramentaNome}>{f.nome}</span>
+                  {f.ativa ? (
+                    <>
+                      <span style={styles.ferramentaAtiva}>Disponível →</span>
+                      <button onClick={abrirEnvio(f.n)} style={styles.enviarCardLink} type="button">
+                        {envioAbertoAqui ? "✕ Fechar" : "✉ Enviar pra alguém"}
+                      </button>
+                    </>
+                  ) : (
+                    <span style={styles.ferramentaEmBreve}>Em breve</span>
+                  )}
+
+                  {envioAbertoAqui && (
+                    <div style={styles.enviarCardBox} onClick={(e) => e.stopPropagation()}>
+                      {!linkGerado ? (
+                        <>
+                          <input
+                            style={{ ...styles.input, flex: "none" }}
+                            value={nomeEnvio}
+                            onChange={(e) => setNomeEnvio(e.target.value)}
+                            placeholder="Nome da pessoa"
+                          />
+                          {f.n === 1 && (
+                            <select
+                              style={{ ...styles.input, flex: "none" }}
+                              value={papelEnvio}
+                              onChange={(e) => setPapelEnvio(e.target.value)}
+                            >
+                              {ROLES.map((r) => (
+                                <option key={r.key} value={r.key}>
+                                  {r.label}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                          <button
+                            onClick={() => gerarLinkRapido(f.n)}
+                            disabled={!nomeEnvio.trim() || gerandoEnvio}
+                            style={styles.demoLink}
+                            type="button"
+                          >
+                            {gerandoEnvio ? "Gerando…" : "Gerar link →"}
+                          </button>
+                          {erroEnvio && (
+                            <span style={styles.saveStatusErr}>Não deu pra gerar, tente de novo.</span>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <span style={styles.papelDescricao}>{linkGerado}</span>
+                          <button onClick={copiarLink} style={styles.demoLink} type="button">
+                            {copiado ? "✓ Copiado!" : "Copiar link"}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}
@@ -1581,30 +1721,6 @@ function Catalogo({
           Adicionar pessoas e gerar links →
         </button>
       </div>
-
-      <button onClick={onAbrirFerramenta1} style={styles.ctaButton}>
-        Abrir Ferramenta 01 agora →
-      </button>
-
-      <button onClick={onAbrirFerramenta2} style={styles.ctaButton}>
-        Abrir Ferramenta 02 agora →
-      </button>
-
-      <button onClick={onAbrirFerramenta3} style={styles.ctaButton}>
-        Abrir Ferramenta 03 agora →
-      </button>
-
-      <button onClick={onAbrirFerramenta4} style={styles.ctaButton}>
-        Abrir Ferramenta 04 agora →
-      </button>
-
-      <button onClick={onAbrirFerramenta5} style={styles.ctaButton}>
-        Abrir Ferramenta 05 agora →
-      </button>
-
-      <button onClick={onAbrirFerramenta6} style={styles.ctaButton}>
-        Abrir Ferramenta 06 agora →
-      </button>
 
       <button onClick={onAbrirComparacao} style={styles.restartButton}>
         Comparar resultados de mais de uma pessoa da família →
@@ -8558,6 +8674,29 @@ const styles = {
   ferramentaNome: { fontSize: 13, fontWeight: 600, color: NAVY, lineHeight: 1.3 },
   ferramentaAtiva: { fontSize: 10.5, fontWeight: 700, color: "#2E7D32" },
   ferramentaEmBreve: { fontSize: 10.5, fontWeight: 700, color: "#B0BAC4" },
+  enviarCardLink: {
+    background: "none",
+    border: "none",
+    padding: 0,
+    marginTop: 2,
+    fontSize: 11.5,
+    fontWeight: 600,
+    color: BLUE,
+    textDecoration: "underline",
+    cursor: "pointer",
+    textAlign: "left",
+    fontFamily: "inherit",
+  },
+  enviarCardBox: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    marginTop: 6,
+    padding: "10px 12px",
+    background: "#fff",
+    border: "1px solid #E4EAF0",
+    borderRadius: 8,
+  },
   envioBox: {
     display: "flex",
     flexDirection: "column",
@@ -8753,6 +8892,8 @@ const styles = {
     background: "#EAF2FB",
     border: "1px solid #CFE0F2",
     borderRadius: 10,
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
   },
   scriptText: { fontSize: 13.5, color: NAVY, margin: 0, lineHeight: 1.6, whiteSpace: "pre-line" },
   aprofundarBox: {
@@ -8842,13 +8983,31 @@ const styles = {
   eyebrowSmall: { color: BLUE, fontSize: 11, fontWeight: 700, letterSpacing: 1.2 },
   decisionEcho: { fontStyle: "italic", color: "#5A6B7A", fontSize: 15, margin: "-6px 0 6px" },
   resumoGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 4 },
-  resumoCard: { display: "flex", borderRadius: 10, overflow: "hidden", border: "1px solid #EEF2F6", background: "#FAFBFC" },
+  resumoCard: {
+    display: "flex",
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #EEF2F6",
+    background: "#FAFBFC",
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
+  },
   resumoBar: { width: 5 },
   resumoCardInner: { padding: "10px 12px", display: "flex", flexDirection: "column", gap: 2 },
   resumoName: { fontSize: 12, fontWeight: 700, color: NAVY, textTransform: "uppercase", letterSpacing: 0.4 },
   resumoValue: { fontSize: 13.5, color: "#3A4A58", lineHeight: 1.3 },
   resumoScore: { fontSize: 11.5, color: "#8A97A3" },
-  conflictBox: { marginTop: 8, background: NAVY, borderRadius: 12, padding: "18px 20px", display: "flex", flexDirection: "column", gap: 8 },
+  conflictBox: {
+    marginTop: 8,
+    background: NAVY,
+    borderRadius: 12,
+    padding: "18px 20px",
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
+  },
   conflictLabel: { color: LIGHTBLUE, fontSize: 11, fontWeight: 700, letterSpacing: 1 },
   conflictText: { color: "#fff", fontSize: 16, margin: 0, lineHeight: 1.4 },
   conflictHelp: { color: "#B9C8D8", fontSize: 13, margin: 0, lineHeight: 1.5 },
@@ -8861,6 +9020,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: 8,
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
   },
   unlockLabel: { color: BLUE, fontSize: 11, fontWeight: 700, letterSpacing: 1 },
   unlockWhere: { fontSize: 14.5, color: NAVY, margin: 0, lineHeight: 1.45 },
@@ -8950,6 +9111,8 @@ const styles = {
     padding: "12px 16px",
     borderBottom: "1px solid #EEF2F6",
     background: "#FAFBFC",
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
   },
   fechamentoLabel: { fontSize: 11, fontWeight: 700, color: "#8A97A3", letterSpacing: 0.5, minWidth: 100 },
   fechamentoValue: { fontSize: 13.5, color: NAVY, textAlign: "right", flex: 1 },
@@ -8965,7 +9128,15 @@ const styles = {
     cursor: "pointer",
     fontFamily: "inherit",
   },
-  ctaBox: { marginTop: 10, padding: "20px 22px", background: "#F4F7FA", borderRadius: 12, border: "1px solid #E4EAF0" },
+  ctaBox: {
+    marginTop: 10,
+    padding: "20px 22px",
+    background: "#F4F7FA",
+    borderRadius: 12,
+    border: "1px solid #E4EAF0",
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
+  },
   ctaForm: { display: "flex", flexDirection: "column", gap: 10 },
   ctaTitle: { fontSize: 16, fontWeight: 700, color: NAVY, margin: 0 },
   ctaSub: { fontSize: 13.5, color: "#5A6B7A", margin: 0, lineHeight: 1.5 },
@@ -9051,6 +9222,8 @@ const styles = {
     background: "#FAFBFC",
     border: "1px solid #E4EAF0",
     borderRadius: 10,
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
   },
   timelineTopRow: { display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" },
   padraoCard: {
@@ -9061,6 +9234,8 @@ const styles = {
     background: "#F7FAFD",
     border: "1px solid #E4EAF0",
     borderRadius: 12,
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
   },
   geracaoOption: {
     padding: "8px 12px",
