@@ -660,6 +660,87 @@ conversas por medo de conflito é um erro clássico. O que parece paz é apenas 
 superficial."
 `.trim();
 
+const TEMAS_SEMAFORO_F8 = [
+  "Reconhecimento",
+  "Remuneração",
+  "Promoções",
+  "Participação societária",
+  "Entrada de familiares na empresa",
+  "Escolha de sucessores",
+  "Distribuição de dividendos",
+  "Conflitos antigos",
+  "Falta de comunicação",
+  "Decisões consideradas injustas",
+];
+
+const CORES_SEMAFORO_F8 = {
+  verde: { label: "Verde", cor: "#1E7A3D", desc: "Tema resolvido ou que não gera desconforto significativo." },
+  amarelo: { label: "Amarelo", cor: "#B8860B", desc: "Tema que merece atenção antes de se transformar em conflito." },
+  vermelho: { label: "Vermelho", cor: "#B3261E", desc: "Tema que já está impactando relacionamentos, confiança ou decisões." },
+};
+
+const LIVRO_CONTEXTO_F8 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 08 · Semáforo dos Temas
+Sensíveis):
+
+PROPÓSITO: identificar ressentimentos silenciosos, frustrações acumuladas e temas não resolvidos
+que podem comprometer a continuidade da família empresária, classificando-os por prioridade de
+atenção, pra que sejam tratados antes de se tornarem conflitos abertos ou decisões travadas.
+
+O QUE RESOLVE: muita coisa que parece "só o jeito da família ser" — um clima meio tenso em certas
+reuniões, uma decisão que sempre esbarra no mesmo obstáculo — na verdade é ressentimento acumulado
+que nunca foi nomeado. O Semáforo oferece um sistema simples (verde, amarelo, vermelho) pra nomear
+o que está, e o que não está, resolvido de verdade.
+
+GUIA DE INTERPRETAÇÃO DAS CORES:
+- Verde: tema resolvido ou que não gera desconforto significativo hoje. Nenhuma ação necessária.
+- Amarelo: tema que merece atenção antes de se transformar em conflito aberto. Monitorar de
+  perto e considerar uma conversa preventiva.
+- Vermelho: tema que já está impactando relacionamentos, confiança ou decisões. Tratar com
+  prioridade, geralmente com o Protocolo CLARO (Ferramenta 07).
+
+O DADO MAIS REVELADOR NÃO É A COR ISOLADA, É A DIFERENÇA: quando pessoas diferentes da mesma
+família avaliam o mesmo tema com cores diferentes, essa diferença — mais do que qualquer vermelho
+isolado — costuma apontar exatamente onde a conversa precisa acontecer. A quantidade de temas
+vermelhos é menos importante que a disposição da família pra tratá-los: uma família com três
+vermelhos e disposição real de conversar está em posição melhor que uma família com um vermelho
+só que ninguém quer tocar.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Família Rangel (escolha do sucessor): Tiago foi escolhido presidente, aceito por todos na
+  aparência, mas o irmão mais novo Bruno marcou "Escolha de sucessores" como vermelho, enquanto
+  Tiago marcou como verde. Essa diferença sozinha revelou mais que dois anos de pequenos atritos
+  indiretos nunca nomeados. Resultado: conversa estruturada pelo Protocolo CLARO especificamente
+  sobre o CRITÉRIO de escolha, não sobre a escolha em si.
+- Sócios Coutinho (remuneração e reconhecimento): dois primos sócios, um operador e um
+  investidor. O sócio operador marcou "Remuneração" e "Reconhecimento" como vermelho; o
+  investidor, como verde. A virada: o desconforto do operador não era sobre valor em dividendos,
+  era sobre reconhecimento do esforço diário, nunca nomeado nas conversas sobre números.
+  Resultado: relatório trimestral de contribuição operacional criado. "Eu não queria mais
+  dinheiro. Queria que alguém dissesse que via o que eu fazia", disse o sócio operador.
+- Família Salgado (decisão antiga considerada injusta): uma irmã sentia, há mais de 15 anos, que
+  a divisão de um imóvel herdado favoreceu os outros dois irmãos — nunca reaberto por medo de
+  parecer mesquinha. Ela marcou "Decisões consideradas injustas" como vermelho; os irmãos, como
+  verde, sem sequer saber que o tema ainda estava aberto. Resultado: revisão formal do
+  entendimento patrimonial com apoio jurídico, mesmo sem alterar a divisão original. "Eu não
+  queria desfazer a divisão. Só queria que alguém admitisse que doeu", disse a irmã.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): achar que o objetivo é zerar todos os
+vermelhos de uma vez — a prioridade certa é escolher por onde começar, não resolver tudo
+simultaneamente; preencher tentando adivinhar a percepção do outro, em vez de registrar a própria
+percepção com sinceridade; comparar respostas de forma competitiva — quem marcou mais vermelhos
+não sofre mais, a diferença é informação, não ranking; aplicar sozinho e nunca compartilhar os
+resultados, perdendo justamente o efeito de comparação; tratar um Amarelo como se fosse Verde só
+porque é mais confortável não falar sobre ele — Amarelo é aviso, não deve ser ignorado.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Chegamos às cicatrizes ocultas.
+Os ressentimentos antigos, comparações, rivalidades entre irmãos e/ou primos e expectativas não
+atendidas são feridas emocionais que, se não atendidas, têm o poder de boicotar o processo."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -708,7 +789,7 @@ const FERRAMENTAS_CATALOGO = [
     cor: BLUE,
     ferramentas: [
       { n: 7, nome: "Protocolo CLARO", ativa: true },
-      { n: 8, nome: "Semáforo dos Temas Sensíveis", ativa: false },
+      { n: 8, nome: "Semáforo dos Temas Sensíveis", ativa: true },
       { n: 9, nome: "Mapa de Ruídos Relacionais", ativa: false },
     ],
   },
@@ -1172,6 +1253,8 @@ export default function App() {
         setView("ferramenta6");
       } else if (ferramentaParam === "7") {
         setView("ferramenta7");
+      } else if (ferramentaParam === "8") {
+        setView("ferramenta8");
       }
     } catch (e) {
       /* ignore */
@@ -1352,6 +1435,10 @@ export default function App() {
     setView("ferramenta7");
   };
 
+  const abrirFerramenta8 = () => {
+    setView("ferramenta8");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1364,6 +1451,7 @@ export default function App() {
             onAbrirFerramenta5={abrirFerramenta5}
             onAbrirFerramenta6={abrirFerramenta6}
             onAbrirFerramenta7={abrirFerramenta7}
+            onAbrirFerramenta8={abrirFerramenta8}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1447,6 +1535,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta7App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta8") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta8App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1648,6 +1746,7 @@ function Catalogo({
   onAbrirFerramenta5,
   onAbrirFerramenta6,
   onAbrirFerramenta7,
+  onAbrirFerramenta8,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -1659,6 +1758,7 @@ function Catalogo({
     5: onAbrirFerramenta5,
     6: onAbrirFerramenta6,
     7: onAbrirFerramenta7,
+    8: onAbrirFerramenta8,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -1925,6 +2025,7 @@ function NovaFamilia({ onVoltar }) {
       "5": "Ferramenta 05 · Ponte de Gerações",
       "6": "Ferramenta 06 · Índice de Confiança",
       "7": "Ferramenta 07 · Protocolo CLARO",
+      "8": "Ferramenta 08 · Semáforo dos Temas",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -1970,6 +2071,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="5">Ferramenta 05 · Ponte</option>
               <option value="6">Ferramenta 06 · ICS</option>
               <option value="7">Ferramenta 07 · CLARO</option>
+              <option value="8">Ferramenta 08 · Semáforo</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2105,7 +2207,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -9777,6 +9879,919 @@ function StepFechamentoF7({ contexto, divergencias, decisaoF7, planoF7, onReinic
   );
 }
 
+const STEP_F8_SEMAFORO = 0;
+const STEP_F8_RESULTADO = 1;
+const STEP_F8_TEMAS_VERMELHOS = 2;
+const STEP_F8_REFLEXAO = 3;
+const STEP_F8_CONSOLIDACAO = 4;
+const STEP_F8_DECISAO = 5;
+const STEP_F8_PLANO = 6;
+const STEP_F8_FECHAMENTO = 7;
+
+function initTemasF8() {
+  return TEMAS_SEMAFORO_F8.map((nome, i) => ({ id: i + 1, nome, cor: null, custom: false }));
+}
+
+const BRUNO_EXEMPLO_F8 = {
+  temas: [
+    { id: 1, nome: "Reconhecimento", cor: "amarelo", custom: false },
+    { id: 2, nome: "Remuneração", cor: "verde", custom: false },
+    { id: 3, nome: "Promoções", cor: "verde", custom: false },
+    { id: 4, nome: "Participação societária", cor: "verde", custom: false },
+    { id: 5, nome: "Entrada de familiares na empresa", cor: "amarelo", custom: false },
+    { id: 6, nome: "Escolha de sucessores", cor: "vermelho", custom: false },
+    { id: 7, nome: "Distribuição de dividendos", cor: "verde", custom: false },
+    { id: 8, nome: "Conflitos antigos", cor: "amarelo", custom: false },
+    { id: 9, nome: "Falta de comunicação", cor: "vermelho", custom: false },
+    { id: 10, nome: "Decisões consideradas injustas", cor: "verde", custom: false },
+  ],
+  temasVermelhosDetalhe: [
+    {
+      id: 1,
+      tema: "Escolha de sucessores",
+      porque: "Nunca foi discutido abertamente entre nós dois, mesmo com decisões operacionais esbarrando nisso há dois anos.",
+      conversa: "Conversa sobre o critério de escolha do sucessor, usando o Protocolo CLARO, não sobre a escolha em si.",
+    },
+    {
+      id: 2,
+      tema: "Falta de comunicação",
+      porque: "A gente só conversa sobre operação, nunca sobre como cada um está se sentindo dentro da empresa.",
+      conversa: "Um espaço regular, fora da pauta operacional, só pra alinhar expectativas.",
+    },
+  ],
+  reflexaoF8: {
+    temaChamouAtencao: "Ver que marquei 'Escolha de sucessores' de vermelho me surpreendeu — achei que já tinha aceitado.",
+    ressentimentoSemSolucao: "A sensação de que fui preterido sem nunca ter sido consultado sobre o critério.",
+    conversaEvitando: "Perguntar ao meu pai por que ele escolheu o Tiago, e não eu.",
+    oQuePrecisoFazer: "Parar de esperar que alguém puxe esse assunto e marcar eu mesmo essa conversa.",
+  },
+  consolidacaoF8: [
+    {
+      id: 1,
+      comportamento: "Um de nós via a escolha do sucessor como vermelha, o outro como verde.",
+      motivo: "Vamos abrir uma conversa estruturada sobre o critério de escolha, pelo Protocolo CLARO.",
+    },
+  ],
+  decisaoF8: {
+    tratarImediatamente: "Escolha de sucessores — é o tema com maior diferença de percepção entre nós.",
+    exigemPreparacao: "Falta de comunicação exige um formato novo de conversa, não só uma reunião a mais.",
+    conversasAgendadas: "Conversa sobre o critério de escolha do sucessor, com facilitador externo, em 3 semanas.",
+  },
+  planoF8: [
+    {
+      id: 1,
+      acao: "Agendar conversa pelo Protocolo CLARO sobre o critério de escolha do sucessor.",
+      responsavel: "Facilitador externo",
+      prazo: "30 dias",
+      status: "Não iniciado",
+    },
+  ],
+};
+
+function Ferramenta8App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F8_SEMAFORO);
+  const [temas, setTemas] = useState(initTemasF8());
+  const [temasVermelhosDetalhe, setTemasVermelhosDetalhe] = useState([]);
+  const [reflexaoF8, setReflexaoF8] = useState({
+    temaChamouAtencao: "",
+    ressentimentoSemSolucao: "",
+    conversaEvitando: "",
+    oQuePrecisoFazer: "",
+  });
+  const [consolidacaoF8, setConsolidacaoF8] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [decisaoF8, setDecisaoF8] = useState({
+    tratarImediatamente: "",
+    exigemPreparacao: "",
+    conversasAgendadas: "",
+  });
+  const [planoF8, setPlanoF8] = useState([
+    { id: 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+  ]);
+
+  const temasClassificados = useMemo(() => temas.filter((t) => t.cor !== null), [temas]);
+  const temasVermelhos = useMemo(() => temas.filter((t) => t.cor === "vermelho"), [temas]);
+  const contagem = useMemo(
+    () => ({
+      verde: temas.filter((t) => t.cor === "verde").length,
+      amarelo: temas.filter((t) => t.cor === "amarelo").length,
+      vermelho: temas.filter((t) => t.cor === "vermelho").length,
+    }),
+    [temas]
+  );
+
+  const carregarExemploF8 = () => {
+    setTemas(BRUNO_EXEMPLO_F8.temas);
+    setTemasVermelhosDetalhe(BRUNO_EXEMPLO_F8.temasVermelhosDetalhe);
+    setReflexaoF8(BRUNO_EXEMPLO_F8.reflexaoF8);
+    setConsolidacaoF8(BRUNO_EXEMPLO_F8.consolidacaoF8);
+    setDecisaoF8(BRUNO_EXEMPLO_F8.decisaoF8);
+    setPlanoF8(BRUNO_EXEMPLO_F8.planoF8);
+    setStep(STEP_F8_RESULTADO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F8_SEMAFORO) return temasClassificados.length >= temas.length;
+    if (step === STEP_F8_RESULTADO) return true;
+    if (step === STEP_F8_TEMAS_VERMELHOS) {
+      return temasVermelhos.length === 0 || temasVermelhosDetalhe.some((d) => d.porque.trim());
+    }
+    if (step === STEP_F8_REFLEXAO) {
+      return (
+        reflexaoF8.temaChamouAtencao.trim().length > 3 &&
+        reflexaoF8.ressentimentoSemSolucao.trim().length > 3 &&
+        reflexaoF8.conversaEvitando.trim().length > 3 &&
+        reflexaoF8.oQuePrecisoFazer.trim().length > 3
+      );
+    }
+    if (step === STEP_F8_CONSOLIDACAO) {
+      return consolidacaoF8.some((c) => c.comportamento.trim() && c.motivo.trim());
+    }
+    if (step === STEP_F8_DECISAO) {
+      return decisaoF8.tratarImediatamente.trim().length > 3;
+    }
+    if (step === STEP_F8_PLANO) {
+      return planoF8.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F8_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F8_SEMAFORO, s - 1));
+
+  return (
+    <>
+      <Header8 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F8_SEMAFORO && (
+          <StepSemaforo temas={temas} setTemas={setTemas} onCarregarExemplo={carregarExemploF8} />
+        )}
+        {step === STEP_F8_RESULTADO && <StepResultadoF8 temas={temas} contagem={contagem} />}
+        {step === STEP_F8_TEMAS_VERMELHOS && (
+          <StepTemasVermelhos
+            temasVermelhos={temasVermelhos}
+            temasVermelhosDetalhe={temasVermelhosDetalhe}
+            setTemasVermelhosDetalhe={setTemasVermelhosDetalhe}
+          />
+        )}
+        {step === STEP_F8_REFLEXAO && (
+          <StepReflexaoF8 reflexaoF8={reflexaoF8} setReflexaoF8={setReflexaoF8} contagem={contagem} />
+        )}
+        {step === STEP_F8_CONSOLIDACAO && (
+          <StepConsolidacaoF8
+            consolidacaoF8={consolidacaoF8}
+            setConsolidacaoF8={setConsolidacaoF8}
+            temasVermelhos={temasVermelhos}
+          />
+        )}
+        {step === STEP_F8_DECISAO && <StepDecisaoF8 decisaoF8={decisaoF8} setDecisaoF8={setDecisaoF8} />}
+        {step === STEP_F8_PLANO && (
+          <StepPlanoF8 planoF8={planoF8} setPlanoF8={setPlanoF8} decisaoF8={decisaoF8} />
+        )}
+        {step === STEP_F8_FECHAMENTO && (
+          <StepFechamentoF8
+            temas={temas}
+            contagem={contagem}
+            decisaoF8={decisaoF8}
+            planoF8={planoF8}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F8_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F8_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header8({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Semáforo dos temas",
+    "Resultado",
+    "Temas vermelhos",
+    "Reflexão individual",
+    "Consolidação familiar",
+    "Decisão",
+    "Plano de ação",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F8_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Semáforo dos Temas Sensíveis · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepSemaforo({ temas, setTemas, onCarregarExemplo }) {
+  const [novoTema, setNovoTema] = useState("");
+  const setCor = (id, cor) => setTemas((prev) => prev.map((t) => (t.id === id ? { ...t, cor } : t)));
+  const addTemaCustom = () => {
+    if (!novoTema.trim()) return;
+    setTemas((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, nome: novoTema.trim(), cor: null, custom: true }]);
+    setNovoTema("");
+  };
+  const removeTema = (id) => setTemas((prev) => prev.filter((t) => t.id !== id));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 1 DE 7 · SEMÁFORO DOS TEMAS</span>
+      <h1 style={styles.h1}>Quais assuntos ainda estão presentes, mesmo sem ninguém falar deles?</h1>
+      <p style={styles.lead}>
+        Reflita sozinho sobre cada tema e marque a cor que melhor descreve como ele está hoje pra
+        você — não como você acha que os outros veem. Isso é confidencial, ninguém vai punir você
+        por marcar vermelho; essa é a informação mais valiosa da ferramenta.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Bruno, Família Rangel (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {temas.map((t) => (
+          <div key={t.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{t.nome}</span>
+              {t.custom && (
+                <button onClick={() => removeTema(t.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <div style={styles.envioButtonsRow}>
+              {Object.entries(CORES_SEMAFORO_F8).map(([key, c]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setCor(t.id, key)}
+                  style={{
+                    ...styles.semaforoBotao,
+                    borderColor: t.cor === key ? c.cor : "#E4EAF0",
+                    background: t.cor === key ? c.cor : "#fff",
+                    color: t.cor === key ? "#fff" : "#5A6B7A",
+                  }}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={styles.envioButtonsRow}>
+        <input
+          style={{ ...styles.input, flex: "1 1 200px" }}
+          value={novoTema}
+          onChange={(e) => setNovoTema(e.target.value)}
+          placeholder="Adicionar outro tema (opcional)"
+        />
+        <button onClick={addTemaCustom} type="button" style={styles.demoLink}>
+          + Adicionar
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function StepResultadoF8({ temas, contagem }) {
+  const [insight, setInsight] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const gerarInsight = () => {
+    setGerando(true);
+    setInsight(null);
+    const resumo = temas.map((t) => `${t.nome}: ${t.cor}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F8}\n\n` +
+      `Alguém preencheu o Semáforo dos Temas Sensíveis. Classificações: ${resumo}. ` +
+      `Contagem: ${contagem.verde} verdes, ${contagem.amarelo} amarelos, ${contagem.vermelho} vermelhos.\n\n` +
+      `Escreva um parágrafo curto (3-4 frases, no máximo 80 palavras) comentando o padrão geral ` +
+      `(não é sobre quantidade de vermelhos, é sobre disposição de tratar o que apareceu), ` +
+      `inspirando-se, sem citar nomes, no padrão de algum dos três casos reais do método. Tom ` +
+      `direto, acolhedor, sem clichês. Responda só com o texto, sem introdução, em português do ` +
+      `Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => setInsight(texto))
+      .catch(() => setInsight("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 2 DE 7 · RESULTADO</span>
+      <h1 style={styles.h1}>Seu painel de temas, cor por cor.</h1>
+      <p style={styles.lead}>
+        A quantidade de vermelhos importa menos do que parece — o que importa é a disposição de
+        tratá-los. O dado mais revelador costuma ser a diferença entre como cada pessoa da família
+        vê o mesmo tema, não o vermelho isolado.
+      </p>
+
+      <div style={styles.resumoGrid}>
+        {Object.entries(CORES_SEMAFORO_F8).map(([key, c]) => (
+          <div key={key} style={styles.resumoCard}>
+            <div style={{ ...styles.resumoBar, background: c.cor }} />
+            <div style={styles.resumoCardInner}>
+              <span style={styles.resumoName}>{c.label}</span>
+              <span style={{ ...styles.icsPainelNumero, fontSize: 28, color: c.cor }}>{contagem[key]}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={styles.familiaList}>
+        {temas.map((t) => (
+          <div key={t.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{t.nome}</span>
+              <span
+                style={{
+                  ...styles.ferramentaAtiva,
+                  color: "#fff",
+                  background: t.cor ? CORES_SEMAFORO_F8[t.cor].cor : "#B0BAC4",
+                  padding: "3px 10px",
+                  borderRadius: 6,
+                }}
+              >
+                {t.cor ? CORES_SEMAFORO_F8[t.cor].label : "—"}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {!insight && (
+        <button onClick={gerarInsight} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando leitura…" : "✦ O que esse painel pode significar"}
+        </button>
+      )}
+      {insight && (
+        <div style={styles.unlockBox}>
+          <span style={styles.unlockLabel}>LEITURA DO PAINEL</span>
+          <p style={styles.unlockHow}>{insight}</p>
+          <span style={styles.aiTag}>✦ gerado pra sua situação</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepTemasVermelhos({ temasVermelhos, temasVermelhosDetalhe, setTemasVermelhosDetalhe }) {
+  useEffect(() => {
+    if (temasVermelhos.length === 0) return;
+    setTemasVermelhosDetalhe((prev) => {
+      const existentes = new Set(prev.map((d) => d.tema));
+      const novos = temasVermelhos
+        .filter((t) => !existentes.has(t.nome))
+        .map((t, i) => ({ id: (prev[prev.length - 1]?.id || 0) + i + 1, tema: t.nome, porque: "", conversa: "" }));
+      return novos.length > 0 ? [...prev, ...novos] : prev;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temasVermelhos.length]);
+
+  const set = (id, field, val) =>
+    setTemasVermelhosDetalhe((prev) => prev.map((d) => (d.id === id ? { ...d, [field]: val } : d)));
+
+  if (temasVermelhos.length === 0) {
+    return (
+      <div style={styles.stepWrap}>
+        <span style={styles.eyebrowSmall}>PASSO 3 DE 7 · TEMAS VERMELHOS</span>
+        <h1 style={styles.h1}>Nenhum tema marcado como vermelho — ótimo sinal.</h1>
+        <p style={styles.lead}>
+          Se isso mudar numa próxima rodada, volte aqui pra detalhar por que o tema importa e qual
+          conversa precisa acontecer.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 3 DE 7 · TEMAS VERMELHOS</span>
+      <h1 style={styles.h1}>Pra cada tema vermelho, o que está por trás dele?</h1>
+      <p style={styles.lead}>
+        Detalhe por que cada tema importa e qual conversa precisa acontecer pra tratá-lo —
+        provavelmente usando o Protocolo CLARO.
+      </p>
+
+      <div style={styles.familiaList}>
+        {temasVermelhosDetalhe.map((d) => (
+          <div key={d.id} style={styles.padraoCard}>
+            <span style={{ ...styles.papelNome, color: CORES_SEMAFORO_F8.vermelho.cor }}>{d.tema}</span>
+            <label style={styles.fieldLabel}>Por que é importante?</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={d.porque}
+              onChange={(e) => set(d.id, "porque", e.target.value)}
+              placeholder="Ex.: nunca foi discutido abertamente entre os envolvidos"
+            />
+            <label style={styles.fieldLabel}>Qual conversa precisa acontecer?</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={d.conversa}
+              onChange={(e) => set(d.id, "conversa", e.target.value)}
+              placeholder="Ex.: conversa sobre o critério de escolha, usando o Protocolo CLARO"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepReflexaoF8({ reflexaoF8, setReflexaoF8, contagem }) {
+  const set = (field) => (e) => setReflexaoF8((r) => ({ ...r, [field]: e.target.value }));
+  const contexto = `${contagem.vermelho} tema(s) marcado(s) como vermelho, ${contagem.amarelo} como amarelo`;
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 4 DE 7 · REFLEXÃO INDIVIDUAL</span>
+      <h1 style={styles.h1}>Sozinho, depois de preencher o semáforo.</h1>
+      <p style={styles.lead}>
+        Ninguém além de você vai ler isso agora. Escreva o que for verdade, não o que soa bem de
+        dizer em família.
+      </p>
+
+      <CampoReflexao
+        pergunta="Qual tema me chamou mais atenção?"
+        valor={reflexaoF8.temaChamouAtencao}
+        onChange={set("temaChamouAtencao")}
+        placeholder="O tema que mais surpreendeu você ao ver a própria lista completa…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F8}
+      />
+      <CampoReflexao
+        pergunta="Qual ressentimento permanece sem solução?"
+        valor={reflexaoF8.ressentimentoSemSolucao}
+        onChange={set("ressentimentoSemSolucao")}
+        placeholder="Um tema que, mesmo depois de anos, você sente que ainda pesa…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F8}
+      />
+      <CampoReflexao
+        pergunta="Que conversa estou evitando?"
+        valor={reflexaoF8.conversaEvitando}
+        onChange={set("conversaEvitando")}
+        placeholder="Uma conversa específica que você sabe que precisa acontecer, mas ainda adia…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F8}
+      />
+      <CampoReflexao
+        pergunta="O que preciso fazer pra contribuir com a solução?"
+        valor={reflexaoF8.oQuePrecisoFazer}
+        onChange={set("oQuePrecisoFazer")}
+        placeholder="Uma ação concreta, da sua parte, que ajudaria a destravar pelo menos um tema…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F8}
+      />
+    </div>
+  );
+}
+
+function StepConsolidacaoF8({ consolidacaoF8, setConsolidacaoF8, temasVermelhos }) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const resumo = temasVermelhos.map((t) => t.nome).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F8}\n\n` +
+      `Você ajuda alguém que preencheu o Semáforo dos Temas Sensíveis a se preparar pra ` +
+      `Consolidação Familiar. Temas marcados como vermelho: ${resumo || "nenhum"}.\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa compartilhar isso em família, ` +
+      `deixando claro que o semáforo serve pra mapear, não pra acusar. Formate como lista curta. ` +
+      `Responda só com as frases, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 5 DE 7 · CONSOLIDAÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem os temas identificados.</h1>
+      <p style={styles.lead}>
+        Registrem, na coluna Impacto, o que cada descoberta muda na forma como a família pretende
+        lidar com esses assuntos.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <TabelaComportamentos
+        titulo="Descobertas e impactos"
+        linhas={consolidacaoF8}
+        setLinhas={setConsolidacaoF8}
+        labelComportamento="DESCOBERTA"
+        labelMotivo="IMPACTO"
+        placeholderComportamento="Ex.: um via a escolha do sucessor como vermelha, o outro como verde"
+        placeholderMotivo="Ex.: vamos abrir uma conversa estruturada sobre o critério de escolha"
+      />
+    </div>
+  );
+}
+
+function StepDecisaoF8({ decisaoF8, setDecisaoF8 }) {
+  const set = (field) => (e) => setDecisaoF8((d) => ({ ...d, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 6 DE 7 · DECISÃO</span>
+      <h1 style={styles.h1}>Feche o processo respondendo, como família.</h1>
+      <p style={styles.lead}>
+        Não dá pra tratar tudo de uma vez — escolha por onde começar.
+      </p>
+
+      <label style={styles.fieldLabel}>Quais temas serão tratados imediatamente?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF8.tratarImediatamente}
+        onChange={set("tratarImediatamente")}
+        placeholder="Temas vermelhos escolhidos como prioridade para as próximas semanas…"
+      />
+      <label style={styles.fieldLabel}>Quais temas exigem preparação adicional?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF8.exigemPreparacao}
+        onChange={set("exigemPreparacao")}
+        placeholder="Temas que precisam de mais tempo, dados ou apoio externo antes da conversa…"
+      />
+      <label style={styles.fieldLabel}>Quais conversas serão agendadas?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={decisaoF8.conversasAgendadas}
+        onChange={set("conversasAgendadas")}
+        placeholder="Conversas específicas, com data prevista, decorrentes desta avaliação…"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF8({ planoF8, setPlanoF8, decisaoF8 }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setPlanoF8((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+    ]);
+  const removeAcao = (id) => setPlanoF8((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF8((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F8}\n\n` +
+      `Você ajuda alguém que já preencheu o Semáforo dos Temas Sensíveis a transformar a decisão ` +
+      `em um plano de ação.\n` +
+      `${decisaoF8.tratarImediatamente ? `- Temas a tratar imediatamente: "${decisaoF8.tratarImediatamente}"\n` : ""}` +
+      `${decisaoF8.conversasAgendadas ? `- Conversas a agendar: "${decisaoF8.conversasAgendadas}"\n` : ""}\n` +
+      `Sugira 2 ações em sequência cronológica, cada uma no infinitivo, com responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF8(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              acao: a.acao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+              status: "Não iniciado",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 7 DE 7 · PLANO DE AÇÃO</span>
+      <h1 style={styles.h1}>Transforme a decisão em ações, com status de acompanhamento.</h1>
+      <p style={styles.lead}>
+        Cada ação tem um status — volte aqui daqui a alguns dias e atualize.
+      </p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {planoF8.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF8.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: agendar conversa CLARO sobre escolha do sucessor…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 30 dias"
+                />
+              </div>
+            </div>
+            <label style={styles.fieldLabel}>Status</label>
+            <div style={styles.envioButtonsRow}>
+              {STATUS_ACAO_F7.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setAcao(a.id, "status", s)}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: a.status === s ? BLUE : "#E4EAF0",
+                    background: a.status === s ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF8({ temas, contagem, decisaoF8, planoF8, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const temasVermelhos = temas.filter((t) => t.cor === "vermelho");
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 8,
+      notas: { temas: temas.map((t) => ({ nome: t.nome, cor: t.cor })), contagem },
+      conflito: { temasVermelhos: temasVermelhos.map((t) => t.nome) },
+      decisao_final: decisaoF8,
+      plano_acao: planoF8,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const resumo = temasVermelhos.map((t) => t.nome).join(", ") || "nenhum tema vermelho";
+    const prompt =
+      `${LIVRO_CONTEXTO_F8}\n\n` +
+      `Alguém completou o Semáforo dos Temas Sensíveis. ${contagem.verde} verdes, ` +
+      `${contagem.amarelo} amarelos, ${contagem.vermelho} vermelhos. Temas vermelhos: ${resumo}.` +
+      `${decisaoF8.tratarImediatamente ? ` Vão tratar imediatamente: "${decisaoF8.tratarImediatamente}".` : ""}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que a quantidade de vermelhos importa ` +
+      `menos que a disposição de tratá-los. Tom direto, sem clichês de autoajuda. Responda só com ` +
+      `o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Semáforo dos Temas Sensíveis",
+      "",
+      `Verde: ${contagem.verde} · Amarelo: ${contagem.amarelo} · Vermelho: ${contagem.vermelho}`,
+      `Temas vermelhos: ${temasVermelhos.map((t) => t.nome).join(", ") || "—"}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      `Tratar imediatamente: ${decisaoF8.tratarImediatamente || "—"}`,
+      `Exigem preparação: ${decisaoF8.exigemPreparacao || "—"}`,
+      `Conversas agendadas: ${decisaoF8.conversasAgendadas || "—"}`,
+      "",
+      "Plano de ação:",
+      planoF8
+        .filter((a) => a.acao.trim())
+        .map(
+          (a, i) =>
+            `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"} — Status: ${a.status || "—"}`
+        )
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor("Nosso resultado — Semáforo dos Temas Sensíveis", montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && (
+          <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>
+        )}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Semáforo dos Temas Sensíveis, resumido.</h1>
+
+      <div style={styles.resumoGrid}>
+        {Object.entries(CORES_SEMAFORO_F8).map(([key, c]) => (
+          <div key={key} style={styles.resumoCard}>
+            <div style={{ ...styles.resumoBar, background: c.cor }} />
+            <div style={styles.resumoCardInner}>
+              <span style={styles.resumoName}>{c.label}</span>
+              <span style={{ ...styles.icsPainelNumero, fontSize: 28, color: c.cor }}>{contagem[key]}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese ||
+                "A quantidade de temas vermelhos importa menos do que a disposição da família pra tratá-los."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.fechamentoBox}>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>TRATAR IMEDIATAMENTE</span>
+          <span style={styles.fechamentoValue}>{decisaoF8.tratarImediatamente || "—"}</span>
+        </div>
+        <div style={styles.fechamentoRow}>
+          <span style={styles.fechamentoLabel}>CONVERSAS AGENDADAS</span>
+          <span style={styles.fechamentoValue}>{decisaoF8.conversasAgendadas || "—"}</span>
+        </div>
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF8
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>STATUS</span>
+                <span style={styles.fechamentoValue}>{a.status || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês mapearam os temas, refletiram sozinhos, consolidaram em família, decidiram e
+          planejaram. O que falta agora é colocar em prática, e revisitar em 60 dias se os temas
+          vermelhos tratados de fato mudaram de cor.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
   return (
     <div style={styles.footer} className="no-print">
@@ -10512,5 +11527,15 @@ const styles = {
     fontWeight: 800,
     fontSize: 14,
     transition: "all 0.2s ease",
+  },
+  semaforoBotao: {
+    padding: "8px 16px",
+    borderRadius: 8,
+    border: "1.5px solid #E4EAF0",
+    fontSize: 13,
+    fontWeight: 700,
+    cursor: "pointer",
+    fontFamily: "inherit",
+    transition: "all 0.15s ease",
   },
 };
