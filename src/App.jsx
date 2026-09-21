@@ -1428,6 +1428,141 @@ concreta. Protocolos familiares, acordos de sócios e políticas claras garantem
 conversado e decidido não se perca na memória seletiva de cada um."
 `.trim();
 
+const DIMENSOES_F14 = {
+  comunicacao: {
+    titulo: "Comunicação",
+    desc: "Capacidade de conversar sobre temas difíceis, incluir opiniões diferentes e tratar conflitos adequadamente.",
+    itens: [
+      "Conversamos sobre assuntos difíceis.",
+      "Existe espaço para opiniões diferentes.",
+      "Os conflitos são tratados adequadamente.",
+      "Evitamos triangulações.",
+      "Escutamos antes de responder.",
+    ],
+  },
+  confianca: {
+    titulo: "Confiança",
+    desc: "Cumprimento de acordos, transparência e coerência entre discurso e prática.",
+    itens: [
+      "Cumprimos acordos.",
+      "Existe transparência.",
+      "As pessoas sentem segurança para se posicionar.",
+      "Há coerência entre discurso e prática.",
+      "Existe respeito mútuo.",
+    ],
+  },
+  alinhamento: {
+    titulo: "Alinhamento",
+    desc: "Clareza sobre objetivos, valores compartilhados e entendimento comum sobre continuidade.",
+    itens: [
+      "Existe clareza sobre os objetivos familiares.",
+      "Compartilhamos valores semelhantes.",
+      "Existe entendimento sobre a continuidade.",
+      "Há alinhamento entre gerações.",
+      "Conhecemos as expectativas uns dos outros.",
+    ],
+  },
+  desenvolvimento: {
+    titulo: "Desenvolvimento da Nova Geração",
+    desc: "Preparo, formação e critérios claros para a entrada dos mais jovens na empresa.",
+    itens: [
+      "Existe preocupação com a formação dos jovens.",
+      "Há espaço para participação gradual.",
+      "Incentivamos experiências externas.",
+      "Existe educação patrimonial.",
+      "Existem critérios para entrada na empresa.",
+    ],
+  },
+  governanca: {
+    titulo: "Governança Familiar",
+    desc: "Existência de fóruns, regras claras, decisões documentadas e papéis bem definidos.",
+    itens: [
+      "Existem fóruns familiares.",
+      "Existem regras claras.",
+      "As decisões são documentadas.",
+      "Há clareza de papéis.",
+      "Existem acordos familiares.",
+    ],
+  },
+  continuidade: {
+    titulo: "Continuidade",
+    desc: "Plano de sucessão, preparação de sucessores e compromisso ativo com as próximas gerações.",
+    itens: [
+      "Existe plano de sucessão.",
+      "Existe preparação de sucessores.",
+      "Existe preocupação com a perpetuidade.",
+      "O legado é discutido regularmente.",
+      "Existe compromisso com futuras gerações.",
+    ],
+  },
+};
+
+function interpretaIMF_F14(imf) {
+  if (imf >= 120) return { label: "Família Madura", cor: "#1E7A3D" };
+  if (imf >= 90) return { label: "Família em Desenvolvimento", cor: "#1E5A96" };
+  if (imf >= 60) return { label: "Família em Transição", cor: "#B8860B" };
+  return { label: "Família em Alerta", cor: "#B3261E" };
+}
+
+const LIVRO_CONTEXTO_F14 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 14 · Termômetro da Maturidade
+Familiar):
+
+PROPÓSITO: avaliar o nível atual de maturidade da família empresária em seis dimensões essenciais
+pra continuidade — comunicação, confiança, alinhamento, desenvolvimento da nova geração,
+governança familiar e continuidade — revelando um único Índice de Maturidade Familiar (IMF).
+Pergunta central: "Nossa família está preparada para sustentar a continuidade entre gerações?"
+
+NÍVEL DE SENSIBILIDADE: alto. Pode revelar vulnerabilidades reais na forma como a família se
+comunica e se organiza. A consolidação, leitura dos achados e construção do plano devem ser
+conduzidas por um facilitador.
+
+MÉTODO: cada dimensão soma 5 afirmações de 1 a 5 (5 a 25 pontos por dimensão). O IMF é a soma das
+seis dimensões, até 150 pontos.
+
+FAIXAS DE INTERPRETAÇÃO: 120 a 150 é Família Madura; 90 a 119 é Família em Desenvolvimento; 60 a
+89 é Família em Transição; abaixo de 60 é Família em Alerta, com atenção prioritária recomendada.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Família Vieira (IMF 84, Transição — Comunicação mais fria, 9 pontos): ninguém briga, e durante
+  anos isso foi motivo de orgulho. Só recentemente perceberam que evitar brigas não é o mesmo que
+  resolver o que precisa ser resolvido. Boa intenção entre os membros, mas pouca capacidade de
+  conversar sobre temas difíceis. Resultado: pacto de comunicação, reuniões estruturadas,
+  desenvolvimento de competências de escuta e feedback. "A gente confundia paz com harmonia. Só
+  que paz sem conversa difícil é só um problema adiado", disse um membro da família.
+- Família Antunes (IMF 93, Desenvolvimento — Governança Familiar mais fria, 8 pontos): fala sobre
+  "perpetuar o legado" em quase toda reunião, mas quando perguntados onde esse legado está
+  registrado, quem decide o quê, ninguém sabia responder com precisão. Resultado: Conselho de
+  Família criado, acordos existentes formalizados, critérios claros de participação definidos.
+  "A gente tinha a intenção havia anos. Só nunca tinha dado a ela um lugar formal para existir",
+  disse um membro da família.
+- Família Kuhn (IMF 91, Desenvolvimento — Desenvolvimento da Nova Geração mais frio, 7 pontos):
+  todo jantar de domingo termina com alguém dizendo que "os filhos vão assumir um dia", mas nenhum
+  desses jantares jamais terminou com uma ação concreta que preparasse esses filhos. Resultado:
+  programa NextGen implementado, investimento em educação patrimonial, vivência externa promovida,
+  trilha de desenvolvimento estruturada. "A gente falava sobre o futuro toda semana. Só nunca
+  tinha feito nada que preparasse esse futuro de verdade", disse um membro da família.
+
+O QUE OS TRÊS CASOS VALIDAM: nos três, o IMF total ficou nas faixas intermediárias, mas o valor
+real da ferramenta esteve em apontar exatamente qual das seis dimensões precisava de atenção
+prioritária, em vez de tratar "maturidade" como um problema genérico demais pra ser resolvido.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): aplicar a ferramenta uma única vez e
+nunca revisitar — o valor real está em acompanhar a evolução do IMF ao longo do tempo; deixar que
+só os membros mais velhos, ou mais vocais, respondam, distorcendo o retrato real da família;
+comparar o IMF da própria família com o de outra família — cada história tem seu próprio ponto de
+partida; tratar a dimensão mais baixa como o único problema — as seis dimensões interagem entre
+si, e uma nota baixa às vezes é sintoma de outra; fechar o diagnóstico sem construir o Plano de
+Evolução Familiar — medir sem agir apenas confirma o que já se sentia, sem mudar nada.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "O mercado muda, as famílias se
+transformam, e as estratégias precisam acompanhar essa dinâmica. Ajustar é sinal de maturidade,
+não de fraqueza."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -1498,7 +1633,7 @@ const FERRAMENTAS_CATALOGO = [
     cor: LIGHTBLUE,
     ferramentas: [
       { n: 13, nome: "Acordo de Continuidade Familiar", ativa: true },
-      { n: 14, nome: "Termômetro da Maturidade Familiar", ativa: false },
+      { n: 14, nome: "Termômetro da Maturidade Familiar", ativa: true },
       { n: 15, nome: "Radar de Equilíbrio Sistêmico", ativa: false },
     ],
   },
@@ -1952,6 +2087,8 @@ export default function App() {
         setView("ferramenta12");
       } else if (ferramentaParam === "13") {
         setView("ferramenta13");
+      } else if (ferramentaParam === "14") {
+        setView("ferramenta14");
       }
     } catch (e) {
       /* ignore */
@@ -2156,6 +2293,10 @@ export default function App() {
     setView("ferramenta13");
   };
 
+  const abrirFerramenta14 = () => {
+    setView("ferramenta14");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -2174,6 +2315,7 @@ export default function App() {
             onAbrirFerramenta11={abrirFerramenta11}
             onAbrirFerramenta12={abrirFerramenta12}
             onAbrirFerramenta13={abrirFerramenta13}
+            onAbrirFerramenta14={abrirFerramenta14}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -2317,6 +2459,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta13App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta14") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta14App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -2524,6 +2676,7 @@ function Catalogo({
   onAbrirFerramenta11,
   onAbrirFerramenta12,
   onAbrirFerramenta13,
+  onAbrirFerramenta14,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2541,6 +2694,7 @@ function Catalogo({
     11: onAbrirFerramenta11,
     12: onAbrirFerramenta12,
     13: onAbrirFerramenta13,
+    14: onAbrirFerramenta14,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2813,6 +2967,7 @@ function NovaFamilia({ onVoltar }) {
       "11": "Ferramenta 11 · Escolha Autêntica",
       "12": "Ferramenta 12 · Escada do Legado",
       "13": "Ferramenta 13 · Acordo de Continuidade",
+      "14": "Ferramenta 14 · Termômetro de Maturidade",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2864,6 +3019,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="11">Ferramenta 11 · Autêntica</option>
               <option value="12">Ferramenta 12 · Escada</option>
               <option value="13">Ferramenta 13 · Acordo</option>
+              <option value="14">Ferramenta 14 · Termômetro</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2999,7 +3155,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n${LIVRO_CONTEXTO_F13}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n${LIVRO_CONTEXTO_F13}\n\n${LIVRO_CONTEXTO_F14}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -15764,6 +15920,623 @@ function StepFechamentoF13({ participantesF13, principios, compromissos, inaceit
           como se comunicar e como preparar as próximas gerações. Este acordo pode servir de base
           pra um Protocolo Familiar, Constituição Familiar, Conselho de Família ou Política de
           Sucessão — revisitem em 12 meses, ou a cada mudança relevante na família.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F14_INTRO = 0;
+const STEP_F14_COMUNICACAO = 1;
+const STEP_F14_CONFIANCA = 2;
+const STEP_F14_ALINHAMENTO = 3;
+const STEP_F14_DESENVOLVIMENTO = 4;
+const STEP_F14_GOVERNANCA = 5;
+const STEP_F14_CONTINUIDADE = 6;
+const STEP_F14_RESULTADO = 7;
+const STEP_F14_ACHADOS = 8;
+const STEP_F14_PLANO = 9;
+const STEP_F14_FECHAMENTO = 10;
+
+const VIEIRA_EXEMPLO_F14 = {
+  comunicacao: [2, 2, 2, 2, 1],
+  confianca: [4, 3, 4, 3, 3],
+  alinhamento: [3, 3, 3, 4, 3],
+  desenvolvimento: [3, 3, 3, 2, 3],
+  governanca: [3, 2, 3, 2, 3],
+  continuidade: [3, 3, 3, 3, 3],
+  achadosF14: [
+    {
+      id: 1,
+      achado: "Comunicação é a dimensão mais frágil da família.",
+      evidencia: "Nota 9 em Comunicação, a mais baixa entre as seis.",
+      impacto: "Conflitos pequenos não são resolvidos e se acumulam.",
+    },
+  ],
+  planoF14: [
+    {
+      id: 1,
+      acao: "Criar pacto de comunicação familiar.",
+      objetivo: "Elevar a nota de Comunicação",
+      responsavel: "Conselho de família",
+      prazo: "60 dias",
+    },
+    {
+      id: 2,
+      acao: "Estabelecer reuniões estruturadas com pauta fixa.",
+      objetivo: "Criar espaço regular pra temas difíceis",
+      responsavel: "Conselho de família",
+      prazo: "30 dias",
+    },
+  ],
+};
+
+function Ferramenta14App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F14_INTRO);
+  const [comunicacao, setComunicacao] = useState([null, null, null, null, null]);
+  const [confianca, setConfianca] = useState([null, null, null, null, null]);
+  const [alinhamento, setAlinhamento] = useState([null, null, null, null, null]);
+  const [desenvolvimento, setDesenvolvimento] = useState([null, null, null, null, null]);
+  const [governanca, setGovernanca] = useState([null, null, null, null, null]);
+  const [continuidade, setContinuidade] = useState([null, null, null, null, null]);
+  const [achadosF14, setAchadosF14] = useState([{ id: 1, achado: "", evidencia: "", impacto: "" }]);
+  const [planoF14, setPlanoF14] = useState([{ id: 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+
+  const pontuacoes = {
+    comunicacao: somaF11(comunicacao),
+    confianca: somaF11(confianca),
+    alinhamento: somaF11(alinhamento),
+    desenvolvimento: somaF11(desenvolvimento),
+    governanca: somaF11(governanca),
+    continuidade: somaF11(continuidade),
+  };
+  const imf = Object.values(pontuacoes).reduce((s, n) => s + n, 0);
+
+  const carregarExemploF14 = () => {
+    setComunicacao(VIEIRA_EXEMPLO_F14.comunicacao);
+    setConfianca(VIEIRA_EXEMPLO_F14.confianca);
+    setAlinhamento(VIEIRA_EXEMPLO_F14.alinhamento);
+    setDesenvolvimento(VIEIRA_EXEMPLO_F14.desenvolvimento);
+    setGovernanca(VIEIRA_EXEMPLO_F14.governanca);
+    setContinuidade(VIEIRA_EXEMPLO_F14.continuidade);
+    setAchadosF14(VIEIRA_EXEMPLO_F14.achadosF14);
+    setPlanoF14(VIEIRA_EXEMPLO_F14.planoF14);
+    setStep(STEP_F14_RESULTADO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F14_COMUNICACAO) return comunicacao.every((n) => n !== null);
+    if (step === STEP_F14_CONFIANCA) return confianca.every((n) => n !== null);
+    if (step === STEP_F14_ALINHAMENTO) return alinhamento.every((n) => n !== null);
+    if (step === STEP_F14_DESENVOLVIMENTO) return desenvolvimento.every((n) => n !== null);
+    if (step === STEP_F14_GOVERNANCA) return governanca.every((n) => n !== null);
+    if (step === STEP_F14_CONTINUIDADE) return continuidade.every((n) => n !== null);
+    if (step === STEP_F14_ACHADOS) return achadosF14.some((a) => a.achado.trim());
+    if (step === STEP_F14_PLANO) return planoF14.some((a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0);
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F14_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F14_INTRO, s - 1));
+
+  return (
+    <>
+      <Header14 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F14_INTRO && <StepIntroF14 onCarregarExemplo={carregarExemploF14} />}
+        {step === STEP_F14_COMUNICACAO && (
+          <StepDimensaoF14 dKey="comunicacao" numero={1} respostas={comunicacao} setRespostas={setComunicacao} />
+        )}
+        {step === STEP_F14_CONFIANCA && <StepDimensaoF14 dKey="confianca" numero={2} respostas={confianca} setRespostas={setConfianca} />}
+        {step === STEP_F14_ALINHAMENTO && <StepDimensaoF14 dKey="alinhamento" numero={3} respostas={alinhamento} setRespostas={setAlinhamento} />}
+        {step === STEP_F14_DESENVOLVIMENTO && (
+          <StepDimensaoF14 dKey="desenvolvimento" numero={4} respostas={desenvolvimento} setRespostas={setDesenvolvimento} />
+        )}
+        {step === STEP_F14_GOVERNANCA && <StepDimensaoF14 dKey="governanca" numero={5} respostas={governanca} setRespostas={setGovernanca} />}
+        {step === STEP_F14_CONTINUIDADE && <StepDimensaoF14 dKey="continuidade" numero={6} respostas={continuidade} setRespostas={setContinuidade} />}
+        {step === STEP_F14_RESULTADO && <StepResultadoF14 pontuacoes={pontuacoes} imf={imf} />}
+        {step === STEP_F14_ACHADOS && <StepAchadosF14 achadosF14={achadosF14} setAchadosF14={setAchadosF14} pontuacoes={pontuacoes} imf={imf} />}
+        {step === STEP_F14_PLANO && <StepPlanoF14 planoF14={planoF14} setPlanoF14={setPlanoF14} achadosF14={achadosF14} />}
+        {step === STEP_F14_FECHAMENTO && (
+          <StepFechamentoF14
+            pontuacoes={pontuacoes}
+            imf={imf}
+            achadosF14={achadosF14}
+            planoF14={planoF14}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F14_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F14_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header14({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Antes de começar",
+    "Comunicação",
+    "Confiança",
+    "Alinhamento",
+    "Desenvolvimento da Nova Geração",
+    "Governança Familiar",
+    "Continuidade",
+    "Seu Índice de Maturidade",
+    "Principais achados",
+    "Plano de evolução familiar",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F14_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Termômetro da Maturidade Familiar · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF14({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Nossa família está preparada para sustentar a continuidade entre gerações?</h1>
+      <p style={styles.lead}>
+        Esta ferramenta pode revelar vulnerabilidades reais na forma como a família se comunica e
+        se organiza. Reserve tempo e, se possível, apoio de um facilitador pra leitura dos
+        resultados. Idealmente, múltiplos membros da família respondem individualmente antes de
+        discutir em grupo — uma única perspectiva distorce o retrato real.
+      </p>
+      <p style={styles.lead}>
+        Você vai avaliar seis dimensões — Comunicação, Confiança, Alinhamento, Desenvolvimento da
+        Nova Geração, Governança Familiar e Continuidade — cada uma com 5 afirmações de 1 a 5.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Vieira (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {Object.values(DIMENSOES_F14).map((d) => (
+          <div key={d.titulo} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>{d.titulo}</span>
+            <span style={styles.papelDescricao}>{d.desc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepDimensaoF14({ dKey, numero, respostas, setRespostas }) {
+  const info = DIMENSOES_F14[dKey];
+  const set = (i, val) => setRespostas((prev) => prev.map((v, idx) => (idx === i ? val : v)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>
+        DIMENSÃO {numero} DE 6 · {info.titulo.toUpperCase()}
+      </span>
+      <h1 style={styles.h1}>{info.titulo}</h1>
+      <p style={styles.lead}>{info.desc}</p>
+      <p style={styles.papelDescricao}>
+        1 é nunca acontece, 5 é faz parte da nossa cultura. Idealmente, cada membro da família
+        responde individualmente antes de discutir em grupo.
+      </p>
+
+      <div style={styles.familiaList}>
+        {info.itens.map((texto, i) => (
+          <LinhaScore key={texto} label={texto} valor={respostas[i]} onChange={(n) => set(i, n)} min={1} max={5} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepResultadoF14({ pontuacoes, imf }) {
+  const interpretacao = interpretaIMF_F14(imf);
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>SEU ÍNDICE DE MATURIDADE</span>
+      <h1 style={styles.h1}>Seu Índice de Maturidade Familiar.</h1>
+      <p style={styles.lead}>
+        O IMF soma as seis dimensões, até 150 pontos. O valor real não está só no número final,
+        está em identificar qual dimensão específica precisa de atenção prioritária.
+      </p>
+
+      <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+        <span style={styles.unlockLabel}>IMF TOTAL</span>
+        <div style={styles.icsPainelRow}>
+          <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{imf}</span>
+          <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+        </div>
+        <p style={styles.unlockHow}>de até 150 pontos</p>
+      </div>
+
+      <div style={styles.familiaList}>
+        {Object.entries(DIMENSOES_F14).map(([key, d]) => {
+          const pontos = pontuacoes[key];
+          const cor = pontos >= 20 ? "#1E7A3D" : pontos >= 15 ? "#1E5A96" : pontos >= 10 ? "#B8860B" : "#B3261E";
+          return (
+            <div key={key} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>{d.titulo}</span>
+                <span style={styles.papelNome}>{pontos}/25</span>
+              </div>
+              <div style={styles.icsBarTrack}>
+                <div style={{ ...styles.icsBarFill, width: `${(pontos / 25) * 100}%`, background: cor }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepAchadosF14({ achadosF14, setAchadosF14, pontuacoes, imf }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const sugerirAchados = () => {
+    setGerando(true);
+    setErro(false);
+    const resumo = Object.entries(DIMENSOES_F14).map(([key, d]) => `${d.titulo}: ${pontuacoes[key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F14}\n\n` +
+      `Você ajuda alguém que aplicou o Termômetro da Maturidade Familiar a identificar os ` +
+      `principais achados. Pontuações: ${resumo}. IMF total: ${imf}.\n\n` +
+      `Sugira 1 a 2 achados relevantes, cada um com achado, evidência (baseada nas notas reais ` +
+      `acima) e impacto. Foque na dimensão mais baixa.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"achado":"","evidencia":"","impacto":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAchadosF14(parsed.map((a, i) => ({ id: i + 1, achado: a.achado || "", evidencia: a.evidencia || "", impacto: a.impacto || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PRINCIPAIS ACHADOS</span>
+      <h1 style={styles.h1}>Registre os achados mais relevantes do diagnóstico.</h1>
+      <p style={styles.lead}>Com a evidência que os sustenta, e o impacto que eles têm hoje.</p>
+
+      <button onClick={sugerirAchados} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Lendo suas pontuações…" : "✦ Sugerir achados com base nas suas pontuações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <TabelaTresColunas
+        titulo="Achados"
+        linhas={achadosF14}
+        setLinhas={setAchadosF14}
+        campos={["achado", "evidencia", "impacto"]}
+        labels={["ACHADO", "EVIDÊNCIA", "IMPACTO"]}
+        placeholders={[
+          "Ex.: comunicação é a dimensão mais frágil da família",
+          "Ex.: nota 9 em Comunicação, a mais baixa entre as seis",
+          "Ex.: conflitos pequenos não são resolvidos e se acumulam",
+        ]}
+      />
+    </div>
+  );
+}
+
+function StepPlanoF14({ planoF14, setPlanoF14, achadosF14 }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () => setPlanoF14((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF14((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) => setPlanoF14((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const achadosTexto = achadosF14.filter((a) => a.achado.trim()).map((a) => a.achado).join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F14}\n\n` +
+      `Você ajuda uma família a transformar os achados do Termômetro da Maturidade Familiar em ` +
+      `um Plano de Evolução Familiar.${achadosTexto ? ` Achados: "${achadosTexto}".` : ""}\n\n` +
+      `Sugira 2 ações concretas, cada uma no infinitivo, com objetivo, responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","objetivo":"","responsavel":"","prazo":""},{"acao":"","objetivo":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF14(parsed.map((a, i) => ({ id: i + 1, acao: a.acao || "", objetivo: a.objetivo || "", responsavel: a.responsavel || "", prazo: a.prazo || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE EVOLUÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Transforme os achados em ações concretas.</h1>
+      <p style={styles.lead}>Com objetivo, responsável e prazo pra cada uma.</p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF14.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF14.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: criar pacto de comunicação familiar…"
+            />
+            <label style={styles.fieldLabel}>Objetivo</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={a.objetivo}
+              onChange={(e) => setAcao(a.id, "objetivo", e.target.value)}
+              placeholder="Ex.: elevar a nota de Comunicação"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 60 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF14({ pontuacoes, imf, achadosF14, planoF14, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+  const interpretacao = interpretaIMF_F14(imf);
+  const achadosPreenchidos = achadosF14.filter((a) => a.achado.trim());
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 14,
+      notas: { ...pontuacoes, IMF: imf },
+      conflito: { classificacao: interpretacao.label },
+      plano_acao: planoF14,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const resumo = Object.entries(DIMENSOES_F14).map(([key, d]) => `${d.titulo}: ${pontuacoes[key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F14}\n\n` +
+      `Alguém completou o Termômetro da Maturidade Familiar. Pontuações: ${resumo}. IMF: ${imf} ` +
+      `(${interpretacao.label}).\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, apontando a dimensão mais baixa como prioridade, ` +
+      `e reforçando que o valor está em revisitar o IMF ao longo do tempo. Tom direto, sem ` +
+      `clichês de autoajuda. Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Termômetro da Maturidade Familiar",
+      "",
+      `IMF: ${imf}/150 — ${interpretacao.label}`,
+      `Pontuações: ${Object.entries(DIMENSOES_F14).map(([key, d]) => `${d.titulo} ${pontuacoes[key]}/25`).join(", ")}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      "Principais achados:",
+      achadosPreenchidos.map((a, i) => `${i + 1}. ${a.achado} — Evidência: ${a.evidencia || "—"} — Impacto: ${a.impacto || "—"}`).join("\n") || "—",
+      "",
+      "Plano de evolução familiar:",
+      planoF14
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Objetivo: ${a.objetivo || "—"} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor(`Termômetro da Maturidade Familiar — IMF ${imf}`, montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Termômetro da Maturidade Familiar, resumido.</h1>
+
+      <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+        <span style={styles.unlockLabel}>IMF TOTAL</span>
+        <div style={styles.icsPainelRow}>
+          <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{imf}</span>
+          <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+        </div>
+      </div>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || "O valor real está em acompanhar a evolução do IMF ao longo do tempo, não só no número de hoje."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.familiaList}>
+        {Object.entries(DIMENSOES_F14).map(([key, d]) => {
+          const pontos = pontuacoes[key];
+          const cor = pontos >= 20 ? "#1E7A3D" : pontos >= 15 ? "#1E5A96" : pontos >= 10 ? "#B8860B" : "#B3261E";
+          return (
+            <div key={key} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>{d.titulo}</span>
+                <span style={styles.papelNome}>{pontos}/25</span>
+              </div>
+              <div style={styles.icsBarTrack}>
+                <div style={{ ...styles.icsBarFill, width: `${(pontos / 25) * 100}%`, background: cor }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF14
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>OBJETIVO</span>
+                <span style={styles.fechamentoValue}>{a.objetivo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês mediram as seis dimensões, identificaram os achados e construíram um plano de
+          evolução. O que falta agora é colocar em prática, e reaplicar o Termômetro em 12 meses
+          — o valor real está em acompanhar a evolução, não só na foto de hoje.
         </p>
       </div>
 
