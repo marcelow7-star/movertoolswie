@@ -741,6 +741,212 @@ Os ressentimentos antigos, comparações, rivalidades entre irmãos e/ou primos 
 atendidas são feridas emocionais que, se não atendidas, têm o poder de boicotar o processo."
 `.trim();
 
+const TIPOS_COMUNICACAO_F9 = {
+  saudavel: { label: "Saudável", cor: "#1E7A3D", linha: "solida" },
+  dificil: { label: "Difícil", cor: "#B8860B", linha: "tracejada" },
+  inexistente: { label: "Inexistente", cor: "#B3261E", linha: "pontilhada" },
+};
+
+const TIPOS_RUIDO_F9 = ["Triangulação", "Silêncio", "Aliança não declarada", "Conflito recorrente"];
+
+const LIVRO_CONTEXTO_F9 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 09 · Mapa de Ruídos
+Relacionais):
+
+PROPÓSITO: identificar como a comunicação realmente acontece dentro da família empresária,
+revelando ruídos, silêncios, triangulações, alianças e padrões relacionais que podem impactar a
+confiança, a tomada de decisão e a continuidade do legado.
+
+O QUE RESOLVE: famílias empresárias costumam ter reuniões formais onde tudo parece funcionar
+bem, enquanto a comunicação real acontece em conversas paralelas, alianças não declaradas e
+silêncios estratégicos. Sem mapear essa rede real de comunicação, decisões importantes continuam
+sendo influenciadas por canais informais que ninguém reconhece oficialmente.
+
+O SOCIOGRAMA: transforma percepções em algo visual — linha contínua indica comunicação saudável,
+linha tracejada indica comunicação difícil, linha pontilhada indica comunicação inexistente. A
+leitura busca três padrões: centralidade (quem concentra o maior número de conexões), isolamento
+(quem tem poucas ou nenhuma conexão direta) e triangulação (duas pessoas que se comunicam
+principalmente através de uma terceira).
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Família Prado (triangulação entre irmãs): o fundador, já formalmente afastado, continuava
+  sendo o principal canal de comunicação entre as duas filhas sócias, que raramente conversavam
+  diretamente entre si. A comunicação entre as duas foi classificada como inexistente, e a de
+  cada uma com o pai como saudável — uma triangulação clássica no sociograma. Resultado: canal de
+  comunicação direta mensal criado entre as duas irmãs, sem intermediação do pai. "A gente não
+  tinha um problema entre nós duas. Tinha um hábito de conversar através dele", disse uma delas.
+- Diretor executivo (influência indireta): um diretor de confiança do fundador, sem vínculo
+  familiar, tinha na prática mais influência sobre decisões estratégicas do que o próprio filho
+  sucessor formalmente nomeado. O sucessor percebeu que sua dificuldade não era falta de
+  competência técnica, era a ausência de um canal direto com essa figura-chave. Resultado:
+  reuniões trimestrais estruturadas entre sucessor e diretor, mediadas por facilitador externo.
+  "Eu competia com um organograma que não existia no papel, mas existia na prática", disse o
+  sucessor.
+- Genro isolado (isolamento estrutural): um genro, sócio por casamento, aparecia no sociograma
+  sem nenhuma linha direta com o fundador, conectado só à esposa. O isolamento não era pessoal,
+  era estrutural: a família nunca tinha decidido formalmente o papel de cônjuges na governança.
+  Resultado: fórum específico criado para sócios por casamento, com regras claras de em quais
+  temas eles têm voz. "Eu não queria decidir tudo. Só queria parar de descobrir as coisas por
+  último", disse o genro.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): fazer o mapeamento sozinho, baseado só
+na própria percepção, sem cruzar com a visão de outros participantes; usar o sociograma como
+instrumento de vigilância sobre quem fala com quem, em vez de diagnóstico coletivo; tratar toda
+triangulação como prejudicial — algumas são temporárias e até necessárias em transições; parar no
+diagnóstico e nunca formalizar os pactos de comunicação que deveriam nascer dele; excluir do
+mapeamento pessoas não familiares com grande influência, como executivos e conselheiros.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "A comunicação cura silêncios! Em
+empresas familiares, a forma é tão importante quanto o conteúdo. A falta de conversa cria
+fantasmas, enquanto a conversa malfeita gera feridas."
+`.trim();
+
+const TEMAS_QUERO_F10 = [
+  "Liderança",
+  "Gestão Empresarial",
+  "Empreendedorismo",
+  "Finanças",
+  "Comercial",
+  "Operações",
+  "Inovação",
+  "Tecnologia",
+  "Pessoas e Cultura",
+  "Marketing",
+  "Projetos Sociais",
+  "Sustentabilidade",
+];
+
+const COMPETENCIAS_F10 = [
+  "Visão de Negócio",
+  "Comunicação",
+  "Liderança",
+  "Trabalho em Equipe",
+  "Capacidade Analítica",
+  "Inteligência Emocional",
+  "Organização",
+  "Tomada de Decisão",
+];
+
+function combinacaoBussolaF10(quero, competencia, precisa) {
+  const chave = `${quero}-${competencia}-${precisa}`;
+  const tabela = {
+    "true-true-true": {
+      label: "Forte aderência",
+      cor: "#1E7A3D",
+      texto: "Interesse, preparo e necessidade convergem. É a combinação mais sólida das oito.",
+    },
+    "true-false-true": {
+      label: "Desenvolvimento necessário",
+      cor: "#B8860B",
+      texto: "O interesse existe e a empresa precisa, mas a competência ainda precisa ser construída.",
+    },
+    "false-true-true": {
+      label: "Risco de sucessão forçada",
+      cor: "#B3261E",
+      texto: "Há preparo e a empresa precisa, mas não há desejo real — risco de herdar um problema disfarçado de solução.",
+    },
+    "false-false-true": {
+      label: "Desalinhamento elevado",
+      cor: "#B3261E",
+      texto: "Nem interesse nem preparo, mas a posição está em aberto. Merece atenção direta da família.",
+    },
+    "true-true-false": {
+      label: "Talento disponível sem demanda atual",
+      cor: "#1E5A96",
+      texto: "Interesse e preparo existem, mas a empresa não precisa disso agora. Pode ser um caminho para o futuro.",
+    },
+    "true-false-false": {
+      label: "Interesse pessoal sem urgência",
+      cor: "#1E5A96",
+      texto: "Espaço para desenvolver sem pressão imediata, já que a empresa não precisa disso agora.",
+    },
+    "false-true-false": {
+      label: "Competência sem direção",
+      cor: "#5A6B7A",
+      texto: "Talento real que pode ser usado fora da empresa, sem gerar conflito nem obrigação.",
+    },
+    "false-false-false": {
+      label: "Nenhuma aderência",
+      cor: "#5A6B7A",
+      texto: "Caminho claro para fora da empresa, sem tensão nem culpa.",
+    },
+  };
+  return tabela[chave];
+}
+
+const LIVRO_CONTEXTO_F10 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 10 · Bússola da Escolha
+Profissional):
+
+PROPÓSITO: ajudar membros da nova geração a compreenderem sua relação com a empresa familiar,
+diferenciando expectativas familiares, vocação pessoal, competências, interesses e projeto de
+vida, pra que a escolha profissional seja consciente, e não apenas uma obrigação presumida.
+
+O QUE RESOLVE: muitos fundadores acreditam que seus filhos desejam assumir o negócio. Muitos
+herdeiros acreditam que precisam assumir o negócio. Nenhuma dessas duas crenças costuma ser
+verificada de fato, e a confusão entre expectativa, vocação, competência e necessidade real da
+empresa está por trás de boa parte das sucessões que não funcionam bem no longo prazo. A Bússola
+separa com clareza o que o sucessor quer, o que ele já sabe fazer, e o que a empresa de fato
+precisa — três perguntas que raramente são feitas separadamente.
+
+AS OITO COMBINAÇÕES (Quero / Tenho competência / A família precisa):
+- Sim/Sim/Sim: Forte aderência — interesse, preparo e necessidade convergem.
+- Sim/Não/Sim: Desenvolvimento necessário — o interesse existe, a competência ainda precisa ser
+  construída.
+- Não/Sim/Sim: Risco de sucessão forçada — há preparo, mas não há desejo real.
+- Não/Não/Sim: Desalinhamento elevado — nem interesse nem preparo, mas a posição está em aberto.
+- Sim/Sim/Não: Talento disponível sem demanda atual — pode ser um caminho para o futuro.
+- Sim/Não/Não: Interesse pessoal sem urgência — espaço para desenvolver sem pressão imediata.
+- Não/Sim/Não: Competência sem direção — talento que pode ser usado fora da empresa, sem conflito.
+- Não/Não/Não: Nenhuma aderência — caminho claro para fora da empresa, sem tensão nem culpa.
+
+IMPORTANTE: Desenvolvimento Necessário e Risco de Sucessão Forçada NÃO são a mesma coisa — são
+interpretações diferentes, com planos de ação opostos. A primeira significa investir em preparo
+porque o desejo já existe; a segunda significa abrir mão da expectativa de que essa pessoa assuma
+esse papel, mesmo tendo competência, porque falta o desejo genuíno que sustenta uma liderança de
+longo prazo.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Pedro Martins (desalinhamento com direção clara): único filho homem, visto por todos como
+  sucessor natural da presidência, sem nunca ter se perguntado se realmente queria. Notas altas
+  em Tecnologia e Inovação, baixas em Gestão Empresarial e Liderança; competências técnicas
+  fortes, competências de gestão geral limitadas. A combinação real era mais próxima de
+  "desenvolvimento necessário" em tecnologia do que aderência à presidência. Resultado: cargo de
+  diretor de tecnologia e inovação criado especificamente para ele, enquanto a família iniciou
+  separadamente uma busca por liderança executiva geral.
+- Luiza (desenvolvimento necessário): 24 anos, desejava fortemente assumir a diretoria comercial,
+  cargo em aberto, mas ainda com pouca experiência prática de mercado. Notas altas em Comercial e
+  Liderança, baixas em Capacidade Analítica e Tomada de Decisão; a família confirmou que a
+  diretoria realmente precisava ser preenchida. Resultado: plano de desenvolvimento de dois anos,
+  com passagem por áreas operacionais e comerciais antes da assunção formal, com marcos a cada
+  seis meses. "Prefiro esperar dois anos preparada do que assumir despreparada", disse Luiza.
+- Enzo (risco de sucessão forçada): ótimo desempenho em praticamente qualquer área, mas nunca
+  demonstrou entusiasmo real pela empresa da família. Pontuou alto em quase todas as
+  competências, mas suas notas mais altas de interesse foram em Projetos Sociais e
+  Sustentabilidade, temas distantes do núcleo operacional. Resultado: busca por liderança
+  executiva profissional externa para a presidência, enquanto a família apoiou Enzo a estruturar
+  um projeto de sustentabilidade dentro do próprio grupo. "Eu sempre fui bom no que faziam eu
+  fazer. Ninguém tinha perguntado se eu queria fazer aquilo", disse Enzo.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): aplicar a ferramenta já com a resposta
+decidida de antemão, tentando confirmar uma escolha em vez de investigá-la genuinamente; ignorar
+a pergunta "a família precisa disso", tratando a escolha como puramente individual; ignorar as
+perguntas "quero" e "tenho competência", tratando a escolha como puramente uma questão de
+necessidade da empresa; tratar Desenvolvimento Necessário e Risco de Sucessão Forçada como a
+mesma coisa; tratar o resultado como definitivo para sempre — interesses e competências evoluem
+ao longo do tempo, vale reaplicar periodicamente.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Vivem sob a sombra de narrativas
+de sacrifício, carregam culpas herdadas e tentam provar legitimidade em um palco em que cada
+passo parece um teste."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -790,7 +996,7 @@ const FERRAMENTAS_CATALOGO = [
     ferramentas: [
       { n: 7, nome: "Protocolo CLARO", ativa: true },
       { n: 8, nome: "Semáforo dos Temas Sensíveis", ativa: true },
-      { n: 9, nome: "Mapa de Ruídos Relacionais", ativa: false },
+      { n: 9, nome: "Mapa de Ruídos Relacionais", ativa: true },
     ],
   },
   {
@@ -1255,6 +1461,8 @@ export default function App() {
         setView("ferramenta7");
       } else if (ferramentaParam === "8") {
         setView("ferramenta8");
+      } else if (ferramentaParam === "9") {
+        setView("ferramenta9");
       }
     } catch (e) {
       /* ignore */
@@ -1439,6 +1647,10 @@ export default function App() {
     setView("ferramenta8");
   };
 
+  const abrirFerramenta9 = () => {
+    setView("ferramenta9");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1452,6 +1664,7 @@ export default function App() {
             onAbrirFerramenta6={abrirFerramenta6}
             onAbrirFerramenta7={abrirFerramenta7}
             onAbrirFerramenta8={abrirFerramenta8}
+            onAbrirFerramenta9={abrirFerramenta9}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1545,6 +1758,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta8App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta9") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta9App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1747,6 +1970,7 @@ function Catalogo({
   onAbrirFerramenta6,
   onAbrirFerramenta7,
   onAbrirFerramenta8,
+  onAbrirFerramenta9,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -1759,6 +1983,7 @@ function Catalogo({
     6: onAbrirFerramenta6,
     7: onAbrirFerramenta7,
     8: onAbrirFerramenta8,
+    9: onAbrirFerramenta9,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2026,6 +2251,7 @@ function NovaFamilia({ onVoltar }) {
       "6": "Ferramenta 06 · Índice de Confiança",
       "7": "Ferramenta 07 · Protocolo CLARO",
       "8": "Ferramenta 08 · Semáforo dos Temas",
+      "9": "Ferramenta 09 · Mapa de Ruídos",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2072,6 +2298,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="6">Ferramenta 06 · ICS</option>
               <option value="7">Ferramenta 07 · CLARO</option>
               <option value="8">Ferramenta 08 · Semáforo</option>
+              <option value="9">Ferramenta 09 · Ruídos</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2207,7 +2434,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -10774,6 +11001,1034 @@ function StepFechamentoF8({ temas, contagem, decisaoF8, planoF8, onReiniciar, en
           Vocês mapearam os temas, refletiram sozinhos, consolidaram em família, decidiram e
           planejaram. O que falta agora é colocar em prática, e revisitar em 60 dias se os temas
           vermelhos tratados de fato mudaram de cor.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F9_PARTICIPANTES = 0;
+const STEP_F9_RELACOES = 1;
+const STEP_F9_RUIDOS = 2;
+const STEP_F9_TEMAS = 3;
+const STEP_F9_SOCIOGRAMA = 4;
+const STEP_F9_CONSOLIDACAO = 5;
+const STEP_F9_PLANO = 6;
+const STEP_F9_FECHAMENTO = 7;
+
+const PRADO_EXEMPLO_F9 = {
+  participantes: [
+    { id: 1, nome: "Pai (fundador)", familia: true, empresa: false, propriedade: true, influencia: 5, observacoes: "Formalmente afastado, mas ainda é o canal entre as filhas." },
+    { id: 2, nome: "Filha A", familia: true, empresa: true, propriedade: true, influencia: 4, observacoes: "" },
+    { id: 3, nome: "Filha B", familia: true, empresa: true, propriedade: true, influencia: 4, observacoes: "" },
+  ],
+  relacoes: [
+    { id: 1, pessoa1Id: 1, pessoa2Id: 2, tipo: "saudavel", frequencia: "Diária", confianca: "Alta", observacoes: "" },
+    { id: 2, pessoa1Id: 1, pessoa2Id: 3, tipo: "saudavel", frequencia: "Diária", confianca: "Alta", observacoes: "" },
+    { id: 3, pessoa1Id: 2, pessoa2Id: 3, tipo: "inexistente", frequencia: "Rara", confianca: "Baixa", observacoes: "Só se comunicam através do pai." },
+  ],
+  ruidos: [
+    {
+      id: 1,
+      relacaoAfetada: "Pai, Filha A e Filha B",
+      tipoRuido: "Triangulação",
+      descricao: "As duas irmãs só se comunicam através do pai, que repassa mensagens de uma pra outra.",
+      impacto: "Decisões atrasadas e mensagens distorcidas sem querer no meio do caminho.",
+    },
+  ],
+  temasNaoConversados: [
+    {
+      id: 1,
+      tema: "Como será a comunicação entre nós duas quando o pai não estiver mais no meio",
+      quemEvita: "As duas filhas",
+      motivo: "Nunca foi preciso conversar diretamente, o hábito sempre foi passar pelo pai.",
+      impacto: "Risco real de a comunicação parar de existir quando o pai se afastar de vez.",
+    },
+  ],
+  consolidacaoF9: [
+    {
+      id: 1,
+      comportamento: "As duas irmãs não tinham um problema entre si, tinham um hábito de conversar através do pai.",
+      motivo: "Vamos criar uma reunião mensal direta entre as duas, sem intermediação.",
+    },
+  ],
+  planoF9: [
+    {
+      id: 1,
+      acao: "Criar uma reunião mensal direta entre as duas irmãs, com pauta fixa de assuntos operacionais.",
+      responsavel: "Filha A e Filha B",
+      prazo: "30 dias",
+      status: "Não iniciado",
+    },
+  ],
+};
+
+function Ferramenta9App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F9_PARTICIPANTES);
+  const [participantes, setParticipantes] = useState([
+    { id: 1, nome: "", familia: false, empresa: false, propriedade: false, influencia: 3, observacoes: "" },
+  ]);
+  const [relacoes, setRelacoes] = useState([
+    { id: 1, pessoa1Id: null, pessoa2Id: null, tipo: "saudavel", frequencia: "", confianca: "", observacoes: "" },
+  ]);
+  const [ruidos, setRuidos] = useState([
+    { id: 1, relacaoAfetada: "", tipoRuido: "Triangulação", descricao: "", impacto: "" },
+  ]);
+  const [temasNaoConversados, setTemasNaoConversados] = useState([
+    { id: 1, tema: "", quemEvita: "", motivo: "", impacto: "" },
+  ]);
+  const [consolidacaoF9, setConsolidacaoF9] = useState([{ id: 1, comportamento: "", motivo: "" }]);
+  const [planoF9, setPlanoF9] = useState([
+    { id: 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+  ]);
+
+  const participantesPreenchidos = useMemo(() => participantes.filter((p) => p.nome.trim()), [participantes]);
+
+  const carregarExemploF9 = () => {
+    setParticipantes(PRADO_EXEMPLO_F9.participantes);
+    setRelacoes(PRADO_EXEMPLO_F9.relacoes);
+    setRuidos(PRADO_EXEMPLO_F9.ruidos);
+    setTemasNaoConversados(PRADO_EXEMPLO_F9.temasNaoConversados);
+    setConsolidacaoF9(PRADO_EXEMPLO_F9.consolidacaoF9);
+    setPlanoF9(PRADO_EXEMPLO_F9.planoF9);
+    setStep(STEP_F9_SOCIOGRAMA);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F9_PARTICIPANTES) return participantesPreenchidos.length >= 2;
+    if (step === STEP_F9_RELACOES) {
+      return relacoes.some((r) => r.pessoa1Id && r.pessoa2Id && r.pessoa1Id !== r.pessoa2Id);
+    }
+    if (step === STEP_F9_RUIDOS) return true;
+    if (step === STEP_F9_TEMAS) return true;
+    if (step === STEP_F9_SOCIOGRAMA) return true;
+    if (step === STEP_F9_CONSOLIDACAO) {
+      return consolidacaoF9.some((c) => c.comportamento.trim() && c.motivo.trim());
+    }
+    if (step === STEP_F9_PLANO) {
+      return planoF9.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F9_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F9_PARTICIPANTES, s - 1));
+
+  return (
+    <>
+      <Header9 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F9_PARTICIPANTES && (
+          <StepParticipantesF9
+            participantes={participantes}
+            setParticipantes={setParticipantes}
+            onCarregarExemplo={carregarExemploF9}
+          />
+        )}
+        {step === STEP_F9_RELACOES && (
+          <StepRelacoesF9
+            relacoes={relacoes}
+            setRelacoes={setRelacoes}
+            participantesPreenchidos={participantesPreenchidos}
+          />
+        )}
+        {step === STEP_F9_RUIDOS && <StepRuidosF9 ruidos={ruidos} setRuidos={setRuidos} />}
+        {step === STEP_F9_TEMAS && (
+          <StepTemasNaoConversados
+            temasNaoConversados={temasNaoConversados}
+            setTemasNaoConversados={setTemasNaoConversados}
+          />
+        )}
+        {step === STEP_F9_SOCIOGRAMA && (
+          <StepSociograma participantes={participantesPreenchidos} relacoes={relacoes} ruidos={ruidos} />
+        )}
+        {step === STEP_F9_CONSOLIDACAO && (
+          <StepConsolidacaoF9 consolidacaoF9={consolidacaoF9} setConsolidacaoF9={setConsolidacaoF9} />
+        )}
+        {step === STEP_F9_PLANO && <StepPlanoF9_2 planoF9={planoF9} setPlanoF9={setPlanoF9} />}
+        {step === STEP_F9_FECHAMENTO && (
+          <StepFechamentoF9
+            participantesPreenchidos={participantesPreenchidos}
+            relacoes={relacoes}
+            ruidos={ruidos}
+            planoF9={planoF9}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F9_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F9_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header9({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Mapeamento dos participantes",
+    "Mapa das relações",
+    "Ruídos identificados",
+    "Temas não conversados",
+    "Sociograma familiar",
+    "Consolidação familiar",
+    "Plano de ação",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F9_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Mapa de Ruídos Relacionais · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepParticipantesF9({ participantes, setParticipantes, onCarregarExemplo }) {
+  const [gerandoId, setGerandoId] = useState(null);
+
+  const add = () =>
+    setParticipantes((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, nome: "", familia: false, empresa: false, propriedade: false, influencia: 3, observacoes: "" },
+    ]);
+  const remove = (id) => setParticipantes((prev) => prev.filter((p) => p.id !== id));
+  const set = (id, field, val) =>
+    setParticipantes((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: val } : p)));
+
+  const sugerirObservacao = (p) => {
+    if (!p.nome.trim()) return;
+    setGerandoId(p.id);
+    const dimensoes = [p.familia && "família", p.empresa && "empresa", p.propriedade && "propriedade"]
+      .filter(Boolean)
+      .join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F9}\n\n` +
+      `Você ajuda alguém a preencher o Mapeamento dos Participantes do Mapa de Ruídos ` +
+      `Relacionais. Participante: "${p.nome}". Dimensões: ${dimensoes || "não marcadas"}. ` +
+      `Influência (1-5): ${p.influencia}.\n\n` +
+      `Sugira uma observação curta e plausível (no máximo 20 palavras) sobre o papel dessa ` +
+      `pessoa no sistema de comunicação da família, no estilo do exemplo do livro ("maior ` +
+      `influência prática do que o próprio sucessor"). Isso é só um rascunho pra pessoa editar ` +
+      `ou substituir pela realidade dela. Responda só com a frase, sem aspas, sem introdução, em ` +
+      `português do Brasil.`;
+
+    callClaude(prompt, 80)
+      .then((texto) => set(p.id, "observacoes", texto.trim()))
+      .catch(() => {})
+      .finally(() => setGerandoId(null));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 1 DE 7 · MAPEAMENTO DOS PARTICIPANTES</span>
+      <h1 style={styles.h1}>Quem participa, influencia ou é impactado pelas decisões?</h1>
+      <p style={styles.lead}>
+        Liste família, empresa, propriedade e outros (conselheiros, mentores) — mesmo quem não
+        ocupa um cargo formal de destaque. Não faça isso sozinho: cruze com a percepção de outros
+        participantes depois.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Prado (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {participantes.map((p) => (
+          <div key={p.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <input
+                style={{ ...styles.input, flex: "1 1 200px" }}
+                value={p.nome}
+                onChange={(e) => set(p.id, "nome", e.target.value)}
+                placeholder="Nome ou papel (ex.: diretor executivo)"
+              />
+              {participantes.length > 1 && (
+                <button onClick={() => remove(p.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <label style={styles.fieldLabel}>Dimensões (marque todas que se aplicam)</label>
+            <div style={styles.envioButtonsRow}>
+              {[
+                ["familia", "Família"],
+                ["empresa", "Empresa"],
+                ["propriedade", "Propriedade"],
+              ].map(([campo, label]) => (
+                <button
+                  key={campo}
+                  type="button"
+                  onClick={() => set(p.id, campo, !p[campo])}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: p[campo] ? BLUE : "#E4EAF0",
+                    background: p[campo] ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {p[campo] ? "✓ " : ""}
+                  {label}
+                </button>
+              ))}
+            </div>
+            <LinhaScore label="Influência (1 a 5)" valor={p.influencia} onChange={(n) => set(p.id, "influencia", n || 1)} max={5} />
+            <div style={styles.timelineTopRow}>
+              <input
+                style={{ ...styles.input, flex: "1 1 200px" }}
+                value={p.observacoes}
+                onChange={(e) => set(p.id, "observacoes", e.target.value)}
+                placeholder="Observações (opcional)"
+              />
+              <button
+                onClick={() => sugerirObservacao(p)}
+                disabled={!p.nome.trim() || gerandoId === p.id}
+                style={styles.enviarCardLink}
+                type="button"
+              >
+                {gerandoId === p.id ? "Gerando…" : "✦ Sugerir"}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar participante
+      </button>
+    </div>
+  );
+}
+
+function StepRelacoesF9({ relacoes, setRelacoes, participantesPreenchidos }) {
+  const add = () =>
+    setRelacoes((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, pessoa1Id: null, pessoa2Id: null, tipo: "saudavel", frequencia: "", confianca: "", observacoes: "" },
+    ]);
+  const remove = (id) => setRelacoes((prev) => prev.filter((r) => r.id !== id));
+  const set = (id, field, val) =>
+    setRelacoes((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: val } : r)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 2 DE 7 · MAPA DAS RELAÇÕES</span>
+      <h1 style={styles.h1}>Como é a comunicação real entre cada dupla?</h1>
+      <p style={styles.lead}>
+        Pra cada relação relevante, classifique o tipo de comunicação — pra além da aparência das
+        interações formais.
+      </p>
+
+      <div style={styles.familiaList}>
+        {relacoes.map((r) => (
+          <div key={r.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <select
+                style={{ ...styles.input, flex: "1 1 150px" }}
+                value={r.pessoa1Id ?? ""}
+                onChange={(e) => set(r.id, "pessoa1Id", Number(e.target.value) || null)}
+              >
+                <option value="">Pessoa 1</option>
+                {participantesPreenchidos.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.nome}
+                  </option>
+                ))}
+              </select>
+              <span style={styles.padraoInterpretacao}>↔</span>
+              <select
+                style={{ ...styles.input, flex: "1 1 150px" }}
+                value={r.pessoa2Id ?? ""}
+                onChange={(e) => set(r.id, "pessoa2Id", Number(e.target.value) || null)}
+              >
+                <option value="">Pessoa 2</option>
+                {participantesPreenchidos.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.nome}
+                  </option>
+                ))}
+              </select>
+              {relacoes.length > 1 && (
+                <button onClick={() => remove(r.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <label style={styles.fieldLabel}>Tipo de Comunicação</label>
+            <div style={styles.envioButtonsRow}>
+              {Object.entries(TIPOS_COMUNICACAO_F9).map(([key, t]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => set(r.id, "tipo", key)}
+                  style={{
+                    ...styles.semaforoBotao,
+                    borderColor: r.tipo === key ? t.cor : "#E4EAF0",
+                    background: r.tipo === key ? t.cor : "#fff",
+                    color: r.tipo === key ? "#fff" : "#5A6B7A",
+                  }}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Frequência</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={r.frequencia}
+                  onChange={(e) => set(r.id, "frequencia", e.target.value)}
+                  placeholder="Ex.: diária, rara"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Confiança</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={r.confianca}
+                  onChange={(e) => set(r.id, "confianca", e.target.value)}
+                  placeholder="Ex.: alta, baixa"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar outra relação
+      </button>
+    </div>
+  );
+}
+
+function StepRuidosF9({ ruidos, setRuidos }) {
+  const add = () =>
+    setRuidos((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, relacaoAfetada: "", tipoRuido: "Triangulação", descricao: "", impacto: "" },
+    ]);
+  const remove = (id) => setRuidos((prev) => prev.filter((r) => r.id !== id));
+  const set = (id, field, val) =>
+    setRuidos((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: val } : r)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 3 DE 7 · RUÍDOS IDENTIFICADOS</span>
+      <h1 style={styles.h1}>Quais padrões impedem a comunicação de circular direito?</h1>
+      <p style={styles.lead}>
+        Registre triangulações, silêncios, alianças não declaradas e conflitos recorrentes,
+        associando cada um à relação em que aparece.
+      </p>
+
+      <div style={styles.familiaList}>
+        {ruidos.map((r, i) => (
+          <div key={r.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>Ruído {i + 1}</span>
+              {ruidos.length > 1 && (
+                <button onClick={() => remove(r.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <label style={styles.fieldLabel}>Relação Afetada</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={r.relacaoAfetada}
+              onChange={(e) => set(r.id, "relacaoAfetada", e.target.value)}
+              placeholder="Ex.: pai, filho A e filha B"
+            />
+            <label style={styles.fieldLabel}>Tipo de Ruído</label>
+            <div style={styles.envioButtonsRow}>
+              {TIPOS_RUIDO_F9.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => set(r.id, "tipoRuido", t)}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: r.tipoRuido === t ? BLUE : "#E4EAF0",
+                    background: r.tipoRuido === t ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+            <label style={styles.fieldLabel}>Descrição</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={r.descricao}
+              onChange={(e) => set(r.id, "descricao", e.target.value)}
+              placeholder="Ex.: irmãos só se comunicam através do pai"
+            />
+            <label style={styles.fieldLabel}>Impacto</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={r.impacto}
+              onChange={(e) => set(r.id, "impacto", e.target.value)}
+              placeholder="Ex.: decisões atrasadas e mensagens distorcidas"
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar outro ruído
+      </button>
+    </div>
+  );
+}
+
+function StepTemasNaoConversados({ temasNaoConversados, setTemasNaoConversados }) {
+  const add = () =>
+    setTemasNaoConversados((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, tema: "", quemEvita: "", motivo: "", impacto: "" },
+    ]);
+  const remove = (id) => setTemasNaoConversados((prev) => prev.filter((t) => t.id !== id));
+  const set = (id, field, val) =>
+    setTemasNaoConversados((prev) => prev.map((t) => (t.id === id ? { ...t, [field]: val } : t)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 4 DE 7 · TEMAS QUE NÃO SÃO CONVERSADOS</span>
+      <h1 style={styles.h1}>O que a família evita colocar na mesa?</h1>
+      <p style={styles.lead}>
+        Justamente por não serem discutidos, esses temas geram riscos futuros. Liste os temas
+        evitados, quem tende a evitar cada um, o motivo aparente e o impacto que essa ausência já
+        está gerando.
+      </p>
+
+      <div style={styles.familiaList}>
+        {temasNaoConversados.map((t) => (
+          <div key={t.id} style={styles.padraoCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>Tema {temasNaoConversados.indexOf(t) + 1}</span>
+              {temasNaoConversados.length > 1 && (
+                <button onClick={() => remove(t.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <label style={styles.fieldLabel}>Tema Central</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={t.tema}
+              onChange={(e) => set(t.id, "tema", e.target.value)}
+              placeholder="Ex.: papel dos cônjuges na governança"
+            />
+            <label style={styles.fieldLabel}>Quem evita falar</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={t.quemEvita}
+              onChange={(e) => set(t.id, "quemEvita", e.target.value)}
+              placeholder="Ex.: toda a família"
+            />
+            <label style={styles.fieldLabel}>Motivo</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={t.motivo}
+              onChange={(e) => set(t.id, "motivo", e.target.value)}
+              placeholder="Ex.: nunca foi formalmente decidido"
+            />
+            <label style={styles.fieldLabel}>Impacto</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={t.impacto}
+              onChange={(e) => set(t.id, "impacto", e.target.value)}
+              placeholder="Ex.: desconforto silencioso e isolamento"
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar outro tema
+      </button>
+    </div>
+  );
+}
+
+function Sociograma({ participantes, relacoes }) {
+  const cx = 220;
+  const cy = 200;
+  const raio = 145;
+  const n = participantes.length;
+  const posicoes = {};
+  participantes.forEach((p, i) => {
+    const angulo = (i / n) * 2 * Math.PI - Math.PI / 2;
+    posicoes[p.id] = {
+      x: cx + raio * Math.cos(angulo),
+      y: cy + raio * Math.sin(angulo),
+    };
+  });
+
+  if (n < 2) {
+    return (
+      <p style={styles.papelDescricao}>
+        Adicione pelo menos 2 participantes no Passo 1 pra ver o sociograma.
+      </p>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 440 400" style={{ width: "100%", height: "auto" }}>
+      {relacoes
+        .filter((r) => r.pessoa1Id && r.pessoa2Id && posicoes[r.pessoa1Id] && posicoes[r.pessoa2Id])
+        .map((r) => {
+          const p1 = posicoes[r.pessoa1Id];
+          const p2 = posicoes[r.pessoa2Id];
+          const tipo = TIPOS_COMUNICACAO_F9[r.tipo] || TIPOS_COMUNICACAO_F9.saudavel;
+          const dash = tipo.linha === "solida" ? "0" : tipo.linha === "tracejada" ? "8 6" : "2 5";
+          return (
+            <line
+              key={r.id}
+              x1={p1.x}
+              y1={p1.y}
+              x2={p2.x}
+              y2={p2.y}
+              stroke={tipo.cor}
+              strokeWidth={2}
+              strokeDasharray={dash}
+              opacity={0.75}
+            />
+          );
+        })}
+      {participantes.map((p) => {
+        const pos = posicoes[p.id];
+        const raioCirculo = 14 + (p.influencia || 1) * 3;
+        return (
+          <g key={p.id}>
+            <circle cx={pos.x} cy={pos.y} r={raioCirculo} fill="#fff" stroke={BLUE} strokeWidth={2} />
+            <text x={pos.x} y={pos.y + 4} textAnchor="middle" fontSize="10" fontWeight="700" fill={NAVY}>
+              {p.nome.length > 12 ? p.nome.slice(0, 11) + "…" : p.nome}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function StepSociograma({ participantes, relacoes, ruidos }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 5 DE 7 · SOCIOGRAMA FAMILIAR</span>
+      <h1 style={styles.h1}>Veja a rede de comunicação da família, desenhada.</h1>
+      <p style={styles.lead}>
+        O tamanho do círculo reflete a influência de cada pessoa. Linha contínua verde é
+        comunicação saudável, tracejada amarela é difícil, pontilhada vermelha é inexistente.
+        Observe centralidade (quem concentra conexões), isolamento (quem tem poucas ou nenhuma) e
+        possíveis triangulações.
+      </p>
+
+      <div style={styles.padraoCard}>
+        <Sociograma participantes={participantes} relacoes={relacoes} />
+      </div>
+
+      <div style={styles.envioButtonsRow}>
+        {Object.values(TIPOS_COMUNICACAO_F9).map((t) => (
+          <span key={t.label} style={{ ...styles.padraoInterpretacao, color: t.cor }}>
+            ● {t.label}
+          </span>
+        ))}
+      </div>
+
+      {ruidos.filter((r) => r.relacaoAfetada.trim()).length > 0 && (
+        <div style={styles.familiaList}>
+          <span style={styles.papelNome}>Ruídos nomeados nesta rede</span>
+          {ruidos
+            .filter((r) => r.relacaoAfetada.trim())
+            .map((r) => (
+              <div key={r.id} style={styles.padraoCard}>
+                <span style={styles.papelNome}>{r.tipoRuido}</span>
+                <span style={styles.papelDescricao}>{r.relacaoAfetada}</span>
+                {r.descricao && <span style={styles.papelDescricao}>{r.descricao}</span>}
+              </div>
+            ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepConsolidacaoF9({ consolidacaoF9, setConsolidacaoF9 }) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const prompt =
+      `${LIVRO_CONTEXTO_F9}\n\n` +
+      `Você ajuda alguém que mapeou a rede de comunicação da família a se preparar pra ` +
+      `Consolidação Familiar.\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa compartilhar as descobertas, ` +
+      `deixando claro que o objetivo é diagnóstico coletivo, não vigilância sobre quem fala com ` +
+      `quem. Formate como lista curta. Responda só com as frases, sem introdução, em português ` +
+      `do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 6 DE 7 · CONSOLIDAÇÃO FAMILIAR</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
+      <p style={styles.lead}>
+        Registrem, na coluna Impacto, como cada descoberta deve influenciar a forma como a
+        família se comunica daqui pra frente.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <TabelaComportamentos
+        titulo="Descobertas e impactos"
+        linhas={consolidacaoF9}
+        setLinhas={setConsolidacaoF9}
+        labelComportamento="DESCOBERTA"
+        labelMotivo="IMPACTO"
+        placeholderComportamento="Ex.: as duas irmãs só se comunicam através do pai"
+        placeholderMotivo="Ex.: vamos criar uma reunião mensal direta entre elas"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF9_2({ planoF9, setPlanoF9 }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () =>
+    setPlanoF9((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "", status: "Não iniciado" },
+    ]);
+  const removeAcao = (id) => setPlanoF9((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF9((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F9}\n\n` +
+      `Você ajuda alguém que mapeou os ruídos relacionais da família a transformar isso em um ` +
+      `plano de ação. Sugira 2 ações em sequência cronológica, cada uma no infinitivo, com ` +
+      `responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF9(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              acao: a.acao || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+              status: "Não iniciado",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PASSO 7 DE 7 · PLANO DE AÇÃO</span>
+      <h1 style={styles.h1}>Transforme as descobertas em ações, com status de acompanhamento.</h1>
+      <p style={styles.lead}>
+        Cada ação tem um status — volte aqui daqui a alguns meses e atualize.
+      </p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <div style={styles.familiaList}>
+        {planoF9.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF9.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: criar fórum específico para sócios por casamento…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 60 dias"
+                />
+              </div>
+            </div>
+            <label style={styles.fieldLabel}>Status</label>
+            <div style={styles.envioButtonsRow}>
+              {STATUS_ACAO_F7.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setAcao(a.id, "status", s)}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: a.status === s ? BLUE : "#E4EAF0",
+                    background: a.status === s ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF9({ participantesPreenchidos, relacoes, ruidos, planoF9, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const ruidosPreenchidos = ruidos.filter((r) => r.relacaoAfetada.trim());
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 9,
+      notas: { participantes: participantesPreenchidos, relacoes },
+      conflito: { ruidos: ruidosPreenchidos },
+      plano_acao: planoF9,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const resumo = ruidosPreenchidos.map((r) => `${r.tipoRuido} em ${r.relacaoAfetada}`).join("; ") || "nenhum ruído nomeado";
+    const prompt =
+      `${LIVRO_CONTEXTO_F9}\n\n` +
+      `Alguém mapeou a rede de comunicação da família. Ruídos identificados: ${resumo}.\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que o ruído revelado costuma ser um ` +
+      `padrão estrutural do sistema, não um problema de personalidade. Tom direto, sem clichês ` +
+      `de autoajuda. Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Mapa de Ruídos Relacionais",
+      "",
+      `Participantes mapeados: ${participantesPreenchidos.map((p) => p.nome).join(", ") || "—"}`,
+      `Ruídos identificados: ${ruidosPreenchidos.map((r) => `${r.tipoRuido} (${r.relacaoAfetada})`).join("; ") || "—"}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      "Plano de ação:",
+      planoF9
+        .filter((a) => a.acao.trim())
+        .map(
+          (a, i) =>
+            `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"} — Status: ${a.status || "—"}`
+        )
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor("Nosso resultado — Mapa de Ruídos Relacionais", montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && (
+          <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>
+        )}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Mapa de Ruídos Relacionais, resumido.</h1>
+
+      <div style={styles.padraoCard}>
+        <Sociograma participantes={participantesPreenchidos} relacoes={relacoes} />
+      </div>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || "O ruído revelado costuma ser um padrão estrutural do sistema, não um problema de personalidade."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.familiaList}>
+        {ruidosPreenchidos.map((r) => (
+          <div key={r.id} style={styles.padraoCard}>
+            <span style={styles.papelNome}>{r.tipoRuido}</span>
+            <span style={styles.papelDescricao}>{r.relacaoAfetada}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF9
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>STATUS</span>
+                <span style={styles.fechamentoValue}>{a.status || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês mapearam participantes, relações, ruídos e temas evitados, e desenharam o
+          sociograma. O que falta agora é colocar em prática, e revisitar em 60 dias se os pactos
+          de comunicação estão funcionando.
         </p>
       </div>
 
