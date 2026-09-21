@@ -1348,6 +1348,86 @@ CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "O legado não �
 convite para construir algo novo."
 `.trim();
 
+const ELEMENTOS_PRESERVAR_F13 = ["Valores", "Cultura", "Reputação", "Relacionamentos", "Espírito Empreendedor"];
+const COMPROMISSOS_COMUNICACAO_F13 = [
+  "Conversar diretamente com os envolvidos",
+  "Evitar triangulações",
+  "Utilizar fóruns adequados",
+  "Tratar conflitos rapidamente",
+];
+const COMPROMISSOS_PROXIMAS_GERACOES_F13 = [
+  "Educação",
+  "Desenvolvimento profissional",
+  "Vivência externa",
+  "Formação patrimonial",
+  "Participação em governança",
+];
+
+const LIVRO_CONTEXTO_F13 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 13 · Acordo de Continuidade
+Familiar):
+
+PROPÓSITO: construir um acordo explícito entre os membros da família empresária sobre
+princípios, comportamentos, compromissos e responsabilidades necessários pra sustentar a
+continuidade familiar ao longo das gerações. Pergunta central: "O que precisamos preservar,
+respeitar e construir juntos para garantir a continuidade da família empresária?"
+
+O QUE RESOLVE: toda família empresária já opera segundo um conjunto de acordos — sobre o que se
+pode falar, quem decide o quê, o que é aceitável. O problema é que, na maioria das vezes, esses
+acordos nunca foram ditos em voz alta, e cada pessoa carrega sua própria versão deles. Essa
+ambiguidade funciona bem enquanto tudo está calmo, e desmorona exatamente no momento em que mais
+precisa funcionar — uma sucessão, um conflito, uma decisão patrimonial importante.
+
+NÍVEL DE SENSIBILIDADE: alto. Este é um workshop coletivo, não individual — deve incluir
+representantes de mais de uma geração, conduzido por um facilitador experiente, garantindo que
+todas as vozes, não só as mais velhas ou mais poderosas, sejam ouvidas.
+
+O RESULTADO NÃO É UM DOCUMENTO JURÍDICO FINAL: o acordo construído aqui serve como base de
+conteúdo e alinhamento pra protocolo familiar, constituição familiar, conselho de família,
+política de sucessão ou plano de desenvolvimento da nova geração — formalizados depois, com apoio
+jurídico quando necessário.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Família Cordeiro (visões diferentes de continuidade): avô falou em manter a fábrica como
+  sempre foi, pai falou em crescer e profissionalizar, netos falaram em propósito e
+  sustentabilidade — ninguém errado, mas ninguém falando da mesma coisa. A virada: a palavra
+  "continuidade" nunca tinha sido definida em conjunto, cada geração preenchia esse espaço em
+  branco com sua própria história. Resultado: a família decidiu NÃO avançar pra nenhum documento
+  formal antes de construir, junto, uma definição compartilhada do que "continuidade" significa
+  — workshops de alinhamento e construção de visão compartilhada entre as três gerações. "A gente
+  usava a mesma palavra, continuidade, pra falar de três coisas completamente diferentes", disse
+  um membro da família.
+- Família Tavares (acordos implícitos sem clareza pra conflitos): achavam que tinham acordos
+  claros sobre como lidar com desacordos, até uma decisão real sobre investimento expor o
+  contrário — ninguém sabia qual fórum usar, com quem falar primeiro. A virada: as regras até
+  existiam, mas só na cabeça de cada um, nunca ditas em voz alta nem escritas. Resultado: pacto de
+  comunicação explícito e fóruns permanentes definidos pra cada tipo de assunto. "A gente achava
+  que sabia como resolver as coisas. Só nunca tinha sido testado de verdade", disse um membro da
+  família.
+- Família Bittar (próxima geração desengajada): os filhos mais novos mal conhecem a história da
+  empresa e ficam quietos quando o assunto surge em jantares de família. A virada: o contraste
+  entre valorizar profundamente o espírito empreendedor (Etapa 1) e não abrir espaço real pros
+  mais jovens viverem esse espírito na prática (Etapa 3) — o silêncio dos filhos não era
+  desinteresse, era ausência de convite. Resultado: programa de integração geracional,
+  investimento em educação patrimonial, projeto memória da família. "Eu não me sentia parte da
+  história. Sentia que estava só assistindo de fora", disse um membro mais jovem da família.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): redigir o acordo sozinho, ou só com os
+membros mais velhos, sem incluir as vozes das próximas gerações; tratar o acordo como documento
+definitivo e engessado, quando deve ser revisado periodicamente; aceitar compromissos genéricos
+demais, sem nomear comportamentos específicos e observáveis — um acordo vago não orienta ninguém
+na prática; pular direto pra Consolidação sem completar as cinco etapas, perdendo a base de
+reflexão que sustenta o documento final; tratar o workshop como evento único, sem conectar o
+resultado a um protocolo familiar ou conselho de família formal depois.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Sempre lembrar que isso
+é ponto de partida pra formalização, não o documento jurídico final.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "É quando o invisível ganha forma
+concreta. Protocolos familiares, acordos de sócios e políticas claras garantem que o que foi
+conversado e decidido não se perca na memória seletiva de cada um."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -1417,7 +1497,7 @@ const FERRAMENTAS_CATALOGO = [
     categoria: "Governança Humana e Continuidade",
     cor: LIGHTBLUE,
     ferramentas: [
-      { n: 13, nome: "Acordo de Continuidade Familiar", ativa: false },
+      { n: 13, nome: "Acordo de Continuidade Familiar", ativa: true },
       { n: 14, nome: "Termômetro da Maturidade Familiar", ativa: false },
       { n: 15, nome: "Radar de Equilíbrio Sistêmico", ativa: false },
     ],
@@ -1870,6 +1950,8 @@ export default function App() {
         setView("ferramenta11");
       } else if (ferramentaParam === "12") {
         setView("ferramenta12");
+      } else if (ferramentaParam === "13") {
+        setView("ferramenta13");
       }
     } catch (e) {
       /* ignore */
@@ -2070,6 +2152,10 @@ export default function App() {
     setView("ferramenta12");
   };
 
+  const abrirFerramenta13 = () => {
+    setView("ferramenta13");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -2087,6 +2173,7 @@ export default function App() {
             onAbrirFerramenta10={abrirFerramenta10}
             onAbrirFerramenta11={abrirFerramenta11}
             onAbrirFerramenta12={abrirFerramenta12}
+            onAbrirFerramenta13={abrirFerramenta13}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -2220,6 +2307,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta12App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta13") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta13App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -2426,6 +2523,7 @@ function Catalogo({
   onAbrirFerramenta10,
   onAbrirFerramenta11,
   onAbrirFerramenta12,
+  onAbrirFerramenta13,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2442,6 +2540,7 @@ function Catalogo({
     10: onAbrirFerramenta10,
     11: onAbrirFerramenta11,
     12: onAbrirFerramenta12,
+    13: onAbrirFerramenta13,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2713,6 +2812,7 @@ function NovaFamilia({ onVoltar }) {
       "10": "Ferramenta 10 · Bússola Profissional",
       "11": "Ferramenta 11 · Escolha Autêntica",
       "12": "Ferramenta 12 · Escada do Legado",
+      "13": "Ferramenta 13 · Acordo de Continuidade",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2763,6 +2863,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="10">Ferramenta 10 · Bússola</option>
               <option value="11">Ferramenta 11 · Autêntica</option>
               <option value="12">Ferramenta 12 · Escada</option>
+              <option value="13">Ferramenta 13 · Acordo</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2898,7 +2999,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n${LIVRO_CONTEXTO_F13}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -5898,7 +5999,7 @@ function TabelaTransformar({ titulo, linhas, setLinhas }) {
   );
 }
 
-function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placeholders, opcoesColuna2 }) {
+function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placeholders, opcoesColuna2, opcoesColuna3 }) {
   const [c1, c2, c3] = campos;
   const add = () =>
     setLinhas((prev) => [
@@ -5956,18 +6057,75 @@ function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placehol
               />
             )}
             <span style={styles.padraoInterpretacao}>{labels[2]}</span>
-            <input
-              style={{ ...styles.input, flex: "none" }}
-              value={l[c3]}
-              onChange={(e) => set(l.id, c3, e.target.value)}
-              placeholder={placeholders[2]}
-            />
+            {opcoesColuna3 ? (
+              <div style={styles.envioButtonsRow}>
+                {opcoesColuna3.map((op) => (
+                  <button
+                    key={op}
+                    type="button"
+                    onClick={() => set(l.id, c3, op)}
+                    style={{
+                      ...styles.geracaoOption,
+                      borderColor: l[c3] === op ? BLUE : "#E4EAF0",
+                      background: l[c3] === op ? "#EAF2FB" : "#fff",
+                    }}
+                  >
+                    {op}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <input
+                style={{ ...styles.input, flex: "none" }}
+                value={l[c3]}
+                onChange={(e) => set(l.id, c3, e.target.value)}
+                placeholder={placeholders[2]}
+              />
+            )}
           </div>
         ))}
       </div>
       <button onClick={add} type="button" style={styles.demoLink}>
         + Adicionar
       </button>
+    </div>
+  );
+}
+
+function ListaSimples({ titulo, itens, setItens, placeholder, max = 5 }) {
+  const add = () => {
+    if (itens.length >= max) return;
+    setItens((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, texto: "" }]);
+  };
+  const remove = (id) => setItens((prev) => prev.filter((i) => i.id !== id));
+  const set = (id, val) => setItens((prev) => prev.map((i) => (i.id === id ? { ...i, texto: val } : i)));
+
+  return (
+    <div style={styles.padraoCard}>
+      <span style={styles.papelNome}>{titulo}</span>
+      <div style={styles.familiaList}>
+        {itens.map((item, i) => (
+          <div key={item.id} style={styles.timelineTopRow}>
+            <span style={styles.padraoInterpretacao}>{i + 1}.</span>
+            <input
+              style={{ ...styles.input, flex: 1 }}
+              value={item.texto}
+              onChange={(e) => set(item.id, e.target.value)}
+              placeholder={placeholder}
+            />
+            {itens.length > 1 && (
+              <button onClick={() => remove(item.id)} style={styles.removeRowButton} type="button">
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+      {itens.length < max && (
+        <button onClick={add} type="button" style={styles.demoLink}>
+          + Adicionar
+        </button>
+      )}
     </div>
   );
 }
@@ -14894,6 +15052,718 @@ function StepFechamentoF12({ pontuacoes, planoF12, onReiniciar, envioId }) {
           Você mapeou os seis degraus, identificou seu perfil e nomeou os riscos. O que falta
           agora é colocar o plano em prática, e revisitar essa escada daqui a 12 meses — o nível
           de conexão com o legado muda ao longo da vida.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F13_PRESERVAR = 0;
+const STEP_F13_NAO_REPETIR = 1;
+const STEP_F13_COMUNICACAO = 2;
+const STEP_F13_PROXIMAS_GERACOES = 3;
+const STEP_F13_INDIVIDUAIS = 4;
+const STEP_F13_CONSOLIDACAO = 5;
+const STEP_F13_PLANO = 6;
+const STEP_F13_FECHAMENTO = 7;
+
+const CORDEIRO_EXEMPLO_F13 = {
+  participantesF13: [
+    { id: 1, nome: "Avô (fundador)", geracao: "1ª geração" },
+    { id: 2, nome: "Pai", geracao: "2ª geração" },
+    { id: 3, nome: "Dois netos", geracao: "3ª geração" },
+  ],
+  preservar: { Valores: 5, Cultura: 4, Reputação: 4, Relacionamentos: 5, "Espírito Empreendedor": 5 },
+  naoRepetir: [
+    {
+      id: 1,
+      comportamento: "Divergir sobre o rumo do negócio sem nunca formalizar um entendimento comum entre gerações.",
+      impacto: "Cada geração assume que os outros pensam igual, sem nunca checar isso.",
+      eliminar: "Sim",
+    },
+  ],
+  comunicacao: { "Conversar diretamente com os envolvidos": 4, "Evitar triangulações": 3, "Utilizar fóruns adequados": 2, "Tratar conflitos rapidamente": 3 },
+  proximasGeracoes: { Educação: 4, "Desenvolvimento profissional": 3, "Vivência externa": 3, "Formação patrimonial": 3, "Participação em governança": 5 },
+  individuais: [
+    { id: 1, texto: "Ouvir mais as outras gerações antes de defender minha visão de continuidade." },
+    { id: 2, texto: "Trazer minha ideia de continuidade pro fórum certo, não pras rodas informais." },
+  ],
+  principios: [
+    { id: 1, texto: "Continuidade significa coisas diferentes pra cada geração, e isso precisa ser dito em voz alta." },
+    { id: 2, texto: "Nenhuma geração decide sozinha o que a palavra 'continuidade' significa pra todos." },
+  ],
+  compromissos: [
+    { id: 1, texto: "Construir, juntos, uma definição compartilhada do que continuidade significa pra esta família." },
+    { id: 2, texto: "Realizar workshops regulares de alinhamento entre as três gerações." },
+  ],
+  inaceitaveis: [
+    { id: 1, texto: "Presumir que os outros concordam com sua visão sem nunca ter perguntado." },
+    { id: 2, texto: "Tomar decisões sobre o rumo do negócio fora dos fóruns combinados." },
+  ],
+  planoF13: [
+    {
+      id: 1,
+      acao: "Realizar workshop de alinhamento entre as três gerações sobre o significado de continuidade.",
+      responsavel: "Conselho de família, com facilitador",
+      prazo: "45 dias",
+    },
+  ],
+};
+
+function initNotasObjF13(lista) {
+  return lista.reduce((acc, item) => {
+    acc[item] = null;
+    return acc;
+  }, {});
+}
+
+function Ferramenta13App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F13_PRESERVAR);
+  const [participantesF13, setParticipantesF13] = useState([{ id: 1, nome: "", geracao: "" }]);
+  const [preservar, setPreservar] = useState(initNotasObjF13(ELEMENTOS_PRESERVAR_F13));
+  const [naoRepetir, setNaoRepetir] = useState([{ id: 1, comportamento: "", impacto: "", eliminar: "" }]);
+  const [comunicacao, setComunicacao] = useState(initNotasObjF13(COMPROMISSOS_COMUNICACAO_F13));
+  const [proximasGeracoes, setProximasGeracoes] = useState(initNotasObjF13(COMPROMISSOS_PROXIMAS_GERACOES_F13));
+  const [individuais, setIndividuais] = useState([{ id: 1, texto: "" }]);
+  const [principios, setPrincipios] = useState([{ id: 1, texto: "" }]);
+  const [compromissos, setCompromissos] = useState([{ id: 1, texto: "" }]);
+  const [inaceitaveis, setInaceitaveis] = useState([{ id: 1, texto: "" }]);
+  const [planoF13, setPlanoF13] = useState([{ id: 1, acao: "", responsavel: "", prazo: "" }]);
+
+  const carregarExemploF13 = () => {
+    setParticipantesF13(CORDEIRO_EXEMPLO_F13.participantesF13);
+    setPreservar(CORDEIRO_EXEMPLO_F13.preservar);
+    setNaoRepetir(CORDEIRO_EXEMPLO_F13.naoRepetir);
+    setComunicacao(CORDEIRO_EXEMPLO_F13.comunicacao);
+    setProximasGeracoes(CORDEIRO_EXEMPLO_F13.proximasGeracoes);
+    setIndividuais(CORDEIRO_EXEMPLO_F13.individuais);
+    setPrincipios(CORDEIRO_EXEMPLO_F13.principios);
+    setCompromissos(CORDEIRO_EXEMPLO_F13.compromissos);
+    setInaceitaveis(CORDEIRO_EXEMPLO_F13.inaceitaveis);
+    setPlanoF13(CORDEIRO_EXEMPLO_F13.planoF13);
+    setStep(STEP_F13_CONSOLIDACAO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F13_PRESERVAR) {
+      return (
+        participantesF13.some((p) => p.nome.trim()) &&
+        ELEMENTOS_PRESERVAR_F13.every((e) => preservar[e] !== null)
+      );
+    }
+    if (step === STEP_F13_NAO_REPETIR) return naoRepetir.some((n) => n.comportamento.trim());
+    if (step === STEP_F13_COMUNICACAO) return COMPROMISSOS_COMUNICACAO_F13.every((c) => comunicacao[c] !== null);
+    if (step === STEP_F13_PROXIMAS_GERACOES) return COMPROMISSOS_PROXIMAS_GERACOES_F13.every((c) => proximasGeracoes[c] !== null);
+    if (step === STEP_F13_INDIVIDUAIS) return individuais.some((i) => i.texto.trim().length > 3);
+    if (step === STEP_F13_CONSOLIDACAO) return principios.some((p) => p.texto.trim().length > 3);
+    if (step === STEP_F13_PLANO) return planoF13.some((a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0);
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F13_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F13_PRESERVAR, s - 1));
+
+  return (
+    <>
+      <Header13 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F13_PRESERVAR && (
+          <StepPreservarF13
+            participantesF13={participantesF13}
+            setParticipantesF13={setParticipantesF13}
+            preservar={preservar}
+            setPreservar={setPreservar}
+            onCarregarExemplo={carregarExemploF13}
+          />
+        )}
+        {step === STEP_F13_NAO_REPETIR && <StepNaoRepetirF13 naoRepetir={naoRepetir} setNaoRepetir={setNaoRepetir} />}
+        {step === STEP_F13_COMUNICACAO && <StepComunicacaoF13 comunicacao={comunicacao} setComunicacao={setComunicacao} />}
+        {step === STEP_F13_PROXIMAS_GERACOES && (
+          <StepProximasGeracoesF13 proximasGeracoes={proximasGeracoes} setProximasGeracoes={setProximasGeracoes} />
+        )}
+        {step === STEP_F13_INDIVIDUAIS && <StepIndividuaisF13 individuais={individuais} setIndividuais={setIndividuais} />}
+        {step === STEP_F13_CONSOLIDACAO && (
+          <StepConsolidacaoF13
+            principios={principios}
+            setPrincipios={setPrincipios}
+            compromissos={compromissos}
+            setCompromissos={setCompromissos}
+            inaceitaveis={inaceitaveis}
+            setInaceitaveis={setInaceitaveis}
+            preservar={preservar}
+            naoRepetir={naoRepetir}
+            comunicacao={comunicacao}
+            proximasGeracoes={proximasGeracoes}
+            individuais={individuais}
+          />
+        )}
+        {step === STEP_F13_PLANO && <StepPlanoF13 planoF13={planoF13} setPlanoF13={setPlanoF13} principios={principios} />}
+        {step === STEP_F13_FECHAMENTO && (
+          <StepFechamentoF13
+            participantesF13={participantesF13}
+            principios={principios}
+            compromissos={compromissos}
+            inaceitaveis={inaceitaveis}
+            planoF13={planoF13}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F13_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F13_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header13({ step, onVoltarCatalogo }) {
+  const labels = [
+    "O que preservar",
+    "O que não repetir",
+    "Compromissos de comunicação",
+    "Compromissos com as próximas gerações",
+    "Compromissos individuais",
+    "Consolidação do acordo",
+    "Plano de formalização",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F13_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Acordo de Continuidade Familiar · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepPreservarF13({ participantesF13, setParticipantesF13, preservar, setPreservar, onCarregarExemplo }) {
+  const addParticipante = () =>
+    setParticipantesF13((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, nome: "", geracao: "" }]);
+  const removeParticipante = (id) => setParticipantesF13((prev) => prev.filter((p) => p.id !== id));
+  const setParticipante = (id, field, val) =>
+    setParticipantesF13((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: val } : p)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 1 DE 5 · O QUE QUEREMOS PRESERVAR?</span>
+      <h1 style={styles.h1}>O que não deveria se perder nesta família empresária?</h1>
+      <p style={styles.lead}>
+        Este é um workshop coletivo — reúna representantes de mais de uma geração antes de
+        preencher, idealmente com um facilitador conduzindo. Avalie a importância de cada
+        elemento de 1 a 5.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Cordeiro (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.padraoCard}>
+        <span style={styles.papelNome}>Quem está presente neste workshop</span>
+        <div style={styles.familiaList}>
+          {participantesF13.map((p) => (
+            <div key={p.id} style={styles.timelineTopRow}>
+              <input
+                style={{ ...styles.input, flex: "1 1 150px" }}
+                value={p.nome}
+                onChange={(e) => setParticipante(p.id, "nome", e.target.value)}
+                placeholder="Nome"
+              />
+              <input
+                style={{ ...styles.input, flex: "1 1 120px" }}
+                value={p.geracao}
+                onChange={(e) => setParticipante(p.id, "geracao", e.target.value)}
+                placeholder="Ex.: 2ª geração"
+              />
+              {participantesF13.length > 1 && (
+                <button onClick={() => removeParticipante(p.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <button onClick={addParticipante} type="button" style={styles.demoLink}>
+          + Adicionar participante
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {ELEMENTOS_PRESERVAR_F13.map((e) => (
+          <LinhaScore key={e} label={e} valor={preservar[e]} onChange={(n) => setPreservar((prev) => ({ ...prev, [e]: n }))} max={5} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepNaoRepetirF13({ naoRepetir, setNaoRepetir }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 2 DE 5 · O QUE NÃO QUEREMOS REPETIR?</span>
+      <h1 style={styles.h1}>Quais padrões já prejudicaram esta família empresária?</h1>
+      <p style={styles.lead}>
+        Reflitam sobre comportamentos e padrões que já causaram dano, e se a família deseja
+        eliminá-los daqui pra frente.
+      </p>
+
+      <TabelaTresColunas
+        titulo="Comportamentos a não repetir"
+        linhas={naoRepetir}
+        setLinhas={setNaoRepetir}
+        campos={["comportamento", "impacto", "eliminar"]}
+        labels={["COMPORTAMENTO", "IMPACTO", "ELIMINAR?"]}
+        opcoesColuna3={["Sim", "Não"]}
+        placeholders={[
+          "Ex.: decisões concentradas em uma só pessoa",
+          "Ex.: atrasa decisões e desmotiva os demais",
+          "Sim ou não",
+        ]}
+      />
+    </div>
+  );
+}
+
+function StepComunicacaoF13({ comunicacao, setComunicacao }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 3 DE 5 · COMPROMISSOS DE COMUNICAÇÃO</span>
+      <h1 style={styles.h1}>Como desejamos conversar e resolver conflitos daqui pra frente?</h1>
+      <p style={styles.lead}>Para cada compromisso: 1 é discordo totalmente, 5 é concordo totalmente.</p>
+
+      <div style={styles.familiaList}>
+        {COMPROMISSOS_COMUNICACAO_F13.map((c) => (
+          <LinhaScore key={c} label={c} valor={comunicacao[c]} onChange={(n) => setComunicacao((prev) => ({ ...prev, [c]: n }))} min={1} max={5} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepProximasGeracoesF13({ proximasGeracoes, setProximasGeracoes }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 4 DE 5 · COMPROMISSOS COM AS PRÓXIMAS GERAÇÕES</span>
+      <h1 style={styles.h1}>O que é prioritário pra preparar as futuras gerações?</h1>
+      <p style={styles.lead}>Para cada compromisso: 1 é sem importância, 5 é essencial.</p>
+
+      <div style={styles.familiaList}>
+        {COMPROMISSOS_PROXIMAS_GERACOES_F13.map((c) => (
+          <LinhaScore
+            key={c}
+            label={c}
+            valor={proximasGeracoes[c]}
+            onChange={(n) => setProximasGeracoes((prev) => ({ ...prev, [c]: n }))}
+            min={1}
+            max={5}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepIndividuaisF13({ individuais, setIndividuais }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 5 DE 5 · COMPROMISSOS INDIVIDUAIS</span>
+      <h1 style={styles.h1}>Complete: eu me comprometo a...</h1>
+      <p style={styles.lead}>Cada participante registra seus próprios compromissos pessoais e concretos.</p>
+
+      <ListaSimples titulo="Eu me comprometo a" itens={individuais} setItens={setIndividuais} placeholder="Ex.: ouvir mais as outras gerações antes de defender minha visão" max={5} />
+    </div>
+  );
+}
+
+function StepConsolidacaoF13({
+  principios,
+  setPrincipios,
+  compromissos,
+  setCompromissos,
+  inaceitaveis,
+  setInaceitaveis,
+  preservar,
+  naoRepetir,
+  comunicacao,
+  proximasGeracoes,
+  individuais,
+}) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const sugerirConsolidacao = () => {
+    setGerando(true);
+    setErro(false);
+    const preservarTexto = ELEMENTOS_PRESERVAR_F13.map((e) => `${e}: ${preservar[e]}`).join(", ");
+    const naoRepetirTexto = naoRepetir.filter((n) => n.comportamento.trim()).map((n) => n.comportamento).join("; ");
+    const individuaisTexto = individuais.filter((i) => i.texto.trim()).map((i) => i.texto).join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F13}\n\n` +
+      `Você ajuda uma família a consolidar o Acordo de Continuidade Familiar a partir do que já ` +
+      `preencheram:\n` +
+      `- O que querem preservar: ${preservarTexto}\n` +
+      `${naoRepetirTexto ? `- O que não querem repetir: ${naoRepetirTexto}\n` : ""}` +
+      `${individuaisTexto ? `- Compromissos individuais já registrados: ${individuaisTexto}\n` : ""}\n` +
+      `Sugira até 3 itens curtos e concretos pra cada um dos três blocos: princípios (crenças ` +
+      `que guiam a família), compromissos (ações que a família assume), e comportamentos ` +
+      `inaceitáveis (o que não será tolerado). Isso é só um rascunho pra família editar juntos.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `{"principios":["",""],"compromissos":["",""],"inaceitaveis":["",""]}`;
+
+    callClaude(prompt, 500)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed.principios)) {
+          setPrincipios(parsed.principios.map((t, i) => ({ id: i + 1, texto: t })));
+        }
+        if (Array.isArray(parsed.compromissos)) {
+          setCompromissos(parsed.compromissos.map((t, i) => ({ id: i + 1, texto: t })));
+        }
+        if (Array.isArray(parsed.inaceitaveis)) {
+          setInaceitaveis(parsed.inaceitaveis.map((t, i) => ({ id: i + 1, texto: t })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>CONSOLIDAÇÃO DO ACORDO</span>
+      <h1 style={styles.h1}>Reúnam as respostas de todas as etapas em um único documento.</h1>
+      <p style={styles.lead}>
+        Consolidem, juntos, os três blocos abaixo. Evitem compromissos genéricos demais — nomeiem
+        comportamentos específicos e observáveis.
+      </p>
+
+      <button onClick={sugerirConsolidacao} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Lendo tudo que vocês preencheram…" : "✦ Sugerir consolidação com base em tudo que já preencheram"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <ListaSimples titulo="Nossos Princípios" itens={principios} setItens={setPrincipios} placeholder="Ex.: continuidade significa coisas diferentes pra cada geração" max={5} />
+      <ListaSimples titulo="Nossos Compromissos" itens={compromissos} setItens={setCompromissos} placeholder="Ex.: construir, juntos, uma definição compartilhada de continuidade" max={5} />
+      <ListaSimples titulo="Nossos Comportamentos Inaceitáveis" itens={inaceitaveis} setItens={setInaceitaveis} placeholder="Ex.: tomar decisões fora dos fóruns combinados" max={5} />
+    </div>
+  );
+}
+
+function StepPlanoF13({ planoF13, setPlanoF13, principios }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () => setPlanoF13((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF13((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) => setPlanoF13((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const principiosTexto = principios.filter((p) => p.texto.trim()).map((p) => p.texto).join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F13}\n\n` +
+      `Você ajuda uma família a transformar o Acordo de Continuidade Familiar consolidado em um ` +
+      `plano de formalização.${principiosTexto ? ` Princípios acordados: "${principiosTexto}".` : ""}\n\n` +
+      `Sugira 2 ações concretas de formalização (ex.: contratar apoio jurídico, formalizar um ` +
+      `protocolo familiar, criar conselho de família), cada uma no infinitivo, com responsável e ` +
+      `prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF13(parsed.map((a, i) => ({ id: i + 1, acao: a.acao || "", responsavel: a.responsavel || "", prazo: a.prazo || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE AÇÃO PARA FORMALIZAÇÃO</span>
+      <h1 style={styles.h1}>Transforme o acordo consolidado em ações concretas.</h1>
+      <p style={styles.lead}>Com responsável e prazo pra cada uma.</p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF13.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF13.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: contratar apoio jurídico para redigir o protocolo familiar…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 60 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF13({ participantesF13, principios, compromissos, inaceitaveis, planoF13, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const principiosPreenchidos = principios.filter((p) => p.texto.trim());
+  const compromissosPreenchidos = compromissos.filter((c) => c.texto.trim());
+  const inaceitaveisPreenchidos = inaceitaveis.filter((i) => i.texto.trim());
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 13,
+      notas: {
+        participantes: participantesF13.filter((p) => p.nome.trim()).map((p) => ({ nome: p.nome, geracao: p.geracao })),
+        principios: principiosPreenchidos.map((p) => p.texto),
+        compromissos: compromissosPreenchidos.map((c) => c.texto),
+        inaceitaveis: inaceitaveisPreenchidos.map((i) => i.texto),
+      },
+      plano_acao: planoF13,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const prompt =
+      `${LIVRO_CONTEXTO_F13}\n\n` +
+      `Uma família completou o Acordo de Continuidade Familiar. Princípios: ` +
+      `${principiosPreenchidos.map((p) => p.texto).join("; ") || "—"}.\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que esse acordo é ponto de partida ` +
+      `pra formalização, não o documento jurídico final. Tom direto, sem clichês de autoajuda. ` +
+      `Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const participantesPreenchidos = participantesF13.filter((p) => p.nome.trim());
+    const linhas = [
+      "Acordo de Continuidade Familiar",
+      "",
+      `Participantes do workshop: ${participantesPreenchidos.map((p) => `${p.nome}${p.geracao ? ` (${p.geracao})` : ""}`).join(", ") || "—"}`,
+      "",
+      "Nossos Princípios:",
+      principiosPreenchidos.map((p, i) => `${i + 1}. ${p.texto}`).join("\n") || "—",
+      "",
+      "Nossos Compromissos:",
+      compromissosPreenchidos.map((c, i) => `${i + 1}. ${c.texto}`).join("\n") || "—",
+      "",
+      "Nossos Comportamentos Inaceitáveis:",
+      inaceitaveisPreenchidos.map((i2, i) => `${i + 1}. ${i2.texto}`).join("\n") || "—",
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      "Plano de ação:",
+      planoF13
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor("Nosso resultado — Acordo de Continuidade Familiar", montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Acordo de Continuidade Familiar, resumido.</h1>
+      {participantesF13.filter((p) => p.nome.trim()).length > 0 && (
+        <p style={styles.papelDescricao}>
+          Participantes deste workshop:{" "}
+          {participantesF13
+            .filter((p) => p.nome.trim())
+            .map((p) => `${p.nome}${p.geracao ? ` (${p.geracao})` : ""}`)
+            .join(", ")}
+        </p>
+      )}
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || "Este acordo é ponto de partida pra formalização, não o documento jurídico final."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.padraoCard}>
+        <span style={styles.papelNome}>Nossos Princípios</span>
+        {principiosPreenchidos.map((p, i) => (
+          <span key={p.id} style={styles.papelDescricao}>
+            {i + 1}. {p.texto}
+          </span>
+        ))}
+      </div>
+      <div style={styles.padraoCard}>
+        <span style={styles.papelNome}>Nossos Compromissos</span>
+        {compromissosPreenchidos.map((c, i) => (
+          <span key={c.id} style={styles.papelDescricao}>
+            {i + 1}. {c.texto}
+          </span>
+        ))}
+      </div>
+      <div style={styles.padraoCard}>
+        <span style={styles.papelNome}>Nossos Comportamentos Inaceitáveis</span>
+        {inaceitaveisPreenchidos.map((i2, i) => (
+          <span key={i2.id} style={styles.papelDescricao}>
+            {i + 1}. {i2.texto}
+          </span>
+        ))}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF13
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é formalizar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês construíram, juntos, um acordo explícito sobre o que preservar, o que não repetir,
+          como se comunicar e como preparar as próximas gerações. Este acordo pode servir de base
+          pra um Protocolo Familiar, Constituição Familiar, Conselho de Família ou Política de
+          Sucessão — revisitem em 12 meses, ou a cada mudança relevante na família.
         </p>
       </div>
 
