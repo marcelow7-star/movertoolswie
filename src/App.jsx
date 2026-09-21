@@ -741,7 +741,12 @@ Os ressentimentos antigos, comparações, rivalidades entre irmãos e/ou primos 
 atendidas são feridas emocionais que, se não atendidas, têm o poder de boicotar o processo."
 `.trim();
 
-const FREQUENCIAS_F9 = ["Diária", "Semanal", "Mensal", "Rara"];
+const FREQUENCIAS_F9 = [
+  { label: "Diária", desc: "Praticamente todos os dias" },
+  { label: "Semanal", desc: "Ao menos uma vez por semana" },
+  { label: "Mensal", desc: "Ao menos uma vez por mês" },
+  { label: "Raramente", desc: "poucas vezes ao ano, como em datas ou eventos" },
+];
 const CONFIANCAS_F9 = ["Alta", "Média", "Baixa"];
 
 const TIPOS_COMUNICACAO_F9 = {
@@ -750,7 +755,24 @@ const TIPOS_COMUNICACAO_F9 = {
   inexistente: { label: "Inexistente", cor: "#B3261E", linha: "pontilhada" },
 };
 
-const TIPOS_RUIDO_F9 = ["Triangulação", "Silêncio", "Aliança não declarada", "Conflito recorrente"];
+const TIPOS_RUIDO_F9 = [
+  {
+    nome: "Triangulação",
+    desc: "Duas pessoas quase não se falam direto, e se comunicam principalmente através de uma terceira.",
+  },
+  {
+    nome: "Silêncio",
+    desc: "Um tema ou uma relação simplesmente não é tocado — ninguém fala sobre isso, positiva ou negativamente.",
+  },
+  {
+    nome: "Aliança não declarada",
+    desc: "Duas ou mais pessoas se alinham em decisões antes das conversas oficiais, sem admitir isso abertamente.",
+  },
+  {
+    nome: "Conflito recorrente",
+    desc: "A mesma discussão ou tensão volta a aparecer repetidamente, sem nunca ser resolvida de vez.",
+  },
+];
 
 const LIVRO_CONTEXTO_F9 = `
 Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 09 · Mapa de Ruídos
@@ -3050,7 +3072,9 @@ function StepConsolidacao({ consolidacao, setConsolidacao, resultado, decisao, t
       <h1 style={styles.h1}>Em grupo, com um facilitador conduzindo a conversa.</h1>
       <p style={styles.lead}>
         Leve o que você descobriu sobre <strong style={{ color: BLUE }}>&ldquo;{alto}&rdquo;</strong>{" "}
-        para uma conversa de verdade. Compartilhe o insight, não as notas numéricas.
+        para uma conversa de verdade. Compartilhe o insight, não as notas numéricas. Evite que o
+        próprio fundador conduza essa conversa sozinho — um facilitador neutro, sem conflito
+        direto de interesse na questão, tende a ajudar mais.
       </p>
 
       {!script && (
@@ -4124,7 +4148,9 @@ function StepConsolidacaoF2({ familia, addFamiliar, removeFamiliar, setFamiliar,
         Reúna a família e, juntos, identifiquem o papel que mais descreve cada pessoa. Isso revela
         a &ldquo;arquitetura de papéis&rdquo; da família como um todo — se todos forem
         Pacificadores, ninguém confronta problemas reais; se todos forem Controladores, a família
-        vive em disputa de poder.
+        vive em disputa de poder. Idealmente, um facilitador neutro conduz essa consolidação —
+        evite que o próprio &ldquo;Guardião do Legado&rdquo; ou &ldquo;Controlador&rdquo; da
+        família a conduza sozinho, já que tende a guiar o resultado sem perceber.
       </p>
 
       {!script && (
@@ -5574,7 +5600,9 @@ function StepConsolidacaoF3({
       <h1 style={styles.h1}>Reúna a família: o que repetir, transformar, interromper?</h1>
       <p style={styles.lead}>
         Já pré-preenchi as três tabelas abaixo com base no que vocês classificaram no Passo 3 —
-        revisem, ajustem e completem o motivo de cada uma.
+        revisem, ajustem e completem o motivo de cada uma. Dado o volume de memória histórica e
+        emoção geralmente envolvidos nessa ferramenta, ela funciona melhor com um facilitador
+        externo conduzindo essa conversa.
       </p>
 
       {!script && (
@@ -6722,7 +6750,8 @@ function StepConsolidacaoF4({ consolidacaoF4, setConsolidacaoF4, gargalosPreench
       <h1 style={styles.h1}>Reúna o grupo e compartilhem as descobertas.</h1>
       <p style={styles.lead}>
         Registrem como cada descoberta muda a forma como vocês pretendem estruturar a autoridade
-        daqui pra frente.
+        daqui pra frente. Um facilitador neutro tende a ajudar nessa consolidação, especialmente
+        quando o resultado revelar padrões sensíveis, como autoridade ausente ou concentrada.
       </p>
 
       {!script && (
@@ -7770,7 +7799,9 @@ function StepConsolidacaoF5({ consolidacaoF5, setConsolidacaoF5, diferencas }) {
       <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
       <p style={styles.lead}>
         Registrem como cada descoberta muda a forma como vocês pretendem se relacionar daqui pra
-        frente.
+        frente. Um facilitador neutro tende a ajudar, especialmente nos aspectos em que a
+        diferença entre as gerações foi maior que 4 pontos — essas conversas costumam carregar
+        mais emoção.
       </p>
 
       {!script && (
@@ -8712,7 +8743,9 @@ function StepConsolidacaoF6({ consolidacaoF6, setConsolidacaoF6, icsFinal }) {
       <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
       <p style={styles.lead}>
         Registrem como cada descoberta da Reflexão Individual muda o plano de desenvolvimento do
-        sucessor.
+        sucessor. A consolidação e o plano funcionam melhor com um facilitador neutro ou o
+        conselho de família, especialmente quando o resultado cair nas faixas de Confiança Baixa
+        ou Moderada.
       </p>
 
       {!script && (
@@ -9754,7 +9787,9 @@ function StepConsolidacaoF7({ consolidacaoF7, setConsolidacaoF7, contexto }) {
       <span style={styles.eyebrowSmall}>PASSO 7 DE 9 · CONSOLIDAÇÃO FAMILIAR</span>
       <h1 style={styles.h1}>Reúnam-se e compartilhem as descobertas.</h1>
       <p style={styles.lead}>
-        Registrem, na coluna Impacto, como cada descoberta deve influenciar futuras conversas.
+        Registrem, na coluna Impacto, como cada descoberta deve influenciar futuras conversas. Em
+        temas de alta tensão, como disputas de liderança ou divergências patrimoniais relevantes,
+        um facilitador externo profissional conduzindo essa consolidação é altamente recomendado.
       </p>
 
       {!script && (
@@ -10650,7 +10685,9 @@ function StepConsolidacaoF8({ consolidacaoF8, setConsolidacaoF8, temasVermelhos 
       <h1 style={styles.h1}>Reúnam-se e compartilhem os temas identificados.</h1>
       <p style={styles.lead}>
         Registrem, na coluna Impacto, o que cada descoberta muda na forma como a família pretende
-        lidar com esses assuntos.
+        lidar com esses assuntos. O compartilhamento e a consolidação funcionam melhor com um
+        facilitador conduzindo, especialmente quando houver muitos temas vermelhos ou grande
+        diferença de percepção entre os membros da família.
       </p>
 
       {!script && (
@@ -11060,7 +11097,7 @@ const PRADO_EXEMPLO_F9 = {
   relacoes: [
     { id: 1, pessoa1Id: 1, pessoa2Id: 2, tipo: "saudavel", frequencia: "Diária", confianca: "Alta", observacoes: "" },
     { id: 2, pessoa1Id: 1, pessoa2Id: 3, tipo: "saudavel", frequencia: "Diária", confianca: "Alta", observacoes: "" },
-    { id: 3, pessoa1Id: 2, pessoa2Id: 3, tipo: "inexistente", frequencia: "Rara", confianca: "Baixa", observacoes: "Só se comunicam através do pai." },
+    { id: 3, pessoa1Id: 2, pessoa2Id: 3, tipo: "inexistente", frequencia: "Raramente", confianca: "Baixa", observacoes: "Só se comunicam através do pai." },
   ],
   ruidos: [
     {
@@ -11277,8 +11314,9 @@ function StepParticipantesF9({ participantes, setParticipantes, onCarregarExempl
       <h1 style={styles.h1}>Quem participa, influencia ou é impactado pelas decisões?</h1>
       <p style={styles.lead}>
         Liste família, empresa, propriedade e outros (conselheiros, mentores) — mesmo quem não
-        ocupa um cargo formal de destaque. Não faça isso sozinho: cruze com a percepção de outros
-        participantes depois.
+        ocupa um cargo formal de destaque. Este mapeamento deve ser conduzido por um facilitador,
+        com contribuição de múltiplas pessoas — não faça isso sozinho: cruze com a percepção de
+        outros participantes depois.
       </p>
 
       <div style={styles.demoLinksRow}>
@@ -11324,6 +11362,20 @@ function StepParticipantesF9({ participantes, setParticipantes, onCarregarExempl
                   {label}
                 </button>
               ))}
+            </div>
+            <div style={styles.icsExemplosBox}>
+              <span style={styles.icsExemploLinha}>
+                <strong>Família:</strong> tem vínculo familiar com o grupo — pais, filhos,
+                cônjuges, irmãos.
+              </span>
+              <span style={styles.icsExemploLinha}>
+                <strong>Empresa:</strong> atua na operação do negócio, com cargo ou função, mesmo
+                sem vínculo familiar.
+              </span>
+              <span style={styles.icsExemploLinha}>
+                <strong>Propriedade:</strong> tem participação societária ou patrimonial na
+                empresa. Uma pessoa pode se encaixar em mais de uma dimensão ao mesmo tempo.
+              </span>
             </div>
             <LinhaScore label="Influência (1 a 5)" valor={p.influencia} onChange={(n) => set(p.id, "influencia", n || 1)} max={5} />
             <div style={styles.timelineTopRow}>
@@ -11430,19 +11482,24 @@ function StepRelacoesF9({ relacoes, setRelacoes, participantesPreenchidos }) {
                 <div style={styles.envioButtonsRow}>
                   {FREQUENCIAS_F9.map((f) => (
                     <button
-                      key={f}
+                      key={f.label}
                       type="button"
-                      onClick={() => set(r.id, "frequencia", f)}
+                      onClick={() => set(r.id, "frequencia", f.label)}
                       style={{
                         ...styles.geracaoOption,
-                        borderColor: r.frequencia === f ? BLUE : "#E4EAF0",
-                        background: r.frequencia === f ? "#EAF2FB" : "#fff",
+                        borderColor: r.frequencia === f.label ? BLUE : "#E4EAF0",
+                        background: r.frequencia === f.label ? "#EAF2FB" : "#fff",
                       }}
                     >
-                      {f}
+                      {f.label}
                     </button>
                   ))}
                 </div>
+                {r.frequencia && (
+                  <span style={styles.padraoInterpretacao}>
+                    {FREQUENCIAS_F9.find((f) => f.label === r.frequencia)?.desc}
+                  </span>
+                )}
               </div>
               <div style={styles.planoField}>
                 <label style={styles.fieldLabel}>Confiança</label>
@@ -11489,9 +11546,18 @@ function StepRuidosF9({ ruidos, setRuidos }) {
       <span style={styles.eyebrowSmall}>PASSO 3 DE 7 · RUÍDOS IDENTIFICADOS</span>
       <h1 style={styles.h1}>Quais padrões impedem a comunicação de circular direito?</h1>
       <p style={styles.lead}>
-        Registre triangulações, silêncios, alianças não declaradas e conflitos recorrentes,
-        associando cada um à relação em que aparece.
+        Existem quatro tipos de ruído que costumam aparecer nesse mapeamento. Veja o que cada um
+        significa antes de registrar o seu:
       </p>
+
+      <div style={styles.familiaList}>
+        {TIPOS_RUIDO_F9.map((t) => (
+          <div key={t.nome} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>{t.nome}</span>
+            <span style={styles.papelDescricao}>{t.desc}</span>
+          </div>
+        ))}
+      </div>
 
       <div style={styles.familiaList}>
         {ruidos.map((r, i) => (
@@ -11504,30 +11570,30 @@ function StepRuidosF9({ ruidos, setRuidos }) {
                 </button>
               )}
             </div>
-            <label style={styles.fieldLabel}>Relação Afetada</label>
+            <label style={styles.fieldLabel}>Qual desses tipos é esse ruído?</label>
+            <div style={styles.envioButtonsRow}>
+              {TIPOS_RUIDO_F9.map((t) => (
+                <button
+                  key={t.nome}
+                  type="button"
+                  onClick={() => set(r.id, "tipoRuido", t.nome)}
+                  style={{
+                    ...styles.geracaoOption,
+                    borderColor: r.tipoRuido === t.nome ? BLUE : "#E4EAF0",
+                    background: r.tipoRuido === t.nome ? "#EAF2FB" : "#fff",
+                  }}
+                >
+                  {t.nome}
+                </button>
+              ))}
+            </div>
+            <label style={styles.fieldLabel}>Quem está envolvido</label>
             <input
               style={{ ...styles.input, flex: "none" }}
               value={r.relacaoAfetada}
               onChange={(e) => set(r.id, "relacaoAfetada", e.target.value)}
-              placeholder="Ex.: pai, filho A e filha B"
+              placeholder="Ex.: pai, filho A e filha B (liste todos os envolvidos, não só uma dupla)"
             />
-            <label style={styles.fieldLabel}>Tipo de Ruído</label>
-            <div style={styles.envioButtonsRow}>
-              {TIPOS_RUIDO_F9.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => set(r.id, "tipoRuido", t)}
-                  style={{
-                    ...styles.geracaoOption,
-                    borderColor: r.tipoRuido === t ? BLUE : "#E4EAF0",
-                    background: r.tipoRuido === t ? "#EAF2FB" : "#fff",
-                  }}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
             <label style={styles.fieldLabel}>Descrição</label>
             <textarea
               style={styles.textareaSmall}
@@ -11695,7 +11761,8 @@ function StepSociograma({ participantes, relacoes, ruidos }) {
         O tamanho do círculo reflete a influência de cada pessoa. Linha contínua verde é
         comunicação saudável, tracejada amarela é difícil, pontilhada vermelha é inexistente.
         Observe centralidade (quem concentra conexões), isolamento (quem tem poucas ou nenhuma) e
-        possíveis triangulações.
+        possíveis triangulações. Este desenho deve ser construído em grupo, não por uma única
+        pessoa a portas fechadas — sob risco de refletir só uma visão parcial do sistema.
       </p>
 
       <div style={styles.padraoCard}>
