@@ -1178,6 +1178,176 @@ CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Você não prec
 fundador. Sua missão não é repetir a história, mas continuar escrevendo-a."
 `.trim();
 
+const DEGRAUS_F12 = [
+  {
+    key: "conhecer",
+    numero: 1,
+    titulo: "Conhecer",
+    desc: "Conhecimento da história, dos valores e dos marcos da trajetória familiar.",
+    itens: [
+      "Conheço a origem da empresa.",
+      "Conheço os principais desafios enfrentados pelas gerações anteriores.",
+      "Conheço os valores dos fundadores.",
+      "Conheço os principais marcos da trajetória familiar.",
+    ],
+  },
+  {
+    key: "valorizar",
+    numero: 2,
+    titulo: "Valorizar",
+    desc: "Orgulho e reconhecimento genuíno pelo legado construído pelas gerações anteriores.",
+    itens: [
+      "Tenho orgulho da trajetória construída.",
+      "Reconheço os sacrifícios realizados pelas gerações anteriores.",
+      "Considero importante preservar essa história.",
+      "Vejo valor no legado recebido.",
+    ],
+  },
+  {
+    key: "participar",
+    numero: 3,
+    titulo: "Participar",
+    desc: "Presença ativa em encontros e assuntos relacionados à empresa da família.",
+    itens: [
+      "Participo dos encontros familiares relacionados ao negócio.",
+      "Tenho interesse pelos assuntos da empresa.",
+      "Procuro compreender os desafios atuais.",
+      "Busco me manter informado sobre o futuro da organização.",
+    ],
+  },
+  {
+    key: "contribuir",
+    numero: 4,
+    titulo: "Contribuir",
+    desc: "Disposição de agregar valor por meio de competências e projetos específicos.",
+    itens: [
+      "Tenho competências que podem contribuir para a continuidade.",
+      "Consigo identificar oportunidades de melhoria.",
+      "Tenho interesse em participar de projetos.",
+      "Acredito que posso agregar valor à família empresária.",
+    ],
+  },
+  {
+    key: "liderar",
+    numero: 5,
+    titulo: "Liderar",
+    desc: "Interesse real em ocupar posições de responsabilidade e liderar pessoas.",
+    itens: [
+      "Tenho interesse em liderar pessoas.",
+      "Tenho interesse em ocupar posições de responsabilidade.",
+      "Estou disposto a me preparar para isso.",
+      "Vejo a liderança como uma possibilidade futura.",
+    ],
+  },
+  {
+    key: "guardiao",
+    numero: 6,
+    titulo: "Guardião do Legado",
+    desc: "Senso de responsabilidade pela continuidade para além da própria geração.",
+    itens: [
+      "Penso na continuidade para as próximas gerações.",
+      "Quero contribuir para algo maior do que minha carreira.",
+      "Vejo valor em preservar os princípios da família.",
+      "Sinto responsabilidade pela continuidade do legado.",
+    ],
+  },
+];
+
+function classificaDegrauF12(pontos) {
+  if (pontos >= 16) return { label: "Forte aderência", cor: "#1E7A3D" };
+  if (pontos >= 11) return { label: "Aderência moderada", cor: "#B8860B" };
+  return { label: "Baixa aderência", cor: "#B3261E" };
+}
+
+const PERFIS_F12 = [
+  { nome: "Observador", desc: "Conhece a história, mas participa pouco.", plano: "Projeto Memória da Família e conversas com fundadores." },
+  { nome: "Conector", desc: "Valoriza a história e participa ativamente.", plano: "Participação em fóruns familiares." },
+  { nome: "Contribuidor", desc: "Deseja gerar valor sem necessariamente liderar.", plano: "Projetos específicos e comitês." },
+  { nome: "Sucessor Potencial", desc: "Demonstra interesse crescente por liderança.", plano: "Trilha de sucessão e mentoria." },
+  { nome: "Guardião do Legado", desc: "Pensa além da própria geração.", plano: "Governança familiar e educação patrimonial." },
+];
+
+function perfilPredominanteF12(pontuacoes) {
+  if (pontuacoes.liderar >= 16) return PERFIS_F12[3];
+  if (pontuacoes.contribuir >= 16) return PERFIS_F12[2];
+  if (pontuacoes.participar >= 16) return PERFIS_F12[1];
+  if (pontuacoes.guardiao >= 16) return PERFIS_F12[4];
+  return PERFIS_F12[0];
+}
+
+const LIVRO_CONTEXTO_F12 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 12 · Escada do Legado):
+
+PROPÓSITO: ajudar cada membro da nova geração a compreender seu nível atual de conexão com o
+legado familiar, e identificar formas de contribuição alinhadas ao próprio projeto de vida — do
+primeiro degrau (conhecer a história) até o último (tornar-se guardião dela). Pergunta central:
+"Como desejo contribuir para a continuidade desta história?"
+
+O QUE RESOLVE: muitas famílias empresárias enxergam só dois papéis possíveis pra nova geração —
+líder ou ausente. Entre esses dois extremos existe uma escada inteira de formas legítimas de
+contribuir. A ferramenta resolve essa falsa dicotomia, revelando exatamente em qual degrau cada
+pessoa está, e o que falta pra subir, se ela quiser subir.
+
+OS SEIS DEGRAUS: 1) Conhecer — conhecimento da história, valores e marcos da trajetória familiar.
+2) Valorizar — orgulho e reconhecimento genuíno pelo legado construído. 3) Participar — presença
+ativa em encontros e assuntos da empresa. 4) Contribuir — disposição de agregar valor por
+competências e projetos específicos. 5) Liderar — interesse real em ocupar posições de
+responsabilidade. 6) Guardião do Legado — senso de responsabilidade pela continuidade além da
+própria geração.
+
+INTERPRETAÇÃO DA PONTUAÇÃO (4 a 20 por degrau): 16 a 20 é Forte aderência; 11 a 15 é Aderência
+moderada; 4 a 10 é Baixa aderência.
+
+PERFIS PREDOMINANTES: Observador (conhece a história, participa pouco — plano: Projeto Memória da
+Família e conversas com fundadores); Conector (valoriza e participa ativamente — plano:
+participação em fóruns familiares); Contribuidor (deseja gerar valor sem necessariamente liderar
+— plano: projetos específicos e comitês); Sucessor Potencial (interesse crescente por liderança —
+plano: trilha de sucessão e mentoria); Guardião do Legado (pensa além da própria geração — plano:
+governança familiar e educação patrimonial).
+
+OS TRÊS PERFIS SÃO IGUALMENTE VÁLIDOS: o risco, em cada caso, não é o perfil em si, é tratá-lo
+como se fosse outro — cobrar liderança de quem quer contribuir, ou pressa de quem já está pronto.
+O degrau mais alto (Guardião do Legado) NÃO é automaticamente melhor que os demais — cada degrau é
+uma forma legítima de contribuição, não uma hierarquia de valor moral.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Renata (Observador — Conhecer 18, Valorizar 19, Participar 8, Contribuir 7, Liderar 5, Guardião
+  12): sabe recitar de cor a história da fundação, mas raramente aparece nas reuniões de família
+  que tratam do negócio. Conexão emocional forte com o passado, conexão prática baixa com o
+  futuro. Risco: distanciamento gradual, conhecimento do legado sem transferência para ações
+  concretas. Plano: participar de reuniões estratégicas, integrar projetos relacionados ao
+  legado, entrevistar fundadores e registrar aprendizados. "Eu sei tudo sobre o passado da nossa
+  empresa. Só não sei ainda qual é o meu lugar no futuro dela", disse Renata.
+- Felipe (Contribuidor — Conhecer 17, Valorizar 18, Participar 16, Contribuir 19, Liderar 7,
+  Guardião 18): adora resolver problemas complexos e se voluntaria pra projetos, mas muda de
+  assunto quando sugerem que ele "seria um ótimo diretor um dia". Forte desejo de contribuir, sem
+  interesse em posições executivas. Risco: pressão familiar pra assumir cargo que não deseja,
+  confusão entre contribuição e liderança. Plano: explorar formas alternativas de participação,
+  comitês ou conselhos, projetos de inovação, trilha de contribuição sem obrigação de liderança
+  executiva. "Eu quero ajudar a empresa a crescer. Não quero ser eu quem manda nela", disse
+  Felipe.
+- Sofia (Sucessor Potencial — Conhecer 18, Valorizar 19, Participar 18, Contribuir 18, Liderar 19,
+  Guardião 17): é a primeira a chegar e a última a sair das reuniões de família, nunca escondeu
+  que quer um dia liderar. Forte alinhamento em todos os degraus. Risco: aceleração excessiva da
+  sucessão, falta de preparação técnica, excesso de expectativa da família. Plano: trilha formal
+  de sucessão, programas de desenvolvimento de liderança, job rotation, projetos estratégicos,
+  mentoria com líderes internos e externos. "Eu não preciso que me deem o cargo. Preciso que me
+  deem tempo para chegar até ele preparada", disse Sofia.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): tratar o degrau mais alto como
+automaticamente melhor que os demais; usar o resultado pra comparar publicamente irmãos ou primos
+entre si, gerando competição em vez de autoconhecimento; confundir pontuação alta em Contribuir
+com prontidão pra Liderar — são degraus diferentes, com exigências diferentes; aplicar a
+ferramenta uma única vez e nunca revisitar, já que o nível de conexão muda ao longo da vida; pular
+direto pro Plano de Ação sem antes nomear os riscos específicos revelados pelo perfil encontrado.
+
+TOM: acolhedor e validante. Nenhum perfil é melhor que outro. Nunca sugerir que "subir mais
+degraus" é sempre a meta certa — o objetivo é compreender, não classificar ou hierarquizar.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "O legado não é uma prisão, é um
+convite para construir algo novo."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -1238,7 +1408,7 @@ const FERRAMENTAS_CATALOGO = [
     ferramentas: [
       { n: 10, nome: "Bússola da Escolha Profissional", ativa: true },
       { n: 11, nome: "Teste da Escolha Autêntica", ativa: true },
-      { n: 12, nome: "Escada do Legado", ativa: false },
+      { n: 12, nome: "Escada do Legado", ativa: true },
     ],
   },
   {
@@ -1698,6 +1868,8 @@ export default function App() {
         setView("ferramenta10");
       } else if (ferramentaParam === "11") {
         setView("ferramenta11");
+      } else if (ferramentaParam === "12") {
+        setView("ferramenta12");
       }
     } catch (e) {
       /* ignore */
@@ -1894,6 +2066,10 @@ export default function App() {
     setView("ferramenta11");
   };
 
+  const abrirFerramenta12 = () => {
+    setView("ferramenta12");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1910,6 +2086,7 @@ export default function App() {
             onAbrirFerramenta9={abrirFerramenta9}
             onAbrirFerramenta10={abrirFerramenta10}
             onAbrirFerramenta11={abrirFerramenta11}
+            onAbrirFerramenta12={abrirFerramenta12}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -2033,6 +2210,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta11App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta12") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta12App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -2238,6 +2425,7 @@ function Catalogo({
   onAbrirFerramenta9,
   onAbrirFerramenta10,
   onAbrirFerramenta11,
+  onAbrirFerramenta12,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2253,6 +2441,7 @@ function Catalogo({
     9: onAbrirFerramenta9,
     10: onAbrirFerramenta10,
     11: onAbrirFerramenta11,
+    12: onAbrirFerramenta12,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2523,6 +2712,7 @@ function NovaFamilia({ onVoltar }) {
       "9": "Ferramenta 09 · Mapa de Ruídos",
       "10": "Ferramenta 10 · Bússola Profissional",
       "11": "Ferramenta 11 · Escolha Autêntica",
+      "12": "Ferramenta 12 · Escada do Legado",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2572,6 +2762,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="9">Ferramenta 09 · Ruídos</option>
               <option value="10">Ferramenta 10 · Bússola</option>
               <option value="11">Ferramenta 11 · Autêntica</option>
+              <option value="12">Ferramenta 12 · Escada</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2707,7 +2898,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -14034,6 +14225,685 @@ function StepFechamentoF11({
         ) : (
           <span style={styles.saveStatusOk}>✓ Compartilhado</span>
         )}
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F12_INTRO = 0;
+const STEP_F12_CONHECER = 1;
+const STEP_F12_VALORIZAR = 2;
+const STEP_F12_PARTICIPAR = 3;
+const STEP_F12_CONTRIBUIR = 4;
+const STEP_F12_LIDERAR = 5;
+const STEP_F12_GUARDIAO = 6;
+const STEP_F12_RESULTADO = 7;
+const STEP_F12_ACHADOS = 8;
+const STEP_F12_PLANO = 9;
+const STEP_F12_FECHAMENTO = 10;
+
+const SOFIA_EXEMPLO_F12 = {
+  conhecer: [5, 5, 4, 4],
+  valorizar: [5, 5, 5, 4],
+  participar: [5, 4, 5, 4],
+  contribuir: [4, 5, 4, 5],
+  liderar: [5, 5, 4, 5],
+  guardiao: [4, 4, 5, 4],
+  achadosF12: [
+    {
+      id: 1,
+      achado: "Forte alinhamento em todos os seis degraus, sem nenhum ponto fraco evidente.",
+      evidencia: "Notas altas em Conhecer, Valorizar, Participar, Contribuir, Liderar e Guardião do Legado.",
+      impacto: "Perfil compatível com uma futura trilha sucessória, mas com risco de pressa.",
+    },
+  ],
+  achadosPerguntas: {
+    oQueRevela: "Que meu interesse por liderar é real e consistente, não uma resposta pra agradar a família.",
+    riscos: "Aceleração excessiva da sucessão, sem preparação técnica suficiente ainda, e excesso de expectativa da família.",
+    comoContribuir: "Assumindo projetos estratégicos agora, pra construir experiência real antes de qualquer cargo formal.",
+    proximoPasso: "Formalizar uma trilha de desenvolvimento com prazos e marcos claros, não um cargo imediato.",
+  },
+  planoF12: [
+    {
+      id: 1,
+      acao: "Construir trilha formal de sucessão com marcos de curto e médio prazo.",
+      objetivo: "Transformar interesse e potencial em preparação real",
+      responsavel: "Conselho de família",
+      prazo: "60 dias",
+    },
+    {
+      id: 2,
+      acao: "Realizar job rotation por diferentes áreas da empresa.",
+      objetivo: "Ampliar experiência prática antes da assunção formal",
+      responsavel: "Sofia e RH",
+      prazo: "12 meses",
+    },
+  ],
+};
+
+function Ferramenta12App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F12_INTRO);
+  const [conhecer, setConhecer] = useState([null, null, null, null]);
+  const [valorizar, setValorizar] = useState([null, null, null, null]);
+  const [participar, setParticipar] = useState([null, null, null, null]);
+  const [contribuir, setContribuir] = useState([null, null, null, null]);
+  const [liderar, setLiderar] = useState([null, null, null, null]);
+  const [guardiao, setGuardiao] = useState([null, null, null, null]);
+  const [achadosF12, setAchadosF12] = useState([{ id: 1, achado: "", evidencia: "", impacto: "" }]);
+  const [achadosPerguntas, setAchadosPerguntas] = useState({
+    oQueRevela: "",
+    riscos: "",
+    comoContribuir: "",
+    proximoPasso: "",
+  });
+  const [planoF12, setPlanoF12] = useState([{ id: 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+
+  const pontuacoes = {
+    conhecer: somaF11(conhecer),
+    valorizar: somaF11(valorizar),
+    participar: somaF11(participar),
+    contribuir: somaF11(contribuir),
+    liderar: somaF11(liderar),
+    guardiao: somaF11(guardiao),
+  };
+
+  const carregarExemploF12 = () => {
+    setConhecer(SOFIA_EXEMPLO_F12.conhecer);
+    setValorizar(SOFIA_EXEMPLO_F12.valorizar);
+    setParticipar(SOFIA_EXEMPLO_F12.participar);
+    setContribuir(SOFIA_EXEMPLO_F12.contribuir);
+    setLiderar(SOFIA_EXEMPLO_F12.liderar);
+    setGuardiao(SOFIA_EXEMPLO_F12.guardiao);
+    setAchadosF12(SOFIA_EXEMPLO_F12.achadosF12);
+    setAchadosPerguntas(SOFIA_EXEMPLO_F12.achadosPerguntas);
+    setPlanoF12(SOFIA_EXEMPLO_F12.planoF12);
+    setStep(STEP_F12_RESULTADO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F12_CONHECER) return conhecer.every((n) => n !== null);
+    if (step === STEP_F12_VALORIZAR) return valorizar.every((n) => n !== null);
+    if (step === STEP_F12_PARTICIPAR) return participar.every((n) => n !== null);
+    if (step === STEP_F12_CONTRIBUIR) return contribuir.every((n) => n !== null);
+    if (step === STEP_F12_LIDERAR) return liderar.every((n) => n !== null);
+    if (step === STEP_F12_GUARDIAO) return guardiao.every((n) => n !== null);
+    if (step === STEP_F12_ACHADOS) return achadosPerguntas.oQueRevela.trim().length > 3;
+    if (step === STEP_F12_PLANO) {
+      return planoF12.some((a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0);
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F12_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F12_INTRO, s - 1));
+
+  return (
+    <>
+      <Header12 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F12_INTRO && <StepIntroF12 onCarregarExemplo={carregarExemploF12} />}
+        {step === STEP_F12_CONHECER && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[0]} respostas={conhecer} setRespostas={setConhecer} />
+        )}
+        {step === STEP_F12_VALORIZAR && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[1]} respostas={valorizar} setRespostas={setValorizar} />
+        )}
+        {step === STEP_F12_PARTICIPAR && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[2]} respostas={participar} setRespostas={setParticipar} />
+        )}
+        {step === STEP_F12_CONTRIBUIR && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[3]} respostas={contribuir} setRespostas={setContribuir} />
+        )}
+        {step === STEP_F12_LIDERAR && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[4]} respostas={liderar} setRespostas={setLiderar} />
+        )}
+        {step === STEP_F12_GUARDIAO && (
+          <StepDegrauF12 degrau={DEGRAUS_F12[5]} respostas={guardiao} setRespostas={setGuardiao} />
+        )}
+        {step === STEP_F12_RESULTADO && <StepResultadoF12 pontuacoes={pontuacoes} />}
+        {step === STEP_F12_ACHADOS && (
+          <StepAchadosF12
+            achadosF12={achadosF12}
+            setAchadosF12={setAchadosF12}
+            achadosPerguntas={achadosPerguntas}
+            setAchadosPerguntas={setAchadosPerguntas}
+            pontuacoes={pontuacoes}
+          />
+        )}
+        {step === STEP_F12_PLANO && (
+          <StepPlanoF12 planoF12={planoF12} setPlanoF12={setPlanoF12} pontuacoes={pontuacoes} achadosPerguntas={achadosPerguntas} />
+        )}
+        {step === STEP_F12_FECHAMENTO && (
+          <StepFechamentoF12
+            pontuacoes={pontuacoes}
+            planoF12={planoF12}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F12_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F12_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header12({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Antes de começar",
+    "Degrau 1 · Conhecer",
+    "Degrau 2 · Valorizar",
+    "Degrau 3 · Participar",
+    "Degrau 4 · Contribuir",
+    "Degrau 5 · Liderar",
+    "Degrau 6 · Guardião do Legado",
+    "Seu perfil na escada",
+    "Principais achados",
+    "Plano de ação",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F12_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Escada do Legado · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF12({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Como você deseja contribuir para a continuidade desta história?</h1>
+      <p style={styles.lead}>
+        Legado não é cargo, é contribuição. Entre "assumir tudo" e "não fazer nada" existe uma
+        escada inteira de formas legítimas de contribuir. Não existe resultado certo ou errado
+        aqui — o objetivo é compreender, não classificar.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Sofia (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {DEGRAUS_F12.map((d) => (
+          <div key={d.key} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>
+              {d.numero} — {d.titulo}
+            </span>
+            <span style={styles.papelDescricao}>{d.desc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepDegrauF12({ degrau, respostas, setRespostas }) {
+  const set = (i, val) => setRespostas((prev) => prev.map((v, idx) => (idx === i ? val : v)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>
+        DEGRAU {degrau.numero} DE 6 · {degrau.titulo.toUpperCase()}
+      </span>
+      <h1 style={styles.h1}>{degrau.titulo}</h1>
+      <p style={styles.lead}>{degrau.desc}</p>
+      <p style={styles.papelDescricao}>1 é discordo totalmente, 5 é concordo totalmente.</p>
+
+      <div style={styles.familiaList}>
+        {degrau.itens.map((texto, i) => (
+          <LinhaScore key={texto} label={texto} valor={respostas[i]} onChange={(n) => set(i, n)} min={1} max={5} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepResultadoF12({ pontuacoes }) {
+  const perfil = perfilPredominanteF12(pontuacoes);
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>SEU PERFIL NA ESCADA</span>
+      <h1 style={styles.h1}>Seu perfil na Escada do Legado.</h1>
+      <p style={styles.lead}>
+        Cada degrau é uma forma legítima de contribuição, não uma hierarquia de valor moral. O
+        degrau mais alto não é automaticamente melhor que os demais.
+      </p>
+
+      <div style={styles.familiaList}>
+        {DEGRAUS_F12.map((d) => {
+          const pontos = pontuacoes[d.key];
+          const classif = classificaDegrauF12(pontos);
+          return (
+            <div key={d.key} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>
+                  {d.numero} — {d.titulo}
+                </span>
+                <span style={styles.papelNome}>{pontos}/20</span>
+              </div>
+              <div style={styles.icsBarTrack}>
+                <div style={{ ...styles.icsBarFill, width: `${(pontos / 20) * 100}%`, background: classif.cor }} />
+              </div>
+              <span style={{ ...styles.padraoInterpretacao, color: classif.cor }}>{classif.label}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ ...styles.unlockBox, borderColor: BLUE }}>
+        <span style={styles.unlockLabel}>PERFIL MAIS PRÓXIMO</span>
+        <span style={{ ...styles.padraoGuiaNome, color: BLUE, fontSize: 16 }}>{perfil.nome}</span>
+        <p style={styles.unlockHow}>{perfil.desc}</p>
+        <p style={styles.unlockHow}>
+          <strong>Possível plano de ação:</strong> {perfil.plano}
+        </p>
+      </div>
+
+      <div style={styles.familiaList}>
+        <span style={styles.papelNome}>Todos os perfis (nenhum é melhor que o outro)</span>
+        {PERFIS_F12.map((p) => (
+          <div
+            key={p.nome}
+            style={{
+              ...styles.padraoGuiaRow,
+              background: p.nome === perfil.nome ? "#F5F9FE" : "transparent",
+              borderLeft: p.nome === perfil.nome ? `3px solid ${BLUE}` : "3px solid transparent",
+              paddingLeft: 10,
+            }}
+          >
+            <span style={styles.padraoGuiaNome}>
+              {p.nome}
+              {p.nome === perfil.nome ? " ← você está aqui" : ""}
+            </span>
+            <span style={styles.papelDescricao}>{p.desc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepAchadosF12({ achadosF12, setAchadosF12, achadosPerguntas, setAchadosPerguntas, pontuacoes }) {
+  const perfil = perfilPredominanteF12(pontuacoes);
+  const set = (field) => (e) => setAchadosPerguntas((a) => ({ ...a, [field]: e.target.value }));
+  const contexto = `perfil ${perfil.nome} na Escada do Legado`;
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PRINCIPAIS ACHADOS</span>
+      <h1 style={styles.h1}>Nomeie os achados mais relevantes do seu perfil.</h1>
+      <p style={styles.lead}>
+        Registre o achado, a evidência que o sustenta (as notas que embasam essa leitura), e o
+        impacto que ele tem hoje.
+      </p>
+
+      <TabelaTresColunas
+        titulo="Achados"
+        linhas={achadosF12}
+        setLinhas={setAchadosF12}
+        campos={["achado", "evidencia", "impacto"]}
+        labels={["ACHADO", "EVIDÊNCIA", "IMPACTO"]}
+        placeholders={[
+          "Ex.: forte conhecimento, baixa participação",
+          "Ex.: notas altas em Conhecer e Valorizar, baixas em Participar",
+          "Ex.: risco de distanciamento se nada mudar",
+        ]}
+      />
+
+      <p style={{ ...styles.papelNome, marginTop: 8 }}>Como utilizar os achados</p>
+      <CampoReflexao
+        pergunta="O que os resultados revelam?"
+        valor={achadosPerguntas.oQueRevela}
+        onChange={set("oQueRevela")}
+        placeholder="A leitura geral que emerge do seu perfil na escada…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F12}
+      />
+      <CampoReflexao
+        pergunta="Quais são os principais riscos?"
+        valor={achadosPerguntas.riscos}
+        onChange={set("riscos")}
+        placeholder="Riscos específicos revelados pelo seu perfil…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F12}
+      />
+      <CampoReflexao
+        pergunta="Como esta pessoa pode contribuir para a continuidade?"
+        valor={achadosPerguntas.comoContribuir}
+        onChange={set("comoContribuir")}
+        placeholder="Formas concretas de contribuição alinhadas ao seu degrau atual…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F12}
+      />
+      <CampoReflexao
+        pergunta="Qual deve ser o próximo passo de desenvolvimento?"
+        valor={achadosPerguntas.proximoPasso}
+        onChange={set("proximoPasso")}
+        placeholder="Um próximo passo concreto, alinhado ao degrau real, não ao degrau desejado pela família…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F12}
+      />
+    </div>
+  );
+}
+
+function StepPlanoF12({ planoF12, setPlanoF12, pontuacoes, achadosPerguntas }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+  const perfil = perfilPredominanteF12(pontuacoes);
+
+  const addAcao = () =>
+    setPlanoF12((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF12((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF12((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F12}\n\n` +
+      `Você ajuda alguém que aplicou a Escada do Legado a transformar os achados em um plano de ` +
+      `ação. Perfil predominante: "${perfil.nome}" — ${perfil.desc}` +
+      `${achadosPerguntas.riscos ? ` Riscos identificados: "${achadosPerguntas.riscos}".` : ""}\n\n` +
+      `Sugira 2 ações concretas coerentes com esse perfil específico (no espírito de: ` +
+      `"${perfil.plano}"), cada uma no infinitivo, com objetivo, responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","objetivo":"","responsavel":"","prazo":""},{"acao":"","objetivo":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF12(
+            parsed.map((a, i) => ({
+              id: i + 1,
+              acao: a.acao || "",
+              objetivo: a.objetivo || "",
+              responsavel: a.responsavel || "",
+              prazo: a.prazo || "",
+            }))
+          );
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE AÇÃO</span>
+      <h1 style={styles.h1}>Transforme os achados em ações concretas.</h1>
+      <p style={styles.lead}>Com objetivo, responsável e prazo pra cada uma.</p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF12.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF12.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: convidar Renata para o comitê de memória da família…"
+            />
+            <label style={styles.fieldLabel}>Objetivo</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={a.objetivo}
+              onChange={(e) => setAcao(a.id, "objetivo", e.target.value)}
+              placeholder="Ex.: transformar conhecimento em participação ativa"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 60 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF12({ pontuacoes, planoF12, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+  const perfil = perfilPredominanteF12(pontuacoes);
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 12,
+      notas: pontuacoes,
+      conflito: { perfil: perfil.nome },
+      plano_acao: planoF12,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const resumo = DEGRAUS_F12.map((d) => `${d.titulo}: ${pontuacoes[d.key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F12}\n\n` +
+      `Alguém completou a Escada do Legado. Pontuações: ${resumo}. Perfil predominante: ` +
+      `"${perfil.nome}" — ${perfil.desc}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que nenhum degrau é melhor que outro, ` +
+      `e que o objetivo é compreender, não classificar. Tom direto, sem clichês de autoajuda. ` +
+      `Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Escada do Legado",
+      "",
+      `Perfil predominante: ${perfil.nome} — ${perfil.desc}`,
+      `Pontuações: ${DEGRAUS_F12.map((d) => `${d.titulo} ${pontuacoes[d.key]}/20`).join(", ")}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      "Plano de ação:",
+      planoF12
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Objetivo: ${a.objetivo || "—"} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor(`Escada do Legado — ${perfil.nome}`, montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Sua Escada do Legado, resumida.</h1>
+
+      <div style={{ ...styles.unlockBox, borderColor: BLUE }}>
+        <span style={styles.unlockLabel}>PERFIL PREDOMINANTE</span>
+        <span style={{ ...styles.padraoGuiaNome, color: BLUE, fontSize: 18 }}>{perfil.nome}</span>
+        <p style={styles.unlockHow}>{perfil.desc}</p>
+      </div>
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || "Nenhum degrau é melhor que o outro. O objetivo é compreender, não classificar."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.familiaList}>
+        {DEGRAUS_F12.map((d) => {
+          const pontos = pontuacoes[d.key];
+          const classif = classificaDegrauF12(pontos);
+          return (
+            <div key={d.key} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>
+                  {d.numero} — {d.titulo}
+                </span>
+                <span style={styles.papelNome}>{pontos}/20</span>
+              </div>
+              <div style={styles.icsBarTrack}>
+                <div style={{ ...styles.icsBarFill, width: `${(pontos / 20) * 100}%`, background: classif.cor }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF12
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>OBJETIVO</span>
+                <span style={styles.fechamentoValue}>{a.objetivo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Você mapeou os seis degraus, identificou seu perfil e nomeou os riscos. O que falta
+          agora é colocar o plano em prática, e revisitar essa escada daqui a 12 meses — o nível
+          de conexão com o legado muda ao longo da vida.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
         </button>
