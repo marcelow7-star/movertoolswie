@@ -741,6 +741,9 @@ Os ressentimentos antigos, comparações, rivalidades entre irmãos e/ou primos 
 atendidas são feridas emocionais que, se não atendidas, têm o poder de boicotar o processo."
 `.trim();
 
+const FREQUENCIAS_F9 = ["Diária", "Semanal", "Mensal", "Rara"];
+const CONFIANCAS_F9 = ["Alta", "Média", "Baixa"];
+
 const TIPOS_COMUNICACAO_F9 = {
   saudavel: { label: "Saudável", cor: "#1E7A3D", linha: "solida" },
   dificil: { label: "Difícil", cor: "#B8860B", linha: "tracejada" },
@@ -5430,7 +5433,7 @@ function TabelaTransformar({ titulo, linhas, setLinhas }) {
   );
 }
 
-function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placeholders }) {
+function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placeholders, opcoesColuna2 }) {
   const [c1, c2, c3] = campos;
   const add = () =>
     setLinhas((prev) => [
@@ -5462,12 +5465,31 @@ function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placehol
               placeholder={placeholders[0]}
             />
             <span style={styles.padraoInterpretacao}>{labels[1]}</span>
-            <input
-              style={{ ...styles.input, flex: "none" }}
-              value={l[c2]}
-              onChange={(e) => set(l.id, c2, e.target.value)}
-              placeholder={placeholders[1]}
-            />
+            {opcoesColuna2 ? (
+              <div style={styles.envioButtonsRow}>
+                {opcoesColuna2.map((op) => (
+                  <button
+                    key={op}
+                    type="button"
+                    onClick={() => set(l.id, c2, op)}
+                    style={{
+                      ...styles.geracaoOption,
+                      borderColor: l[c2] === op ? BLUE : "#E4EAF0",
+                      background: l[c2] === op ? "#EAF2FB" : "#fff",
+                    }}
+                  >
+                    {op}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <input
+                style={{ ...styles.input, flex: "none" }}
+                value={l[c2]}
+                onChange={(e) => set(l.id, c2, e.target.value)}
+                placeholder={placeholders[1]}
+              />
+            )}
             <span style={styles.padraoInterpretacao}>{labels[2]}</span>
             <input
               style={{ ...styles.input, flex: "none" }}
@@ -9544,6 +9566,7 @@ function StepResolverDivergencias({ divergencias, setDivergencias }) {
         setLinhas={setDivergencias}
         campos={["divergencia", "negociavel", "tratamento"]}
         labels={["DIVERGÊNCIA", "NEGOCIÁVEL?", "COMO SERÁ TRATADA"]}
+        opcoesColuna2={["Sim", "Não"]}
         placeholders={[
           "Ex.: quem assume a presidência",
           "Sim ou não",
@@ -11404,21 +11427,41 @@ function StepRelacoesF9({ relacoes, setRelacoes, participantesPreenchidos }) {
             <div style={styles.planoRow}>
               <div style={styles.planoField}>
                 <label style={styles.fieldLabel}>Frequência</label>
-                <input
-                  style={{ ...styles.input, flex: "none" }}
-                  value={r.frequencia}
-                  onChange={(e) => set(r.id, "frequencia", e.target.value)}
-                  placeholder="Ex.: diária, rara"
-                />
+                <div style={styles.envioButtonsRow}>
+                  {FREQUENCIAS_F9.map((f) => (
+                    <button
+                      key={f}
+                      type="button"
+                      onClick={() => set(r.id, "frequencia", f)}
+                      style={{
+                        ...styles.geracaoOption,
+                        borderColor: r.frequencia === f ? BLUE : "#E4EAF0",
+                        background: r.frequencia === f ? "#EAF2FB" : "#fff",
+                      }}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div style={styles.planoField}>
                 <label style={styles.fieldLabel}>Confiança</label>
-                <input
-                  style={{ ...styles.input, flex: "none" }}
-                  value={r.confianca}
-                  onChange={(e) => set(r.id, "confianca", e.target.value)}
-                  placeholder="Ex.: alta, baixa"
-                />
+                <div style={styles.envioButtonsRow}>
+                  {CONFIANCAS_F9.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => set(r.id, "confianca", c)}
+                      style={{
+                        ...styles.geracaoOption,
+                        borderColor: r.confianca === c ? BLUE : "#E4EAF0",
+                        background: r.confianca === c ? "#EAF2FB" : "#fff",
+                      }}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
