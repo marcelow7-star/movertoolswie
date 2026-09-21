@@ -1011,6 +1011,173 @@ de sacrifício, carregam culpas herdadas e tentam provar legitimidade em um palc
 passo parece um teste."
 `.trim();
 
+const AFIRMACOES_F11 = {
+  desejo: {
+    titulo: "Desejo Genuíno",
+    desc: "O quanto existe interesse real, não performado, pelo negócio da família.",
+    itens: [
+      "Tenho interesse genuíno pelo negócio familiar.",
+      "Gosto de aprender sobre o setor em que a empresa atua.",
+      "Consigo me imaginar trabalhando neste negócio pelos próximos 10 anos.",
+      "Sinto entusiasmo quando penso no futuro da empresa.",
+    ],
+  },
+  pressao: {
+    titulo: "Pressão Familiar Percebida",
+    desc: "O quanto você sente que precisa escolher esse caminho para atender aos outros, não a si mesmo.",
+    itens: [
+      "Sinto que minha família espera que eu assuma o negócio.",
+      "Tenho medo de decepcionar alguém se escolher outro caminho.",
+      "Sinto que dizer não geraria conflitos familiares.",
+      "Existe um caminho esperado para mim.",
+    ],
+  },
+  liberdade: {
+    titulo: "Liberdade Psicológica",
+    desc: "O quanto você acredita que poderia escolher diferente sem perder afeto ou pertencimento.",
+    itens: [
+      "Sinto que tenho liberdade para decidir meu futuro profissional.",
+      "Minha família respeitaria uma escolha diferente.",
+      "Continuaria me sentindo pertencente à família.",
+      "Não perderia reconhecimento ou afeto se escolhesse outro caminho.",
+    ],
+  },
+  identidade: {
+    titulo: "Identidade Profissional",
+    desc: "O quanto a trajetória na empresa faz sentido com quem você é e quer se tornar.",
+    itens: [
+      "Me identifico com o papel esperado para mim.",
+      "Minhas competências se conectam ao negócio.",
+      "Vejo formas de contribuir para a empresa.",
+      "Essa trajetória faz sentido para meu projeto de vida.",
+    ],
+  },
+  lealdades: {
+    titulo: "Lealdades Invisíveis",
+    desc: "O quanto sua escolha está presa a uma dívida emocional com gerações anteriores, não à sua própria vontade. Não entra na conta do IAE, mas deve ser lida com atenção.",
+    itens: [
+      "Sinto responsabilidade de continuar o legado familiar.",
+      "Tenho receio de desapontar meus pais.",
+      "Acredito que devo retribuir os esforços da geração anterior.",
+      "Sinto que abandonar esse caminho seria uma forma de traição.",
+    ],
+  },
+};
+
+function interpretaIAE_F11(iae) {
+  if (iae >= 40) return { label: "Escolha altamente autêntica", cor: "#1E7A3D", desc: "Alto desejo, alta liberdade e baixa pressão." };
+  if (iae >= 25) return { label: "Escolha predominantemente autêntica", cor: "#1E5A96", desc: "Existe desejo genuíno, mas também influência familiar." };
+  if (iae >= 10) return { label: "Escolha influenciada", cor: "#B8860B", desc: "A decisão está ligada à preservação dos vínculos." };
+  if (iae >= 0) return { label: "Escolha fortemente condicionada", cor: "#B3261E", desc: "Baixo desejo, alta pressão e baixa liberdade." };
+  return { label: "Escolha herdada ou imposta", cor: "#8B1A1A", desc: "A decisão provavelmente não reflete um desejo real." };
+}
+
+const FAIXAS_IAE_F11 = [
+  { faixa: "40 a 60", label: "Escolha altamente autêntica", cor: "#1E7A3D" },
+  { faixa: "25 a 39", label: "Escolha predominantemente autêntica", cor: "#1E5A96" },
+  { faixa: "10 a 24", label: "Escolha influenciada", cor: "#B8860B" },
+  { faixa: "0 a 9", label: "Escolha fortemente condicionada", cor: "#B3261E" },
+  { faixa: "Abaixo de 0", label: "Escolha herdada ou imposta", cor: "#8B1A1A" },
+];
+
+const SUGESTOES_ACOES_F11 = {
+  "Escolha altamente autêntica": [
+    "Construir uma trilha de desenvolvimento formal, com marcos claros de curto e médio prazo.",
+    "Definir experiências práticas em diferentes áreas da empresa (job rotation).",
+    "Designar um mentor interno pra acompanhar essa trajetória de perto.",
+    "Revisitar o Teste em 12 meses, pra confirmar que o alinhamento se mantém real.",
+  ],
+  "Escolha predominantemente autêntica": [
+    "Nomear, com a família, qual parte da decisão ainda é influência, não desejo.",
+    "Construir uma trilha de desenvolvimento, mas com pontos de checagem mais próximos.",
+    "Buscar um mentor ou facilitador pra acompanhar essa transição de perto.",
+    "Revisitar o Teste em 6 a 12 meses.",
+  ],
+  "Escolha influenciada": [
+    "Trabalhar a diferenciação entre amor e obrigação, com apoio de mentoria ou aconselhamento externo.",
+    "Promover uma conversa estruturada sobre liberdade de escolha com a família.",
+    "Explorar projetos alternativos de contribuição para a família empresária, fora do cargo esperado.",
+    "Revisitar o Teste em 6 meses.",
+  ],
+  "Escolha fortemente condicionada": [
+    "Realizar uma conversa estruturada entre pais e sucessor, com facilitador.",
+    "Explicitar as expectativas de ambos os lados, sem pressupor respostas.",
+    "Construir um período de exploração profissional fora da empresa.",
+    "Reavaliar a decisão em 12 meses, sem pressa pra fechar isso agora.",
+  ],
+  "Escolha herdada ou imposta": [
+    "Buscar apoio de um terapeuta ou mentor antes de qualquer decisão formal sobre o cargo.",
+    "Realizar uma conversa estruturada e cuidadosa entre pais e sucessor, com facilitador.",
+    "Considerar abertamente, sem culpa, um caminho profissional fora da empresa.",
+    "Adiar qualquer decisão formal de sucessão até essa exploração acontecer.",
+  ],
+};
+
+const LIVRO_CONTEXTO_F11 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 11 · Teste da Escolha Autêntica):
+
+PROPÓSITO: ajudar membros da nova geração a identificar, com honestidade, se sua intenção de
+atuar na empresa familiar nasce de escolha consciente ou de expectativas, lealdades e obrigações
+construídas ao longo da história familiar. A pergunta central: "Você quer esse lugar ou herdou
+essa obrigação?"
+
+NÍVEL DE SENSIBILIDADE: alto. Esta ferramenta pode revelar conflitos internos, sentimentos de
+culpa, lealdades invisíveis e expectativas não verbalizadas. Não deve substituir acompanhamento
+psicológico profissional quando o nível de sofrimento revelado for alto, nem ser aplicada em meio
+a uma crise familiar aguda.
+
+MÉTODO: 20 afirmações, 4 em cada uma de 5 dimensões, cada uma pontuada de 1 (discordo totalmente)
+a 5 (concordo totalmente). O Índice de Autenticidade da Escolha (IAE) soma Desejo Genuíno +
+Liberdade Psicológica + Identidade Profissional, e subtrai Pressão Familiar Percebida. Lealdades
+Invisíveis NÃO entra na conta do IAE, mas deve ser lida com a mesma seriedade — uma pontuação
+alta ali, mesmo com IAE elevado, é sinal de que vale a pena investigar o que está por trás da
+escolha.
+
+FAIXAS DE INTERPRETAÇÃO DO IAE: 40 a 60 é Escolha altamente autêntica; 25 a 39 é Escolha
+predominantemente autêntica; 10 a 24 é Escolha influenciada; 0 a 9 é Escolha fortemente
+condicionada; abaixo de 0 é Escolha herdada ou imposta.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO:
+- Thiago (IAE 5, escolha fortemente condicionada): desde adolescente ouve "um dia, tudo isso vai
+  ser seu" em jantares de família, sem nunca saber se aquilo era promessa ou sentença. Baixo
+  desejo genuíno, forte expectativa percebida, pouca liberdade pra escolher outro caminho.
+  Resultado: conversa estruturada entre pais e sucessor, expectativas de ambos os lados
+  explicitadas, período de exploração profissional fora da empresa, reavaliação em 12 meses. "Eu
+  dizia sim porque tinha medo do que aconteceria se dissesse não", disse Thiago.
+- Marina (IAE 47, escolha altamente autêntica): cresceu andando pelos corredores da fábrica no
+  colo do pai. Forte alinhamento entre interesses pessoais, identidade profissional e projeto de
+  vida — decisão sustentada por desejo real, não obrigação disfarçada de vontade. Resultado:
+  trilha de desenvolvimento, experiências práticas, job rotation, mentor interno designado. "Pela
+  primeira vez, o número confirmou o que eu já sentia: eu estava ali porque queria, não porque
+  devia", disse Marina.
+- Bruno (IAE 14, escolha influenciada, com Lealdades Invisíveis em 19): tem um retrato do avô
+  pendurado no escritório que um dia será dele, e nunca teve certeza se olha pra aquele retrato
+  com admiração ou com uma dívida que não sabe como pagar. Decisão fortemente influenciada pela
+  necessidade de preservar vínculos e honrar o legado dos pais — risco de que a motivação
+  principal seja emocional, não profissional. Resultado: trabalho de diferenciação entre amor e
+  obrigação, conversas sobre liberdade de escolha, exploração de projetos alternativos de
+  contribuição, mentoria ou aconselhamento externo. "Eu não sabia separar amor de dívida. Achava
+  que amar era pagar uma conta que ninguém tinha me cobrado, mas que eu sentia toda hora", disse
+  Bruno.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): preencher pensando na resposta que a
+família gostaria de ver, em vez de responder com honestidade radical; tratar uma pontuação baixa
+em Desejo Genuíno como veredito imediato de que a pessoa não deve assumir o negócio — o Teste é
+ponto de partida pra conversa, não sentença; ignorar a dimensão Lealdades Invisíveis por ela não
+entrar na fórmula do IAE, ela é qualitativamente decisiva mesmo fora da conta; aplicar sozinho e
+nunca levar o resultado pra uma conversa real com a família, perdendo o potencial transformador
+do Teste; tratar uma pontuação alta em Pressão Familiar como culpa dos pais — a pressão quase
+sempre nasce do amor mal comunicado, não de má intenção.
+
+TOM: extremamente acolhedor e cuidadoso, dado o alto nível de sensibilidade. Nunca soar como
+veredito ou diagnóstico. Sempre lembrar que o resultado é ponto de partida pra conversa, nunca
+uma sentença sobre quem a pessoa deve ser. Validar que tanto ficar quanto sair são escolhas
+legítimas, nunca sugerir qual é a "certa".
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Você não precisa ser cópia do
+fundador. Sua missão não é repetir a história, mas continuar escrevendo-a."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -1070,7 +1237,7 @@ const FERRAMENTAS_CATALOGO = [
     cor: "#2E7D32",
     ferramentas: [
       { n: 10, nome: "Bússola da Escolha Profissional", ativa: true },
-      { n: 11, nome: "Teste da Escolha Autêntica", ativa: false },
+      { n: 11, nome: "Teste da Escolha Autêntica", ativa: true },
       { n: 12, nome: "Escada do Legado", ativa: false },
     ],
   },
@@ -1529,6 +1696,8 @@ export default function App() {
         setView("ferramenta9");
       } else if (ferramentaParam === "10") {
         setView("ferramenta10");
+      } else if (ferramentaParam === "11") {
+        setView("ferramenta11");
       }
     } catch (e) {
       /* ignore */
@@ -1721,6 +1890,10 @@ export default function App() {
     setView("ferramenta10");
   };
 
+  const abrirFerramenta11 = () => {
+    setView("ferramenta11");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1736,6 +1909,7 @@ export default function App() {
             onAbrirFerramenta8={abrirFerramenta8}
             onAbrirFerramenta9={abrirFerramenta9}
             onAbrirFerramenta10={abrirFerramenta10}
+            onAbrirFerramenta11={abrirFerramenta11}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1849,6 +2023,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta10App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta11") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta11App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -2053,6 +2237,7 @@ function Catalogo({
   onAbrirFerramenta8,
   onAbrirFerramenta9,
   onAbrirFerramenta10,
+  onAbrirFerramenta11,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2067,6 +2252,7 @@ function Catalogo({
     8: onAbrirFerramenta8,
     9: onAbrirFerramenta9,
     10: onAbrirFerramenta10,
+    11: onAbrirFerramenta11,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2336,6 +2522,7 @@ function NovaFamilia({ onVoltar }) {
       "8": "Ferramenta 08 · Semáforo dos Temas",
       "9": "Ferramenta 09 · Mapa de Ruídos",
       "10": "Ferramenta 10 · Bússola Profissional",
+      "11": "Ferramenta 11 · Escolha Autêntica",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2384,6 +2571,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="8">Ferramenta 08 · Semáforo</option>
               <option value="9">Ferramenta 09 · Ruídos</option>
               <option value="10">Ferramenta 10 · Bússola</option>
+              <option value="11">Ferramenta 11 · Autêntica</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2519,7 +2707,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -6443,8 +6631,8 @@ function Header4({ step, onVoltarCatalogo }) {
   );
 }
 
-function LinhaScore({ label, valor, onChange, max = 5 }) {
-  const opcoes = Array.from({ length: max + 1 }, (_, i) => i);
+function LinhaScore({ label, valor, onChange, max = 5, min = 0 }) {
+  const opcoes = Array.from({ length: max - min + 1 }, (_, i) => i + min);
   return (
     <div style={styles.scoreLinha}>
       <span style={styles.scoreLinhaLabel}>{label}</span>
@@ -13182,6 +13370,670 @@ function StepFechamentoF10({ matrizF10, consolidacaoF10, planoF10, onReiniciar, 
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
         </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F11_INTRO = 0;
+const STEP_F11_DESEJO = 1;
+const STEP_F11_PRESSAO = 2;
+const STEP_F11_LIBERDADE = 3;
+const STEP_F11_IDENTIDADE = 4;
+const STEP_F11_LEALDADES = 5;
+const STEP_F11_RESULTADO = 6;
+const STEP_F11_CONVERSAS = 7;
+const STEP_F11_PLANO = 8;
+const STEP_F11_FECHAMENTO = 9;
+
+const THIAGO_EXEMPLO_F11 = {
+  desejo: [2, 2, 2, 2],
+  pressao: [5, 5, 4, 4],
+  liberdade: [2, 2, 2, 1],
+  identidade: [2, 2, 2, 2],
+  lealdades: [4, 4, 3, 4],
+  conversasF11: {
+    conversaEvitando: "Dizer ao meu pai que não tenho certeza se quero assumir a presidência.",
+    naoDisseAosPais: "Que às vezes penso em construir algo meu, fora da empresa da família.",
+    precisoOuvir: "Que eles me amariam do mesmo jeito, mesmo se eu escolhesse outro caminho.",
+    elesPrecisamOuvir: "Que eu digo sim por medo, não porque já decidi de verdade.",
+    decisaoAdiando: "Se vou aceitar formalmente o cargo que já assumem que vou aceitar.",
+  },
+  planoF11: [
+    {
+      id: 1,
+      acao: "Conversa estruturada entre eu e meus pais sobre expectativas de ambos os lados.",
+      responsavel: "Eu, meus pais, com facilitador",
+      prazo: "30 dias",
+    },
+    {
+      id: 2,
+      acao: "Construir um período de exploração profissional fora da empresa.",
+      responsavel: "Eu",
+      prazo: "90 dias",
+    },
+  ],
+};
+
+function somaF11(arr) {
+  return arr.reduce((s, n) => s + (n || 0), 0);
+}
+
+function Ferramenta11App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F11_INTRO);
+  const [desejo, setDesejo] = useState([null, null, null, null]);
+  const [pressao, setPressao] = useState([null, null, null, null]);
+  const [liberdade, setLiberdade] = useState([null, null, null, null]);
+  const [identidade, setIdentidade] = useState([null, null, null, null]);
+  const [lealdades, setLealdades] = useState([null, null, null, null]);
+  const [conversasF11, setConversasF11] = useState({
+    conversaEvitando: "",
+    naoDisseAosPais: "",
+    precisoOuvir: "",
+    elesPrecisamOuvir: "",
+    decisaoAdiando: "",
+  });
+  const [planoF11, setPlanoF11] = useState([{ id: 1, acao: "", responsavel: "", prazo: "" }]);
+
+  const desejoTotal = somaF11(desejo);
+  const pressaoTotal = somaF11(pressao);
+  const liberdadeTotal = somaF11(liberdade);
+  const identidadeTotal = somaF11(identidade);
+  const lealdadesTotal = somaF11(lealdades);
+  const iae = desejoTotal + liberdadeTotal + identidadeTotal - pressaoTotal;
+
+  const carregarExemploF11 = () => {
+    setDesejo(THIAGO_EXEMPLO_F11.desejo);
+    setPressao(THIAGO_EXEMPLO_F11.pressao);
+    setLiberdade(THIAGO_EXEMPLO_F11.liberdade);
+    setIdentidade(THIAGO_EXEMPLO_F11.identidade);
+    setLealdades(THIAGO_EXEMPLO_F11.lealdades);
+    setConversasF11(THIAGO_EXEMPLO_F11.conversasF11);
+    setPlanoF11(THIAGO_EXEMPLO_F11.planoF11);
+    setStep(STEP_F11_RESULTADO);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F11_INTRO) return true;
+    if (step === STEP_F11_DESEJO) return desejo.every((n) => n !== null);
+    if (step === STEP_F11_PRESSAO) return pressao.every((n) => n !== null);
+    if (step === STEP_F11_LIBERDADE) return liberdade.every((n) => n !== null);
+    if (step === STEP_F11_IDENTIDADE) return identidade.every((n) => n !== null);
+    if (step === STEP_F11_LEALDADES) return lealdades.every((n) => n !== null);
+    if (step === STEP_F11_RESULTADO) return true;
+    if (step === STEP_F11_CONVERSAS) return conversasF11.conversaEvitando.trim().length > 3;
+    if (step === STEP_F11_PLANO) {
+      return planoF11.some((a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0);
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F11_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F11_INTRO, s - 1));
+
+  return (
+    <>
+      <Header11 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F11_INTRO && <StepIntroF11 onCarregarExemplo={carregarExemploF11} />}
+        {step === STEP_F11_DESEJO && (
+          <StepDimensaoF11 dimensao="desejo" respostas={desejo} setRespostas={setDesejo} numero={1} />
+        )}
+        {step === STEP_F11_PRESSAO && (
+          <StepDimensaoF11 dimensao="pressao" respostas={pressao} setRespostas={setPressao} numero={2} />
+        )}
+        {step === STEP_F11_LIBERDADE && (
+          <StepDimensaoF11 dimensao="liberdade" respostas={liberdade} setRespostas={setLiberdade} numero={3} />
+        )}
+        {step === STEP_F11_IDENTIDADE && (
+          <StepDimensaoF11 dimensao="identidade" respostas={identidade} setRespostas={setIdentidade} numero={4} />
+        )}
+        {step === STEP_F11_LEALDADES && (
+          <StepDimensaoF11 dimensao="lealdades" respostas={lealdades} setRespostas={setLealdades} numero={5} />
+        )}
+        {step === STEP_F11_RESULTADO && (
+          <StepResultadoF11
+            iae={iae}
+            desejoTotal={desejoTotal}
+            pressaoTotal={pressaoTotal}
+            liberdadeTotal={liberdadeTotal}
+            identidadeTotal={identidadeTotal}
+            lealdadesTotal={lealdadesTotal}
+          />
+        )}
+        {step === STEP_F11_CONVERSAS && (
+          <StepConversasF11 conversasF11={conversasF11} setConversasF11={setConversasF11} iae={iae} />
+        )}
+        {step === STEP_F11_PLANO && (
+          <StepPlanoF11 planoF11={planoF11} setPlanoF11={setPlanoF11} conversasF11={conversasF11} iae={iae} />
+        )}
+        {step === STEP_F11_FECHAMENTO && (
+          <StepFechamentoF11
+            iae={iae}
+            desejoTotal={desejoTotal}
+            pressaoTotal={pressaoTotal}
+            liberdadeTotal={liberdadeTotal}
+            identidadeTotal={identidadeTotal}
+            lealdadesTotal={lealdadesTotal}
+            planoF11={planoF11}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F11_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F11_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header11({ step, onVoltarCatalogo }) {
+  const labels = [
+    "Antes de começar",
+    "Desejo Genuíno",
+    "Pressão Familiar Percebida",
+    "Liberdade Psicológica",
+    "Identidade Profissional",
+    "Lealdades Invisíveis",
+    "Seu resultado",
+    "Conversas que precisam acontecer",
+    "Plano de reflexão e conversa",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F11_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Teste da Escolha Autêntica · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF11({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Você quer esse lugar, ou herdou essa obrigação?</h1>
+      <p style={styles.lead}>
+        Essa é uma ferramenta sensível. Ela pode revelar sentimentos de culpa, lealdades
+        invisíveis e expectativas que nunca foram ditas em voz alta. Reserve um momento tranquilo,
+        sem interrupções, e responda com honestidade radical — não com a resposta que soa mais
+        aceitável pra família.
+      </p>
+      <p style={styles.lead}>
+        O preenchimento é individual e privado. Compartilhar o resultado com a família, ou não, é
+        uma escolha sua — idealmente com apoio de um mentor, terapeuta ou facilitador, dado o
+        nível de sensibilidade envolvido. Nem "ficar" nem "sair" é a resposta certa — as duas são
+        escolhas legítimas.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Thiago (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {Object.values(AFIRMACOES_F11).map((d) => (
+          <div key={d.titulo} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>{d.titulo}</span>
+            <span style={styles.papelDescricao}>{d.desc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepDimensaoF11({ dimensao, respostas, setRespostas, numero }) {
+  const info = AFIRMACOES_F11[dimensao];
+  const set = (i, val) => setRespostas((prev) => prev.map((v, idx) => (idx === i ? val : v)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>DIMENSÃO {numero} DE 5 · {info.titulo.toUpperCase()}</span>
+      <h1 style={styles.h1}>{info.titulo}</h1>
+      <p style={styles.lead}>{info.desc}</p>
+      <p style={styles.papelDescricao}>
+        Para cada afirmação: 1 é discordo totalmente, 5 é concordo totalmente. Responda sem pensar
+        na resposta que soa mais aceitável.
+      </p>
+
+      <div style={styles.familiaList}>
+        {info.itens.map((texto, i) => (
+          <LinhaScore
+            key={texto}
+            label={texto}
+            valor={respostas[i]}
+            onChange={(n) => set(i, n)}
+            min={1}
+            max={5}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepResultadoF11({ iae, desejoTotal, pressaoTotal, liberdadeTotal, identidadeTotal, lealdadesTotal }) {
+  const interpretacao = interpretaIAE_F11(iae);
+  const alertaLealdades = lealdadesTotal >= 15;
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>SEU RESULTADO</span>
+      <h1 style={styles.h1}>Seu Índice de Autenticidade da Escolha.</h1>
+      <p style={styles.lead}>
+        O IAE soma Desejo Genuíno, Liberdade Psicológica e Identidade Profissional, e subtrai
+        Pressão Familiar Percebida. Isso não é um veredito sobre quem você deve ser — é ponto de
+        partida pra uma conversa, nunca uma sentença.
+      </p>
+
+      <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+        <span style={styles.unlockLabel}>IAE CALCULADO</span>
+        <div style={styles.icsPainelRow}>
+          <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{iae}</span>
+          <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+        </div>
+        <p style={styles.unlockHow}>{interpretacao.desc}</p>
+      </div>
+
+      <div style={styles.familiaList}>
+        {FAIXAS_IAE_F11.map((f) => {
+          const atual = f.label === interpretacao.label;
+          return (
+            <div
+              key={f.label}
+              style={{
+                ...styles.padraoGuiaRow,
+                background: atual ? "#F5F9FE" : "transparent",
+                borderLeft: atual ? `3px solid ${f.cor}` : "3px solid transparent",
+                paddingLeft: 10,
+              }}
+            >
+              <span style={{ ...styles.padraoGuiaNome, color: f.cor }}>{f.faixa}</span>
+              <span style={styles.papelDescricao}>
+                {f.label}
+                {atual ? " ← você está aqui" : ""}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={styles.familiaList}>
+        <div style={styles.padraoCard}>
+          <span style={styles.papelNome}>Desejo Genuíno</span>
+          <span style={styles.papelDescricao}>{desejoTotal} de 20</span>
+        </div>
+        <div style={styles.padraoCard}>
+          <span style={styles.papelNome}>Pressão Familiar Percebida</span>
+          <span style={styles.papelDescricao}>{pressaoTotal} de 20</span>
+        </div>
+        <div style={styles.padraoCard}>
+          <span style={styles.papelNome}>Liberdade Psicológica</span>
+          <span style={styles.papelDescricao}>{liberdadeTotal} de 20</span>
+        </div>
+        <div style={styles.padraoCard}>
+          <span style={styles.papelNome}>Identidade Profissional</span>
+          <span style={styles.papelDescricao}>{identidadeTotal} de 20</span>
+        </div>
+      </div>
+
+      <div style={{ ...styles.unlockBox, borderColor: alertaLealdades ? "#B3261E" : "#CFE0F2" }}>
+        <span style={styles.unlockLabel}>LEALDADES INVISÍVEIS (fora da conta do IAE)</span>
+        <span style={{ ...styles.padraoGuiaNome, color: alertaLealdades ? "#B3261E" : NAVY }}>
+          {lealdadesTotal} de 20
+        </span>
+        <p style={styles.unlockHow}>
+          {alertaLealdades
+            ? "Essa pontuação está alta — mesmo que o IAE pareça bom, vale investigar com atenção o que está por trás dessa escolha. Uma dívida emocional com gerações anteriores pode estar pesando mais do que parece."
+            : "Essa dimensão não entra na conta do IAE, mas merece a mesma atenção séria das outras."}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function StepConversasF11({ conversasF11, setConversasF11, iae }) {
+  const set = (field) => (e) => setConversasF11((c) => ({ ...c, [field]: e.target.value }));
+  const contexto = `IAE de ${iae} (${interpretaIAE_F11(iae).label})`;
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>CONVERSAS QUE PRECISAM ACONTECER</span>
+      <h1 style={styles.h1}>Responda com honestidade — não precisa de resposta perfeita.</h1>
+      <p style={styles.lead}>Apenas sincera.</p>
+
+      <CampoReflexao
+        pergunta="Qual conversa estou evitando?"
+        valor={conversasF11.conversaEvitando}
+        onChange={set("conversaEvitando")}
+        placeholder="Uma conversa específica que você sabe que precisa acontecer…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F11}
+      />
+      <CampoReflexao
+        pergunta="O que nunca disse aos meus pais?"
+        valor={conversasF11.naoDisseAosPais}
+        onChange={set("naoDisseAosPais")}
+        placeholder="Algo que você guarda há tempos, mesmo sem saber bem por quê…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F11}
+      />
+      <CampoReflexao
+        pergunta="O que preciso ouvir deles?"
+        valor={conversasF11.precisoOuvir}
+        onChange={set("precisoOuvir")}
+        placeholder="Algo que, se ouvisse deles, mudaria como você se sente…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F11}
+      />
+      <CampoReflexao
+        pergunta="O que eles precisam ouvir de mim?"
+        valor={conversasF11.elesPrecisamOuvir}
+        onChange={set("elesPrecisamOuvir")}
+        placeholder="Algo que você acha que eles não sabem sobre como você se sente…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F11}
+      />
+      <CampoReflexao
+        pergunta="Que decisão estou adiando?"
+        valor={conversasF11.decisaoAdiando}
+        onChange={set("decisaoAdiando")}
+        placeholder="Uma decisão concreta que você sabe que precisa tomar, mas ainda não tomou…"
+        contexto={contexto}
+        contextoLivro={LIVRO_CONTEXTO_F11}
+      />
+    </div>
+  );
+}
+
+function StepPlanoF11({ planoF11, setPlanoF11, conversasF11, iae }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const interpretacao = interpretaIAE_F11(iae);
+  const sugestoesFixas = SUGESTOES_ACOES_F11[interpretacao.label];
+
+  const addAcao = () =>
+    setPlanoF11((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "" }]);
+  const addAcaoTexto = (texto) =>
+    setPlanoF11((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: texto, responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF11((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF11((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const prompt =
+      `${LIVRO_CONTEXTO_F11}\n\n` +
+      `Você ajuda alguém que aplicou o Teste da Escolha Autêntica a transformar as descobertas ` +
+      `em um plano de reflexão e conversa familiar. IAE: ${iae} (${interpretacao.label}).` +
+      `${conversasF11.conversaEvitando ? ` Conversa que a pessoa está evitando: "${conversasF11.conversaEvitando}".` : ""}\n\n` +
+      `Sugira 2 ações concretas, coerentes especificamente com essa faixa do IAE, cada uma no ` +
+      `infinitivo, com responsável e prazo, no espírito dos exemplos do livro (ex.: conversa ` +
+      `estruturada com facilitador, período de exploração, reavaliação futura). Isso é só um ` +
+      `rascunho pra pessoa editar.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF11(parsed.map((a, i) => ({ id: i + 1, acao: a.acao || "", responsavel: a.responsavel || "", prazo: a.prazo || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE REFLEXÃO E CONVERSA FAMILIAR</span>
+      <h1 style={styles.h1}>Transforme as descobertas em ações concretas.</h1>
+      <p style={styles.lead}>Com responsável e prazo pra cada uma.</p>
+
+      {sugestoesFixas && (
+        <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+          <span style={styles.unlockLabel}>IDEIAS PRA {interpretacao.label.toUpperCase()}</span>
+          <div style={styles.familiaList}>
+            {sugestoesFixas.map((s) => (
+              <div key={s} style={styles.timelineTopRow}>
+                <span style={{ ...styles.papelDescricao, flex: 1 }}>{s}</span>
+                <button onClick={() => addAcaoTexto(s)} type="button" style={styles.enviarCardLink}>
+                  + Usar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF11.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF11.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: conversa estruturada entre pais e sucessor sobre expectativas…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem participa"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 30 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF11({
+  iae,
+  desejoTotal,
+  pressaoTotal,
+  liberdadeTotal,
+  identidadeTotal,
+  lealdadesTotal,
+  planoF11,
+  onReiniciar,
+  envioId,
+}) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [compartilhado, setCompartilhado] = useState(false);
+  const interpretacao = interpretaIAE_F11(iae);
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 11,
+      notas: { desejoTotal, pressaoTotal, liberdadeTotal, identidadeTotal, lealdadesTotal, IAE: iae },
+      conflito: { classificacao: interpretacao.label },
+      plano_acao: planoF11,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Teste da Escolha Autêntica",
+      "",
+      `IAE: ${iae} — ${interpretacao.label}`,
+      `Desejo Genuíno: ${desejoTotal}/20 · Pressão Familiar: ${pressaoTotal}/20 · Liberdade Psicológica: ${liberdadeTotal}/20 · Identidade Profissional: ${identidadeTotal}/20`,
+      `Lealdades Invisíveis: ${lealdadesTotal}/20`,
+      "",
+      "Plano de reflexão e conversa:",
+      planoF11
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ];
+    return linhas.join("\n");
+  };
+
+  const handleCompartilhar = () => {
+    notifyConsultor("Teste da Escolha Autêntica — resultado compartilhado", montarResumo());
+    setCompartilhado(true);
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Teste da Escolha Autêntica, resumido.</h1>
+
+      <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+        <span style={styles.unlockLabel}>IAE CALCULADO</span>
+        <div style={styles.icsPainelRow}>
+          <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{iae}</span>
+          <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+        </div>
+        <p style={styles.unlockHow}>{interpretacao.desc}</p>
+      </div>
+
+      <div style={styles.familiaList} className="no-print">
+        {FAIXAS_IAE_F11.map((f) => {
+          const atual = f.label === interpretacao.label;
+          return (
+            <div
+              key={f.label}
+              style={{
+                ...styles.padraoGuiaRow,
+                background: atual ? "#F5F9FE" : "transparent",
+                borderLeft: atual ? `3px solid ${f.cor}` : "3px solid transparent",
+                paddingLeft: 10,
+              }}
+            >
+              <span style={{ ...styles.padraoGuiaNome, color: f.cor }}>{f.faixa}</span>
+              <span style={styles.papelDescricao}>
+                {f.label}
+                {atual ? " ← você está aqui" : ""}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF11
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Esse resultado é seu, e a decisão de compartilhar também.</p>
+        <p style={styles.ctaSub}>
+          Esta ferramenta é individual e privada. Compartilhar com a família, ou não, é uma
+          escolha sua — idealmente com apoio de um mentor, terapeuta ou facilitador. Ninguém mais
+          vê esse resultado a menos que você decida compartilhar.
+        </p>
+      </div>
+
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.restartButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        {!compartilhado ? (
+          <button onClick={handleCompartilhar} style={styles.ctaButton}>
+            Compartilhar resultado com o consultor →
+          </button>
+        ) : (
+          <span style={styles.saveStatusOk}>✓ Compartilhado</span>
+        )}
         <button onClick={onReiniciar} style={styles.restartButton}>
           ↺ Voltar ao início
         </button>
