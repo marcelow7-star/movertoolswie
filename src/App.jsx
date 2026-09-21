@@ -902,6 +902,45 @@ function combinacaoBussolaF10(quero, competencia, precisa) {
   return tabela[chave];
 }
 
+function classificaAderenciaF10(matrizF10) {
+  const { quero, competencia, precisa } = matrizF10;
+  if (quero === null || competencia === null || precisa === null) return null;
+  const positivos = [quero, competencia, precisa].filter(Boolean).length;
+  if (positivos === 3) return { tier: "alta", label: "Alta aderência", cor: "#1E7A3D" };
+  if (positivos === 2) return { tier: "media", label: "Média aderência", cor: "#B8860B" };
+  return { tier: "baixa", label: "Baixa aderência", cor: "#B3261E" };
+}
+
+const SUGESTOES_PDI_F10 = {
+  alta: {
+    titulo: "Sugestões pra manter a aderência alta",
+    acoes: [
+      "Formalizar o caminho de desenvolvimento com marcos e prazos claros.",
+      "Buscar mentoria de alguém que já ocupa posição semelhante, dentro ou fora da empresa.",
+      "Assumir responsabilidades crescentes de forma gradual, com pontos de checagem.",
+      "Revisar a Bússola novamente em 6 meses, pra garantir que o alinhamento continua real.",
+    ],
+  },
+  media: {
+    titulo: "Sugestões pra desenvolver o critério que ainda falta",
+    acoes: [
+      "Se falta competência: montar um plano de desenvolvimento específico, com cursos, mentoria ou passagem por áreas relacionadas.",
+      "Se falta desejo genuíno: conversar abertamente com a família antes de investir mais tempo nesse caminho.",
+      "Se a necessidade da empresa ainda não é clara: levar o tema ao conselho de família pra confirmar.",
+      "Definir um prazo (6 a 24 meses) pra reavaliar se a lacuna diminuiu.",
+    ],
+  },
+  baixa: {
+    titulo: "Sugestões pra considerar caminhos alternativos",
+    acoes: [
+      "Explorar, com honestidade, se esse caminho faz sentido dentro ou fora da empresa.",
+      "Se a família ainda precisa dessa posição, iniciar uma busca por outra pessoa, interna ou externa.",
+      "Não insistir em desenvolver competência ou interesse à força — isso tende a gerar desengajamento.",
+      "Buscar apoio de um mentor ou facilitador pra conduzir essa conversa com a família.",
+    ],
+  },
+};
+
 const LIVRO_CONTEXTO_F10 = `
 Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 10 · Bússola da Escolha
 Profissional):
@@ -1030,7 +1069,7 @@ const FERRAMENTAS_CATALOGO = [
     categoria: "Identidade, Carreira e Legado",
     cor: "#2E7D32",
     ferramentas: [
-      { n: 10, nome: "Bússola da Escolha Profissional", ativa: false },
+      { n: 10, nome: "Bússola da Escolha Profissional", ativa: true },
       { n: 11, nome: "Teste da Escolha Autêntica", ativa: false },
       { n: 12, nome: "Escada do Legado", ativa: false },
     ],
@@ -1488,6 +1527,8 @@ export default function App() {
         setView("ferramenta8");
       } else if (ferramentaParam === "9") {
         setView("ferramenta9");
+      } else if (ferramentaParam === "10") {
+        setView("ferramenta10");
       }
     } catch (e) {
       /* ignore */
@@ -1676,6 +1717,10 @@ export default function App() {
     setView("ferramenta9");
   };
 
+  const abrirFerramenta10 = () => {
+    setView("ferramenta10");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -1690,6 +1735,7 @@ export default function App() {
             onAbrirFerramenta7={abrirFerramenta7}
             onAbrirFerramenta8={abrirFerramenta8}
             onAbrirFerramenta9={abrirFerramenta9}
+            onAbrirFerramenta10={abrirFerramenta10}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -1793,6 +1839,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shell} className="print-shell">
           <Ferramenta9App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "ferramenta10") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta10App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
         </div>
       </div>
     );
@@ -1996,6 +2052,7 @@ function Catalogo({
   onAbrirFerramenta7,
   onAbrirFerramenta8,
   onAbrirFerramenta9,
+  onAbrirFerramenta10,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2009,6 +2066,7 @@ function Catalogo({
     7: onAbrirFerramenta7,
     8: onAbrirFerramenta8,
     9: onAbrirFerramenta9,
+    10: onAbrirFerramenta10,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2277,6 +2335,7 @@ function NovaFamilia({ onVoltar }) {
       "7": "Ferramenta 07 · Protocolo CLARO",
       "8": "Ferramenta 08 · Semáforo dos Temas",
       "9": "Ferramenta 09 · Mapa de Ruídos",
+      "10": "Ferramenta 10 · Bússola Profissional",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -2324,6 +2383,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="7">Ferramenta 07 · CLARO</option>
               <option value="8">Ferramenta 08 · Semáforo</option>
               <option value="9">Ferramenta 09 · Ruídos</option>
+              <option value="10">Ferramenta 10 · Bússola</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -2459,7 +2519,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -12139,6 +12199,979 @@ function StepFechamentoF9({ participantesPreenchidos, relacoes, ruidos, planoF9,
           Vocês mapearam participantes, relações, ruídos e temas evitados, e desenharam o
           sociograma. O que falta agora é colocar em prática, e revisitar em 60 dias se os pactos
           de comunicação estão funcionando.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const STEP_F10_QUERO = 0;
+const STEP_F10_EXPECTATIVAS = 1;
+const STEP_F10_COMPETENCIAS = 2;
+const STEP_F10_ENERGIA = 3;
+const STEP_F10_PROJETO_VIDA = 4;
+const STEP_F10_MATRIZ = 5;
+const STEP_F10_CONSOLIDACAO = 6;
+const STEP_F10_PLANO = 7;
+const STEP_F10_FECHAMENTO = 8;
+
+const PEDRO_EXEMPLO_F10 = {
+  quero: ["Inovação", "Tecnologia"],
+  expectativas: [
+    { id: 1, pessoa: "Meu pai", expectativa: "Que eu assuma a presidência", influencia: 5 },
+    { id: 2, pessoa: "Minha mãe", expectativa: "Que eu continue o legado da família na empresa", influencia: 4 },
+  ],
+  competencias: ["Capacidade Analítica"],
+  energiaF10: {
+    perderNocaoTempo: "Quando estou resolvendo um problema técnico complexo ou testando uma nova tecnologia.",
+    desafiosGosto: "Problemas de engenharia e inovação — o tipo que exige entender a fundo como algo funciona.",
+    momentosRealizado: "Quando criei um sistema interno que resolveu um problema que a empresa tinha há anos.",
+  },
+  projetoVidaF10: {
+    estiloVida: "Um ritmo com espaço real pra aprender coisas novas constantemente, sem estar preso a reuniões o dia todo.",
+    contribuicao: "Quero modernizar como a empresa usa tecnologia, deixando ela mais competitiva no longo prazo.",
+    legado: "Ser lembrado como quem trouxe inovação real pra empresa, não só quem ocupou um cargo.",
+  },
+  matrizF10: { cargo: "Presidência", quero: false, competencia: false, precisa: true },
+  consolidacaoF10: {
+    descoberta1: "Meu interesse real está em tecnologia e inovação, não na gestão geral que a presidência exige.",
+    descoberta2: "A combinação real é mais próxima de 'desenvolvimento necessário' em tecnologia do que aderência à presidência.",
+    descoberta3: "A família precisa de liderança executiva geral, mas isso não precisa ser eu.",
+  },
+  planoF10: [
+    {
+      id: 1,
+      acao: "Criar o cargo de diretor de tecnologia e inovação, formalizando o papel de Pedro.",
+      responsavel: "Conselho de família",
+      prazo: "60 dias",
+    },
+    {
+      id: 2,
+      acao: "Iniciar, separadamente, um processo de busca por liderança executiva geral.",
+      responsavel: "Conselho de família",
+      prazo: "90 dias",
+    },
+  ],
+};
+
+function Ferramenta10App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F10_QUERO);
+  const [quero, setQuero] = useState([]);
+  const [expectativas, setExpectativas] = useState([
+    { id: 1, pessoa: "", expectativa: "", influencia: 3 },
+  ]);
+  const [competencias, setCompetencias] = useState([]);
+  const [energiaF10, setEnergiaF10] = useState({
+    perderNocaoTempo: "",
+    desafiosGosto: "",
+    momentosRealizado: "",
+  });
+  const [projetoVidaF10, setProjetoVidaF10] = useState({
+    estiloVida: "",
+    contribuicao: "",
+    legado: "",
+  });
+  const [matrizF10, setMatrizF10] = useState({ cargo: "", quero: null, competencia: null, precisa: null });
+  const [consolidacaoF10, setConsolidacaoF10] = useState({
+    descoberta1: "",
+    descoberta2: "",
+    descoberta3: "",
+  });
+  const [planoF10, setPlanoF10] = useState([{ id: 1, acao: "", responsavel: "", prazo: "" }]);
+
+  const queroPreenchido = quero.length >= 2;
+  const competenciasPreenchidas = competencias.length >= 2;
+
+  const carregarExemploF10 = () => {
+    setQuero(PEDRO_EXEMPLO_F10.quero);
+    setExpectativas(PEDRO_EXEMPLO_F10.expectativas);
+    setCompetencias(PEDRO_EXEMPLO_F10.competencias);
+    setEnergiaF10(PEDRO_EXEMPLO_F10.energiaF10);
+    setProjetoVidaF10(PEDRO_EXEMPLO_F10.projetoVidaF10);
+    setMatrizF10(PEDRO_EXEMPLO_F10.matrizF10);
+    setConsolidacaoF10(PEDRO_EXEMPLO_F10.consolidacaoF10);
+    setPlanoF10(PEDRO_EXEMPLO_F10.planoF10);
+    setStep(STEP_F10_MATRIZ);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F10_QUERO) return queroPreenchido;
+    if (step === STEP_F10_EXPECTATIVAS) return true;
+    if (step === STEP_F10_COMPETENCIAS) return competenciasPreenchidas;
+    if (step === STEP_F10_ENERGIA) {
+      return (
+        energiaF10.perderNocaoTempo.trim().length > 3 &&
+        energiaF10.desafiosGosto.trim().length > 3 &&
+        energiaF10.momentosRealizado.trim().length > 3
+      );
+    }
+    if (step === STEP_F10_PROJETO_VIDA) {
+      return (
+        projetoVidaF10.estiloVida.trim().length > 3 &&
+        projetoVidaF10.contribuicao.trim().length > 3 &&
+        projetoVidaF10.legado.trim().length > 3
+      );
+    }
+    if (step === STEP_F10_MATRIZ) {
+      return (
+        matrizF10.cargo.trim().length > 0 &&
+        matrizF10.quero !== null &&
+        matrizF10.competencia !== null &&
+        matrizF10.precisa !== null
+      );
+    }
+    if (step === STEP_F10_CONSOLIDACAO) return consolidacaoF10.descoberta1.trim().length > 3;
+    if (step === STEP_F10_PLANO) {
+      return planoF10.some(
+        (a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0 && a.prazo.trim().length > 0
+      );
+    }
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F10_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F10_QUERO, s - 1));
+
+  return (
+    <>
+      <Header10 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F10_QUERO && (
+          <StepQueroF10 quero={quero} setQuero={setQuero} onCarregarExemplo={carregarExemploF10} />
+        )}
+        {step === STEP_F10_EXPECTATIVAS && (
+          <StepExpectativasF10 expectativas={expectativas} setExpectativas={setExpectativas} />
+        )}
+        {step === STEP_F10_COMPETENCIAS && (
+          <StepCompetenciasF10 competencias={competencias} setCompetencias={setCompetencias} />
+        )}
+        {step === STEP_F10_ENERGIA && (
+          <StepEnergiaF10 energiaF10={energiaF10} setEnergiaF10={setEnergiaF10} />
+        )}
+        {step === STEP_F10_PROJETO_VIDA && (
+          <StepProjetoVidaF10 projetoVidaF10={projetoVidaF10} setProjetoVidaF10={setProjetoVidaF10} />
+        )}
+        {step === STEP_F10_MATRIZ && (
+          <StepMatrizF10
+            matrizF10={matrizF10}
+            setMatrizF10={setMatrizF10}
+            quero={quero}
+            competencias={competencias}
+          />
+        )}
+        {step === STEP_F10_CONSOLIDACAO && (
+          <StepConsolidacaoF10
+            consolidacaoF10={consolidacaoF10}
+            setConsolidacaoF10={setConsolidacaoF10}
+            matrizF10={matrizF10}
+            quero={quero}
+            competencias={competencias}
+            expectativas={expectativas}
+            energiaF10={energiaF10}
+            projetoVidaF10={projetoVidaF10}
+          />
+        )}
+        {step === STEP_F10_PLANO && (
+          <StepPlanoF10 planoF10={planoF10} setPlanoF10={setPlanoF10} matrizF10={matrizF10} consolidacaoF10={consolidacaoF10} />
+        )}
+        {step === STEP_F10_FECHAMENTO && (
+          <StepFechamentoF10
+            matrizF10={matrizF10}
+            consolidacaoF10={consolidacaoF10}
+            planoF10={planoF10}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F10_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F10_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header10({ step, onVoltarCatalogo }) {
+  const labels = [
+    "O que eu quero",
+    "O que minha família espera",
+    "Minhas competências",
+    "O que me energiza",
+    "Meu projeto de vida",
+    "Matriz de Escolha",
+    "Consolidação familiar",
+    "Plano de desenvolvimento",
+    "Fechamento",
+  ];
+  const progress = Math.round((step / STEP_F10_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Bússola da Escolha Profissional · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function SeletorChipsTop4({ opcoes, selecionados, setSelecionados, max = 4 }) {
+  const toggle = (op) => {
+    setSelecionados((prev) => {
+      if (prev.includes(op)) return prev.filter((x) => x !== op);
+      if (prev.length >= max) return prev;
+      return [...prev, op];
+    });
+  };
+  return (
+    <>
+      <div style={styles.envioButtonsRow}>
+        {opcoes.map((op) => {
+          const ativo = selecionados.includes(op);
+          const cheio = !ativo && selecionados.length >= max;
+          return (
+            <button
+              key={op}
+              type="button"
+              onClick={() => toggle(op)}
+              disabled={cheio}
+              style={{
+                ...styles.geracaoOption,
+                borderColor: ativo ? BLUE : "#E4EAF0",
+                background: ativo ? "#EAF2FB" : "#fff",
+                opacity: cheio ? 0.4 : 1,
+                cursor: cheio ? "not-allowed" : "pointer",
+              }}
+            >
+              {ativo ? "✓ " : ""}
+              {op}
+            </button>
+          );
+        })}
+      </div>
+      <span style={styles.papelDescricao}>
+        {selecionados.length} de {max} escolhidos
+      </span>
+    </>
+  );
+}
+
+function StepQueroF10({ quero, setQuero, onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 1 DE 5 · O QUE EU QUERO</span>
+      <h1 style={styles.h1}>Antes de pensar na empresa, o que te interessa de verdade?</h1>
+      <p style={styles.lead}>
+        Escolha até 4 temas que mais despertam seu interesse real, pensando só em você — não no
+        que soa como resposta certa ou no que a família esperaria ouvir.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Pedro Martins (caso do livro)
+        </button>
+      </div>
+
+      <SeletorChipsTop4 opcoes={TEMAS_QUERO_F10} selecionados={quero} setSelecionados={setQuero} />
+    </div>
+  );
+}
+
+function StepExpectativasF10({ expectativas, setExpectativas }) {
+  const add = () =>
+    setExpectativas((prev) => [
+      ...prev,
+      { id: (prev[prev.length - 1]?.id || 0) + 1, pessoa: "", expectativa: "", influencia: 3 },
+    ]);
+  const remove = (id) => setExpectativas((prev) => prev.filter((e) => e.id !== id));
+  const set = (id, field, val) =>
+    setExpectativas((prev) => prev.map((e) => (e.id === id ? { ...e, [field]: val } : e)));
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 2 DE 5 · O QUE MINHA FAMÍLIA ESPERA</span>
+      <h1 style={styles.h1}>O que cada pessoa da família espera de você, mesmo sem dizer?</h1>
+      <p style={styles.lead}>
+        Liste as expectativas explícitas e implícitas que você percebe de cada pessoa relevante,
+        e o quanto essa expectativa pesa sobre você. Expectativas não verbalizadas costumam gerar
+        frustrações futuras, tanto pra quem espera quanto pra quem é esperado.
+      </p>
+
+      <div style={styles.familiaList}>
+        {expectativas.map((e) => (
+          <div key={e.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <input
+                style={{ ...styles.input, flex: "1 1 200px" }}
+                value={e.pessoa}
+                onChange={(ev) => set(e.id, "pessoa", ev.target.value)}
+                placeholder="Ex.: meu pai"
+              />
+              {expectativas.length > 1 && (
+                <button onClick={() => remove(e.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <label style={styles.fieldLabel}>Expectativa percebida</label>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={e.expectativa}
+              onChange={(ev) => set(e.id, "expectativa", ev.target.value)}
+              placeholder="Ex.: que eu assuma a presidência"
+            />
+            <LinhaScore
+              label="Influência sobre você (1 a 5)"
+              valor={e.influencia}
+              onChange={(n) => set(e.id, "influencia", n || 1)}
+              max={5}
+            />
+          </div>
+        ))}
+      </div>
+      <button onClick={add} type="button" style={styles.demoLink}>
+        + Adicionar outra pessoa
+      </button>
+    </div>
+  );
+}
+
+function StepCompetenciasF10({ competencias, setCompetencias }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 3 DE 5 · MINHAS COMPETÊNCIAS</span>
+      <h1 style={styles.h1}>Com honestidade: no que você já é bom hoje?</h1>
+      <p style={styles.lead}>
+        Escolha até 4 competências em que você já é forte de verdade hoje — com honestidade, não
+        com a competência que você gostaria de ter. Interesse sem competência gera frustração;
+        competência sem interesse gera desengajamento.
+      </p>
+
+      <SeletorChipsTop4 opcoes={COMPETENCIAS_F10} selecionados={competencias} setSelecionados={setCompetencias} />
+    </div>
+  );
+}
+
+function StepEnergiaF10({ energiaF10, setEnergiaF10 }) {
+  const set = (field) => (e) => setEnergiaF10((r) => ({ ...r, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 4 DE 5 · O QUE ME ENERGIZA</span>
+      <h1 style={styles.h1}>O que te dá energia, mesmo quando cansa?</h1>
+      <p style={styles.lead}>
+        Identifique atividades que geram entusiasmo, orgulho e realização. Busque padrões entre
+        as três respostas — eles costumam apontar pro mesmo tipo de motivação, mesmo em contextos
+        diferentes.
+      </p>
+
+      <label style={styles.fieldLabel}>O que me faz perder a noção do tempo?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={energiaF10.perderNocaoTempo}
+        onChange={set("perderNocaoTempo")}
+        placeholder="Atividades em que você se envolve tanto que esquece de olhar o relógio…"
+      />
+      <label style={styles.fieldLabel}>Quais desafios gosto de resolver?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={energiaF10.desafiosGosto}
+        onChange={set("desafiosGosto")}
+        placeholder="O tipo de problema que te dá energia, não cansaço, ao ser enfrentado…"
+      />
+      <label style={styles.fieldLabel}>Em quais momentos me sinto realizado?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={energiaF10.momentosRealizado}
+        onChange={set("momentosRealizado")}
+        placeholder="Situações específicas, recentes ou antigas, em que sentiu orgulho genuíno…"
+      />
+    </div>
+  );
+}
+
+function StepProjetoVidaF10({ projetoVidaF10, setProjetoVidaF10 }) {
+  const set = (field) => (e) => setProjetoVidaF10((r) => ({ ...r, [field]: e.target.value }));
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ETAPA 5 DE 5 · MEU PROJETO DE VIDA</span>
+      <h1 style={styles.h1}>Imagine sua vida daqui a dez anos.</h1>
+      <p style={styles.lead}>
+        Reflita sobre estilo de vida, contribuição e legado desejado, sem se limitar ao que
+        parece "realista" hoje. Se não existir alinhamento entre esse projeto de vida e a empresa
+        familiar do jeito que ela é hoje, isso não é um problema a esconder, é uma informação a
+        considerar com seriedade.
+      </p>
+
+      <label style={styles.fieldLabel}>Que estilo de vida eu desejo ter?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={projetoVidaF10.estiloVida}
+        onChange={set("estiloVida")}
+        placeholder="Ritmo, rotina, equilíbrio entre trabalho e vida pessoal que você imagina…"
+      />
+      <label style={styles.fieldLabel}>Que contribuição eu quero dar?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={projetoVidaF10.contribuicao}
+        onChange={set("contribuicao")}
+        placeholder="O tipo de impacto que gostaria de gerar, pra empresa, família ou além…"
+      />
+      <label style={styles.fieldLabel}>Que legado eu desejo deixar?</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={projetoVidaF10.legado}
+        onChange={set("legado")}
+        placeholder="Como você gostaria de ser lembrado, profissionalmente, daqui a décadas…"
+      />
+    </div>
+  );
+}
+
+function StepMatrizF10({ matrizF10, setMatrizF10, quero, competencias }) {
+  const set = (field, val) => setMatrizF10((m) => ({ ...m, [field]: val }));
+  const resultado =
+    matrizF10.quero !== null && matrizF10.competencia !== null && matrizF10.precisa !== null
+      ? combinacaoBussolaF10(matrizF10.quero, matrizF10.competencia, matrizF10.precisa)
+      : null;
+  const aderencia = classificaAderenciaF10(matrizF10);
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>MATRIZ DE ESCOLHA PROFISSIONAL</span>
+      <h1 style={styles.h1}>Escolha um cargo ou papel específico pra avaliar.</h1>
+      <p style={styles.lead}>
+        Pode ser o cargo que a família espera de você, ou qualquer outro que esteja em jogo. As
+        três perguntas abaixo cruzam pra revelar uma de oito combinações possíveis.
+      </p>
+
+      <label style={styles.fieldLabel}>Cargo ou papel avaliado</label>
+      <input
+        style={{ ...styles.input, flex: "none" }}
+        value={matrizF10.cargo}
+        onChange={(e) => set("cargo", e.target.value)}
+        placeholder="Ex.: Presidência, Diretoria Comercial…"
+      />
+
+      {(quero.length > 0 || competencias.length > 0) && (
+        <p style={styles.papelDescricao}>
+          {quero.length > 0 && `Seus interesses escolhidos (Etapa 1): ${quero.join(", ")}. `}
+          {competencias.length > 0 && `Suas competências escolhidas (Etapa 3): ${competencias.join(", ")}.`}
+        </p>
+      )}
+
+      <label style={styles.fieldLabel}>Eu quero isso? (baseado nos temas que você escolheu na Etapa 1)</label>
+      <div style={styles.envioButtonsRow}>
+        {[true, false].map((v) => (
+          <button
+            key={String(v)}
+            type="button"
+            onClick={() => set("quero", v)}
+            style={{
+              ...styles.geracaoOption,
+              borderColor: matrizF10.quero === v ? BLUE : "#E4EAF0",
+              background: matrizF10.quero === v ? "#EAF2FB" : "#fff",
+            }}
+          >
+            {v ? "Sim" : "Não"}
+          </button>
+        ))}
+      </div>
+
+      <label style={styles.fieldLabel}>Eu tenho competência pra isso? (baseado no que você escolheu na Etapa 3)</label>
+      <div style={styles.envioButtonsRow}>
+        {[true, false].map((v) => (
+          <button
+            key={String(v)}
+            type="button"
+            onClick={() => set("competencia", v)}
+            style={{
+              ...styles.geracaoOption,
+              borderColor: matrizF10.competencia === v ? BLUE : "#E4EAF0",
+              background: matrizF10.competencia === v ? "#EAF2FB" : "#fff",
+            }}
+          >
+            {v ? "Sim" : "Não"}
+          </button>
+        ))}
+      </div>
+
+      <label style={styles.fieldLabel}>A família precisa disso? (converse com a família ou o conselho)</label>
+      <div style={styles.envioButtonsRow}>
+        {[true, false].map((v) => (
+          <button
+            key={String(v)}
+            type="button"
+            onClick={() => set("precisa", v)}
+            style={{
+              ...styles.geracaoOption,
+              borderColor: matrizF10.precisa === v ? BLUE : "#E4EAF0",
+              background: matrizF10.precisa === v ? "#EAF2FB" : "#fff",
+            }}
+          >
+            {v ? "Sim" : "Não"}
+          </button>
+        ))}
+      </div>
+
+      {resultado && aderencia && (
+        <div style={{ ...styles.unlockBox, borderColor: aderencia.cor }}>
+          <span style={styles.unlockLabel}>SEU NÍVEL DE ADERÊNCIA</span>
+          <span style={{ ...styles.padraoGuiaNome, color: aderencia.cor, fontSize: 16 }}>{aderencia.label}</span>
+          <p style={styles.unlockHow}>{resultado.texto}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepConsolidacaoF10({
+  consolidacaoF10,
+  setConsolidacaoF10,
+  matrizF10,
+  quero,
+  competencias,
+  expectativas,
+  energiaF10,
+  projetoVidaF10,
+}) {
+  const [script, setScript] = useState(null);
+  const [gerando, setGerando] = useState(false);
+  const [gerandoDescobertas, setGerandoDescobertas] = useState(false);
+  const [erroDescobertas, setErroDescobertas] = useState(false);
+  const set = (field) => (e) => setConsolidacaoF10((c) => ({ ...c, [field]: e.target.value }));
+
+  const resultadoAtual =
+    matrizF10.quero !== null && matrizF10.competencia !== null && matrizF10.precisa !== null
+      ? combinacaoBussolaF10(matrizF10.quero, matrizF10.competencia, matrizF10.precisa)
+      : null;
+
+  const prepararConversa = () => {
+    setGerando(true);
+    setScript(null);
+    const prompt =
+      `${LIVRO_CONTEXTO_F10}\n\n` +
+      `Você ajuda alguém que aplicou a Bússola da Escolha Profissional a se preparar pra ` +
+      `Consolidação Familiar. Cargo avaliado: "${matrizF10.cargo}".${
+        resultadoAtual ? ` Combinação revelada: "${resultadoAtual.label}".` : ""
+      }\n\n` +
+      `Sugira 2-3 frases curtas de abertura pra essa pessoa compartilhar isso em família, ` +
+      `deixando claro que o objetivo é autoconhecimento, não veredito, e que a resposta "não ` +
+      `quero" não deve ser tratada como deslealdade. Formate como lista curta. Responda só com ` +
+      `as frases, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 260)
+      .then((texto) => setScript(texto))
+      .catch(() => setScript("Não foi possível gerar agora. Tente de novo em instantes."))
+      .finally(() => setGerando(false));
+  };
+
+  const sugerirDescobertas = () => {
+    setGerandoDescobertas(true);
+    setErroDescobertas(false);
+    const expectativasTexto = expectativas
+      .filter((e) => e.pessoa.trim() && e.expectativa.trim())
+      .map((e) => `${e.pessoa}: "${e.expectativa}" (influência ${e.influencia})`)
+      .join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F10}\n\n` +
+      `Você ajuda alguém a sintetizar o resultado da Bússola da Escolha Profissional em até 3 ` +
+      `descobertas principais. Dados coletados:\n` +
+      `${quero.length ? `- O que ela quer (Etapa 1): ${quero.join(", ")}\n` : ""}` +
+      `${expectativasTexto ? `- O que a família espera (Etapa 2): ${expectativasTexto}\n` : ""}` +
+      `${competencias.length ? `- Competências fortes (Etapa 3): ${competencias.join(", ")}\n` : ""}` +
+      `${energiaF10.desafiosGosto ? `- O que a energiza: "${energiaF10.desafiosGosto}"\n` : ""}` +
+      `${projetoVidaF10.contribuicao ? `- Projeto de vida: "${projetoVidaF10.contribuicao}"\n` : ""}` +
+      `${matrizF10.cargo ? `- Cargo avaliado na Matriz: "${matrizF10.cargo}"\n` : ""}` +
+      `${resultadoAtual ? `- Combinação revelada: "${resultadoAtual.label}" — ${resultadoAtual.texto}\n` : ""}\n` +
+      `Escreva até 3 descobertas principais, curtas e concretas (máximo 25 palavras cada), que ` +
+      `conectem os dados acima. Isso é só um rascunho pra pessoa editar ou substituir pela ` +
+      `realidade dela.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `{"descoberta1":"","descoberta2":"","descoberta3":""}`;
+
+    callClaude(prompt, 300)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        setConsolidacaoF10({
+          descoberta1: parsed.descoberta1 || "",
+          descoberta2: parsed.descoberta2 || "",
+          descoberta3: parsed.descoberta3 || "",
+        });
+      })
+      .catch(() => setErroDescobertas(true))
+      .finally(() => setGerandoDescobertas(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>CONSOLIDAÇÃO</span>
+      <h1 style={styles.h1}>Reúnam-se e compartilhem os resultados das cinco etapas.</h1>
+      <p style={styles.lead}>
+        A leitura da Matriz e a Consolidação funcionam melhor com um mentor ou facilitador,
+        especialmente quando o resultado apontar Risco de Sucessão Forçada ou Desalinhamento
+        Elevado — combinações que costumam gerar reação emocional forte na família.
+      </p>
+
+      {!script && (
+        <button onClick={prepararConversa} disabled={gerando} style={styles.demoLink}>
+          {gerando ? "Gerando sugestão…" : "✦ Preciso de ajuda para começar a conversa"}
+        </button>
+      )}
+      {script && (
+        <div style={styles.scriptBox}>
+          <span style={styles.aiTag}>✦ sugestão gerada pra sua situação</span>
+          <p style={styles.scriptText}>{script}</p>
+        </div>
+      )}
+
+      <button onClick={sugerirDescobertas} disabled={gerandoDescobertas} style={styles.demoLink}>
+        {gerandoDescobertas ? "Lendo suas respostas…" : "✦ Sugerir as 3 descobertas com base no que você já preencheu"}
+      </button>
+      {erroDescobertas && (
+        <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>
+      )}
+
+      <label style={styles.fieldLabel}>Principal descoberta 1</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={consolidacaoF10.descoberta1}
+        onChange={set("descoberta1")}
+        placeholder="A descoberta mais importante entre as cinco etapas e a matriz…"
+      />
+      <label style={styles.fieldLabel}>Principal descoberta 2</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={consolidacaoF10.descoberta2}
+        onChange={set("descoberta2")}
+        placeholder="Opcional…"
+      />
+      <label style={styles.fieldLabel}>Principal descoberta 3</label>
+      <textarea
+        style={styles.textareaSmall}
+        rows={2}
+        value={consolidacaoF10.descoberta3}
+        onChange={set("descoberta3")}
+        placeholder="Opcional…"
+      />
+    </div>
+  );
+}
+
+function StepPlanoF10({ planoF10, setPlanoF10, matrizF10, consolidacaoF10 }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const aderencia = classificaAderenciaF10(matrizF10);
+  const sugestoes = aderencia ? SUGESTOES_PDI_F10[aderencia.tier] : null;
+
+  const addAcao = () =>
+    setPlanoF10((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", responsavel: "", prazo: "" }]);
+  const addAcaoTexto = (texto) =>
+    setPlanoF10((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: texto, responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF10((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) =>
+    setPlanoF10((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const resultado =
+      matrizF10.quero !== null && matrizF10.competencia !== null && matrizF10.precisa !== null
+        ? combinacaoBussolaF10(matrizF10.quero, matrizF10.competencia, matrizF10.precisa)
+        : null;
+    const prompt =
+      `${LIVRO_CONTEXTO_F10}\n\n` +
+      `Você ajuda alguém a transformar o resultado da Bússola da Escolha Profissional em um ` +
+      `plano de desenvolvimento. Cargo avaliado: "${matrizF10.cargo}".${
+        resultado ? ` Combinação: "${resultado.label}".` : ""
+      }${consolidacaoF10.descoberta1 ? ` Descoberta principal: "${consolidacaoF10.descoberta1}".` : ""}\n\n` +
+      `Sugira 2 ações concretas coerentes com essa combinação específica (lembre que ` +
+      `Desenvolvimento Necessário e Risco de Sucessão Forçada pedem ações opostas), cada uma no ` +
+      `infinitivo, com responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","responsavel":"","prazo":""},{"acao":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 350)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF10(parsed.map((a, i) => ({ id: i + 1, acao: a.acao || "", responsavel: a.responsavel || "", prazo: a.prazo || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE DESENVOLVIMENTO</span>
+      <h1 style={styles.h1}>Transforme as descobertas em ações concretas.</h1>
+      <p style={styles.lead}>Com responsável e prazo pra cada uma.</p>
+
+      {aderencia && (
+        <div style={{ ...styles.unlockBox, borderColor: aderencia.cor }}>
+          <span style={styles.unlockLabel}>NÍVEL DE ADERÊNCIA — {matrizF10.cargo || "cargo avaliado"}</span>
+          <span style={{ ...styles.padraoGuiaNome, color: aderencia.cor, fontSize: 16 }}>{aderencia.label}</span>
+          <p style={styles.unlockHow}>{sugestoes.titulo}:</p>
+          <div style={styles.familiaList}>
+            {sugestoes.acoes.map((s) => (
+              <div key={s} style={styles.timelineTopRow}>
+                <span style={{ ...styles.papelDescricao, flex: 1 }}>{s}</span>
+                <button onClick={() => addAcaoTexto(s)} type="button" style={styles.enviarCardLink}>
+                  + Usar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF10.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF10.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: passagem por área operacional antes da diretoria comercial…"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 24 meses"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF10({ matrizF10, consolidacaoF10, planoF10, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+
+  const resultado =
+    matrizF10.quero !== null && matrizF10.competencia !== null && matrizF10.precisa !== null
+      ? combinacaoBussolaF10(matrizF10.quero, matrizF10.competencia, matrizF10.precisa)
+      : null;
+  const aderenciaFinal = classificaAderenciaF10(matrizF10);
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 10,
+      notas: { cargo: matrizF10.cargo, combinacao: resultado ? resultado.label : null },
+      decisao_final: consolidacaoF10,
+      plano_acao: planoF10,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const prompt =
+      `${LIVRO_CONTEXTO_F10}\n\n` +
+      `Alguém completou a Bússola da Escolha Profissional pro cargo "${matrizF10.cargo}". ` +
+      `${resultado ? `Combinação revelada: "${resultado.label}" — ${resultado.texto}` : ""}\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que a Bússola não decide por ninguém, ` +
+      `só separa perguntas que costumam ser respondidas como se fossem uma só. Tom direto, sem ` +
+      `clichês de autoajuda. Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Bússola da Escolha Profissional",
+      "",
+      `Cargo avaliado: ${matrizF10.cargo || "—"}`,
+      `Nível de aderência: ${aderenciaFinal ? aderenciaFinal.label : "—"}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      `Descoberta principal: ${consolidacaoF10.descoberta1 || "—"}`,
+      "",
+      "Plano de desenvolvimento:",
+      planoF10
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor(`Bússola da Escolha Profissional — ${matrizF10.cargo || "resultado"}`, montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Sua Bússola da Escolha Profissional, resumida.</h1>
+      <p style={styles.decisionEcho}>&ldquo;{matrizF10.cargo}&rdquo;</p>
+
+      {resultado && aderenciaFinal && (
+        <div style={{ ...styles.unlockBox, borderColor: aderenciaFinal.cor }}>
+          <span style={styles.unlockLabel}>SEU NÍVEL DE ADERÊNCIA</span>
+          <span style={{ ...styles.padraoGuiaNome, color: aderenciaFinal.cor, fontSize: 18 }}>{aderenciaFinal.label}</span>
+          <p style={styles.unlockHow}>{resultado.texto}</p>
+        </div>
+      )}
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>
+              {sintese || "A Bússola não decide por ninguém, só separa perguntas que costumam ser respondidas como se fossem uma só."}
+            </p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF10
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Agora é executar, com acompanhamento.</p>
+        <p style={styles.ctaSub}>
+          Vocês mapearam interesses, expectativas, competências, energia e projeto de vida, e
+          cruzaram tudo na Matriz de Escolha. O que falta agora é colocar o plano em prática, e
+          revisitar em 6 meses — interesses e competências evoluem com o tempo.
         </p>
       </div>
 
