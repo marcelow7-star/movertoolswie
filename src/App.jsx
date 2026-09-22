@@ -4207,6 +4207,11 @@ function StepFechamento({
 }) {
   const classifLabel = { preservar: "Preservar", transformar: "Transformar", deixar: "Deixar para trás" };
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 1, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
 
@@ -4344,6 +4349,10 @@ function StepFechamento({
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -5320,6 +5329,11 @@ function StepFechamentoF2({
   envioId,
 }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 2, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -5537,6 +5551,10 @@ function StepFechamentoF2({
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -6532,6 +6550,34 @@ function TabelaTresColunas({ titulo, linhas, setLinhas, campos, labels, placehol
   );
 }
 
+function AvaliacaoEstrelas({ valor, onChange }) {
+  const [hover, setHover] = useState(null);
+  return (
+    <div style={styles.padraoCard}>
+      <span style={styles.papelNome}>Gostou?</span>
+      <div style={styles.estrelasRow}>
+        {[1, 2, 3, 4, 5].map((n) => {
+          const ativa = (hover ?? valor ?? 0) >= n;
+          return (
+            <button
+              key={n}
+              type="button"
+              onClick={() => onChange(n)}
+              onMouseEnter={() => setHover(n)}
+              onMouseLeave={() => setHover(null)}
+              aria-label={`${n} estrela${n > 1 ? "s" : ""}`}
+              style={{ ...styles.estrelaBotao, color: ativa ? "#F0B429" : "#D7DEE6" }}
+            >
+              ★
+            </button>
+          );
+        })}
+      </div>
+      {valor && <span style={styles.saveStatusOk}>✓ Obrigado pela avaliação</span>}
+    </div>
+  );
+}
+
 function ListaSimples({ titulo, itens, setItens, placeholder, max = 5 }) {
   const add = () => {
     if (itens.length >= max) return;
@@ -6893,6 +6939,11 @@ function StepFechamentoF3({
   envioId,
 }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 3, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -7105,6 +7156,10 @@ function StepFechamentoF3({
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -8047,6 +8102,11 @@ function StepFechamentoF4({
   envioId,
 }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 4, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -8250,6 +8310,10 @@ function StepFechamentoF4({
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -9095,6 +9159,11 @@ function StepFechamentoF5({
   envioId,
 }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 5, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -9309,6 +9378,10 @@ function StepFechamentoF5({
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -10048,6 +10121,11 @@ function StepPlanoF6({ planoF6, setPlanoF6, decisaoF6, icsFinal }) {
 
 function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, decisaoF6, planoF6, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 6, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -10252,6 +10330,10 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -11133,6 +11215,11 @@ function StepPlanoF7({ planoF7, setPlanoF7, decisaoF7, contexto }) {
 
 function StepFechamentoF7({ contexto, divergencias, decisaoF7, planoF7, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 7, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -11307,6 +11394,10 @@ function StepFechamentoF7({ contexto, divergencias, decisaoF7, planoF7, onReinic
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -12065,6 +12156,11 @@ function StepPlanoF8({ planoF8, setPlanoF8, decisaoF8 }) {
 
 function StepFechamentoF8({ temas, contagem, decisaoF8, planoF8, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 8, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -12250,6 +12346,10 @@ function StepFechamentoF8({ temas, contagem, decisaoF8, planoF8, onReiniciar, en
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -13189,6 +13289,11 @@ function StepPlanoF9_2({ planoF9, setPlanoF9 }) {
 
 function StepFechamentoF9({ participantesPreenchidos, relacoes, ruidos, planoF9, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 9, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -13356,6 +13461,10 @@ function StepFechamentoF9({ participantesPreenchidos, relacoes, ruidos, planoF9,
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -14197,6 +14306,11 @@ function StepPlanoF10({ planoF10, setPlanoF10, matrizF10, consolidacaoF10 }) {
 
 function StepFechamentoF10({ matrizF10, consolidacaoF10, planoF10, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 10, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -14357,6 +14471,10 @@ function StepFechamentoF10({ matrizF10, consolidacaoF10, planoF10, onReiniciar, 
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -14889,6 +15007,11 @@ function StepFechamentoF11({
   envioId,
 }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 11, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [compartilhado, setCompartilhado] = useState(false);
@@ -15012,6 +15135,10 @@ function StepFechamentoF11({
           escolha sua — idealmente com apoio de um mentor, terapeuta ou facilitador. Ninguém mais
           vê esse resultado a menos que você decida compartilhar.
         </p>
+      </div>
+
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
       </div>
 
       <div style={styles.finalButtonsRow} className="no-print">
@@ -15525,6 +15652,11 @@ function StepPlanoF12({ planoF12, setPlanoF12, pontuacoes, achadosPerguntas }) {
 
 function StepFechamentoF12({ pontuacoes, planoF12, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 12, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -15700,6 +15832,10 @@ function StepFechamentoF12({ pontuacoes, planoF12, onReiniciar, envioId }) {
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -16264,6 +16400,11 @@ function StepPlanoF13({ planoF13, setPlanoF13, principios }) {
 
 function StepFechamentoF13({ participantesF13, principios, compromissos, inaceitaveis, planoF13, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 13, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -16459,6 +16600,10 @@ function StepFechamentoF13({ participantesF13, principios, compromissos, inaceit
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -16897,6 +17042,11 @@ function StepPlanoF14({ planoF14, setPlanoF14, achadosF14 }) {
 
 function StepFechamentoF14({ pontuacoes, imf, achadosF14, planoF14, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 14, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -17076,6 +17226,10 @@ function StepFechamentoF14({ pontuacoes, imf, achadosF14, planoF14, onReiniciar,
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -17475,6 +17629,11 @@ function StepPlanoF15({ planoF15, setPlanoF15, achadosF15 }) {
 
 function StepFechamentoF15({ pontuacoes, ies, achadosF15, planoF15, onReiniciar, envioId }) {
   const [salvando, setSalvando] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(null);
+  const avaliar = (n) => {
+    setAvaliacao(n);
+    supabaseInsert("avaliacoes", { envio_id: envioId || null, ferramenta_numero: 15, estrelas: n });
+  };
   const [salvo, setSalvo] = useState(false);
   const [erroSalvar, setErroSalvar] = useState(false);
   const [sintese, setSintese] = useState(null);
@@ -17641,6 +17800,10 @@ function StepFechamentoF15({ pontuacoes, ies, achadosF15, planoF15, onReiniciar,
       <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
         Um resumo desse resultado já foi enviado automaticamente pro consultor.
       </p>
+      <div className="no-print">
+        <AvaliacaoEstrelas valor={avaliacao} onChange={avaliar} />
+      </div>
+
       <div style={styles.finalButtonsRow} className="no-print">
         <button onClick={() => window.print()} style={styles.ctaButton}>
           🖨️ Baixar / imprimir PDF
@@ -18341,6 +18504,15 @@ const styles = {
     borderBottom: "1px solid #E4EAF0",
   },
   padraoGuiaNome: { fontSize: 13.5, fontWeight: 700, color: NAVY },
+  estrelasRow: { display: "flex", gap: 6, marginTop: 4 },
+  estrelaBotao: {
+    background: "none",
+    border: "none",
+    fontSize: 28,
+    lineHeight: 1,
+    cursor: "pointer",
+    padding: 2,
+  },
   sliderInput: { width: "100%", accentColor: BLUE, cursor: "pointer" },
   sliderTicks: {
     display: "flex",
