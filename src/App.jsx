@@ -1686,6 +1686,21 @@ async function supabaseInsert(table, row) {
   return true;
 }
 
+async function supabaseSelect(table, query = "") {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    method: "GET",
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+    },
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Supabase ${table}: ${response.status} ${errText}`);
+  }
+  return response.json();
+}
+
 const FERRAMENTAS_CATALOGO = [
   {
     letra: "M",
@@ -2431,6 +2446,7 @@ export default function App() {
             onAbrirFerramenta15={abrirFerramenta15}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
+            onAbrirAvaliacoes={() => setView("avaliacoes")}
           />
         </div>
       </div>
@@ -2452,6 +2468,16 @@ export default function App() {
       <div style={styles.page}><PrintStyles />
         <div style={styles.shellWide} className="print-shell">
           <Comparacao onVoltar={() => setView("catalogo")} />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "avaliacoes") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shellWide} className="print-shell">
+          <TelaAvaliacoes onVoltar={() => setView("catalogo")} />
         </div>
       </div>
     );
@@ -2805,6 +2831,7 @@ function Catalogo({
   onAbrirFerramenta15,
   onAbrirComparacao,
   onAbrirNovaFamilia,
+  onAbrirAvaliacoes,
 }) {
   const handlers = {
     1: onAbrirFerramenta1,
@@ -3007,6 +3034,10 @@ function Catalogo({
 
       <button onClick={onAbrirComparacao} style={styles.restartButton}>
         Comparar resultados de mais de uma pessoa da família →
+      </button>
+
+      <button onClick={onAbrirAvaliacoes} style={styles.restartButton}>
+        Ver avaliações das ferramentas →
       </button>
     </div>
   );
@@ -3255,6 +3286,104 @@ Ação: Transferir formalmente as aprovações financeiras de rotina ao sucessor
 comigo só as decisões estratégicas.
 Responsável: Antônio, com o sucessor
 Prazo: 90 dias`;
+
+function TelaAvaliacoes({ onVoltar }) {
+  const [linhas, setLinhas] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(false);
+
+  const nomesPorNumero = useMemo(() => {
+    const map = {};
+    FERRAMENTAS_CATALOGO.forEach((fase) => {
+      fase.ferramentas.forEach((f) => {
+        map[f.n] = f.nome;
+      });
+    });
+    return map;
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregando(true);
+    setErro(false);
+    supabaseSelect("avaliacoes", "select=ferramenta_numero,estrelas")
+      .then((rows) => {
+        if (cancelado) return;
+        const grupos = {};
+        rows.forEach((r) => {
+          if (!grupos[r.ferramenta_numero]) grupos[r.ferramenta_numero] = [];
+          grupos[r.ferramenta_numero].push(r.estrelas);
+        });
+        const resultado = Object.entries(grupos)
+          .map(([numero, notas]) => ({
+            numero: Number(numero),
+            nome: nomesPorNumero[numero] || `Ferramenta ${numero}`,
+            media: notas.reduce((s, n) => s + n, 0) / notas.length,
+            total: notas.length,
+          }))
+          .sort((a, b) => a.numero - b.numero);
+        setLinhas(resultado);
+      })
+      .catch(() => {
+        if (!cancelado) setErro(true);
+      })
+      .finally(() => {
+        if (!cancelado) setCarregando(false);
+      });
+    return () => {
+      cancelado = true;
+    };
+  }, [nomesPorNumero]);
+
+  return (
+    <div style={styles.catalogoWrap}>
+      <button onClick={onVoltar} style={styles.backToCatalogo}>
+        ← Catálogo
+      </button>
+      <div style={styles.catalogoHeader}>
+        <span style={styles.eyebrow}>AVALIAÇÕES</span>
+        <h1 style={styles.catalogoH1}>O que acharam de cada ferramenta</h1>
+        <p style={styles.lead}>Média de estrelas por ferramenta, com base em quem já avaliou.</p>
+      </div>
+
+      {carregando && <p style={styles.papelDescricao}>Carregando avaliações…</p>}
+      {erro && <p style={styles.saveStatusErr}>Não foi possível carregar as avaliações agora.</p>}
+      {!carregando && !erro && linhas && linhas.length === 0 && (
+        <p style={styles.papelDescricao}>Ainda não há avaliações registradas.</p>
+      )}
+
+      {!carregando && !erro && linhas && linhas.length > 0 && (
+        <div style={styles.familiaList}>
+          {linhas.map((l) => (
+            <div key={l.numero} style={styles.padraoCard}>
+              <div style={styles.timelineTopRow}>
+                <span style={styles.papelNome}>
+                  {String(l.numero).padStart(2, "0")} — {l.nome}
+                </span>
+                <span style={styles.papelDescricao}>
+                  {l.total} avaliaç{l.total === 1 ? "ão" : "ões"}
+                </span>
+              </div>
+              <div style={styles.estrelasRow}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <span
+                    key={n}
+                    style={{ ...styles.estrelaBotao, color: l.media >= n - 0.5 ? "#F0B429" : "#D7DEE6", cursor: "default" }}
+                  >
+                    ★
+                  </span>
+                ))}
+                <span style={{ ...styles.papelDescricao, marginLeft: 6, alignSelf: "center" }}>
+                  {l.media.toFixed(1)}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function Comparacao({ onVoltar }) {
   const [pessoas, setPessoas] = useState([{ nome: "", resumo: "" }, { nome: "", resumo: "" }]);
