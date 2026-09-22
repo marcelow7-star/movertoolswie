@@ -1563,6 +1563,111 @@ transformam, e as estratégias precisam acompanhar essa dinâmica. Ajustar é si
 não de fraqueza."
 `.trim();
 
+const DIMENSOES_F15 = [
+  { key: "familia", nome: "Família", desc: "Qualidade dos relacionamentos, confiança, respeito e coesão familiar." },
+  { key: "comunicacao", nome: "Comunicação", desc: "Qualidade do diálogo, transparência e escuta ativa." },
+  { key: "negocio", nome: "Negócio", desc: "Capacidade da empresa de gerar resultados e se adaptar ao futuro." },
+  { key: "patrimonio", nome: "Patrimônio", desc: "Capacidade de preservar e desenvolver o patrimônio familiar." },
+  { key: "governanca", nome: "Governança", desc: "Existência de regras, fóruns e mecanismos de decisão." },
+  { key: "novaGeracao", nome: "Nova Geração", desc: "Preparação dos sucessores e futuras lideranças." },
+  { key: "continuidade", nome: "Continuidade", desc: "Capacidade de atravessar gerações preservando legado e prosperidade." },
+];
+
+function interpretaIES_F15(ies) {
+  if (ies >= 8.1) return { label: "Sistema Muito Forte", cor: "#1E7A3D" };
+  if (ies >= 6.1) return { label: "Sistema Forte", cor: "#4A9EE8" };
+  if (ies >= 4.1) return { label: "Sistema Estável", cor: "#1E5A96" };
+  if (ies >= 2.1) return { label: "Sistema Vulnerável", cor: "#B8860B" };
+  return { label: "Sistema Crítico", cor: "#B3261E" };
+}
+
+const FERRAMENTAS_RELACIONADAS_F15 = {
+  familia: [{ numero: 1, nome: "Raízes das Lealdades Invisíveis" }],
+  comunicacao: [{ numero: 9, nome: "Mapa de Ruídos Relacionais" }],
+  governanca: [
+    { numero: 4, nome: "Matriz de Autoridade Real" },
+    { numero: 13, nome: "Acordo de Continuidade Familiar" },
+  ],
+  novaGeracao: [
+    { numero: 10, nome: "Bússola da Escolha Profissional" },
+    { numero: 11, nome: "Teste da Escolha Autêntica" },
+    { numero: 12, nome: "Escada do Legado" },
+  ],
+};
+
+const LIVRO_CONTEXTO_F15 = `
+Contexto do método (livro "Arquitetura da Sucessão", Ferramenta 15 · Radar de Equilíbrio
+Sistêmico):
+
+PROPÓSITO: esta é a ÚLTIMA ferramenta do Método MOVER, uma síntese de tudo que veio antes. Avalia
+sete sistemas que sustentam, juntos, a continuidade de uma família empresária — Família,
+Comunicação, Negócio, Patrimônio, Governança, Nova Geração e Continuidade — numa única imagem.
+Pergunta central: "Estamos cuidando de forma equilibrada dos elementos que sustentam a
+continuidade da nossa família empresária?"
+
+O QUE RESOLVE: muitas famílias avaliam sua própria saúde de forma parcial — acompanham de perto
+os resultados do negócio, mas raramente olham, com o mesmo rigor, pra qualidade dos
+relacionamentos, a preparação da nova geração, ou a solidez da governança. Um negócio forte pode
+mascarar uma família fragilizada. Um patrimônio bem cuidado pode esconder uma nova geração
+despreparada.
+
+MÉTODO: cada uma das sete dimensões recebe uma nota de 0 a 10 (não sub-afirmações — uma nota
+direta por dimensão). O IES (Índice de Equilíbrio Sistêmico) é a média das sete notas. Mas o mais
+importante é a FORMA do radar, não só a média — duas famílias podem ter exatamente o mesmo IES e
+formas de radar completamente diferentes.
+
+FAIXAS DE INTERPRETAÇÃO DO IES: 8,1 a 10 é Sistema Muito Forte; 6,1 a 8 é Sistema Forte; 4,1 a 6
+é Sistema Estável; 2,1 a 4 é Sistema Vulnerável; 0 a 2 é Sistema Crítico.
+
+TRÊS CASOS REAIS DE VALIDAÇÃO (médias parecidas, formas de radar completamente diferentes):
+- Família Loureiro (IES 5,6, Sistema Estável — Negócio 9, Família 4): uma das empresas mais
+  admiradas do setor, mas em casa os jantares de domingo viraram um exercício de educação e
+  cordialidade, ninguém briga, mas também ninguém se abre de verdade. Negócio muito acima de
+  todos os demais sistemas, especialmente Família — continuidade sustentada quase inteiramente
+  pelo desempenho da empresa. Resultado: Conselho de Família criado, pacto de comunicação
+  estabelecido, encontros familiares estruturados sem pauta de negócios. "A gente cuidava tão bem
+  da empresa que esqueceu de cuidar da família que é dona dela", disse um membro da família.
+- Família Xavier (IES 6,0, Sistema Estável — Patrimônio 9, Nova Geração 3): patrimônio
+  impecavelmente estruturado — holding, planejamento sucessório, blindagem patrimonial, tudo em
+  ordem. Os netos, porém, mal sabem explicar o que a empresa da família realmente faz. Risco
+  silencioso: um patrimônio bem cuidado, prestes a ser herdado por uma geração que ainda não foi
+  preparada pra recebê-lo. Resultado: programa NextGen implementado, educação patrimonial,
+  trilha formal de sucessores estruturada. "Deixamos tudo pronto para os netos herdarem. Só
+  esquecemos de prepará-los para receber", disse um membro da família.
+- Família Peixoto (IES 7,9, Sistema Forte — todas as dimensões entre 7 e 9): sem história
+  dramática pra contar, radar quase circular, sem nenhum sistema significativamente mais frágil
+  que os demais. O risco aqui não é o desequilíbrio, é a acomodação — parar de cuidar do que já
+  está bem cuidado. Resultado: manter monitoramento anual do radar, sustentar evolução contínua
+  em todas as sete dimensões. "Não fazemos nada extraordinário. Só fazemos, com constância, as
+  coisas certas, em todas as áreas ao mesmo tempo", disse um membro da família.
+
+O QUE OS TRÊS CASOS VALIDAM: os três têm médias parecidas (entre 5,6 e 7,9), mas contam três
+histórias completamente diferentes. A média nunca conta a história inteira — é a FORMA do radar
+que revela onde a família está desequilibrada.
+
+ERROS COMUNS A EVITAR (nunca sugerir isso como caminho): olhar só pro IES (a média) e ignorar o
+formato do radar; aplicar o Radar isoladamente, sem antes ter trabalhado, com outras ferramentas
+do método, as dimensões mais frágeis; tratar uma nota alta em Negócio ou Patrimônio como sinal de
+que a família está bem — sistemas técnicos fortes não compensam sistemas humanos frágeis no longo
+prazo; aplicar uma única vez e arquivar o resultado — o valor cresce quando reaplicado nas
+revisões anuais de governança; pular a construção do Plano de Equilíbrio Sistêmico, terminando o
+processo só com um diagnóstico, sem nenhuma ação concreta.
+
+FERRAMENTAS COMPLEMENTARES POR DIMENSÃO FRÁGIL: se Família aparecer frágil, voltar à Ferramenta
+01 (Raízes das Lealdades Invisíveis); se Comunicação aparecer frágil, voltar à Ferramenta 09
+(Mapa de Ruídos Relacionais); se Governança aparecer frágil, voltar à Ferramenta 04 (Matriz de
+Autoridade Real) e à Ferramenta 13 (Acordo de Continuidade Familiar); se Nova Geração aparecer
+frágil, voltar às Ferramentas 10, 11 e 12 (Bússola da Escolha Profissional, Teste da Escolha
+Autêntica e Escada do Legado). Esta ferramenta não substitui nenhuma das quatorze anteriores, ela
+aponta pra onde vale a pena voltar e reaplicá-las.
+
+TOM: direto, acolhedor, sem clichês de autoajuda, sem jargão terapêutico. Nunca decidir pela
+pessoa, sempre apontar um próximo passo concreto e pequeno.
+
+CONTEXTO ADICIONAL (livro "Herança sem Dono", do mesmo autor): "Continuidade e significado são os
+principais ingredientes para construção de pontes e legados através das gerações."
+`.trim();
+
 async function supabaseInsert(table, row) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST",
@@ -1634,7 +1739,7 @@ const FERRAMENTAS_CATALOGO = [
     ferramentas: [
       { n: 13, nome: "Acordo de Continuidade Familiar", ativa: true },
       { n: 14, nome: "Termômetro da Maturidade Familiar", ativa: true },
-      { n: 15, nome: "Radar de Equilíbrio Sistêmico", ativa: false },
+      { n: 15, nome: "Radar de Equilíbrio Sistêmico", ativa: true },
     ],
   },
 ];
@@ -1970,6 +2075,7 @@ async function classificarTipoDesafioIA(decisao) {
   }
 }
 
+const STEP_INTRO = -1;
 const STEP_ROLE = 0;
 const STEP_DECISAO = 1;
 const STEP_QUADRANTE_START = 2; // occupies 2..5 (4 quadrantes)
@@ -2011,7 +2117,7 @@ function PrintStyles() {
 
 export default function App() {
   const [view, setView] = useState("catalogo"); // "catalogo" | "ferramenta"
-  const [step, setStep] = useState(STEP_ROLE);
+  const [step, setStep] = useState(STEP_INTRO);
   const [role, setRole] = useState(null);
   const [decisao, setDecisao] = useState("");
   const [scores, setScores] = useState(initScores());
@@ -2089,6 +2195,8 @@ export default function App() {
         setView("ferramenta13");
       } else if (ferramentaParam === "14") {
         setView("ferramenta14");
+      } else if (ferramentaParam === "15") {
+        setView("ferramenta15");
       }
     } catch (e) {
       /* ignore */
@@ -2098,7 +2206,7 @@ export default function App() {
 
   const reiniciar = () => {
     setView("catalogo");
-    setStep(STEP_ROLE);
+    setStep(STEP_INTRO);
     setRole(null);
     setDecisao("");
     setScores(initScores());
@@ -2236,7 +2344,7 @@ export default function App() {
   const goBack = () => {
     setStep((s) => {
       if (s === STEP_CONFLITO && !needsDesempate) return STEP_DESEMPATE - 1;
-      return Math.max(STEP_ROLE, s - 1);
+      return Math.max(STEP_INTRO, s - 1);
     });
   };
 
@@ -2297,6 +2405,10 @@ export default function App() {
     setView("ferramenta14");
   };
 
+  const abrirFerramenta15 = () => {
+    setView("ferramenta15");
+  };
+
   if (view === "catalogo") {
     return (
       <div style={styles.page}><PrintStyles />
@@ -2316,6 +2428,7 @@ export default function App() {
             onAbrirFerramenta12={abrirFerramenta12}
             onAbrirFerramenta13={abrirFerramenta13}
             onAbrirFerramenta14={abrirFerramenta14}
+            onAbrirFerramenta15={abrirFerramenta15}
             onAbrirComparacao={() => setView("comparacao")}
             onAbrirNovaFamilia={() => setView("novaFamilia")}
           />
@@ -2474,6 +2587,16 @@ export default function App() {
     );
   }
 
+  if (view === "ferramenta15") {
+    return (
+      <div style={styles.page}><PrintStyles />
+        <div style={styles.shell} className="print-shell">
+          <Ferramenta15App onVoltarCatalogo={() => setView("catalogo")} envioIdInicial={envioId} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.page}><PrintStyles />
       <div style={styles.shell} className="print-shell">
@@ -2488,6 +2611,7 @@ export default function App() {
           }}
         />
         <div style={styles.body}>
+          {step === STEP_INTRO && <StepIntroF1 onCarregarExemplo={carregarExemplo} />}
           {step === STEP_ROLE && (
             <StepRole role={role} setRole={setRole} onCarregarExemplo={carregarExemplo} />
           )}
@@ -2586,6 +2710,7 @@ export default function App() {
             isPenultimate={step === STEP_ALINHAMENTO}
             onBack={goBack}
             onNext={goNext}
+            minStep={STEP_INTRO}
           />
         )}
       </div>
@@ -2643,14 +2768,14 @@ function Header({ step, needsDesempate, onVoltarCatalogo, tipoDesafio, onChangeT
     "Fechamento",
   ];
   const effectiveTotal = needsDesempate ? STEP_FECHAMENTO : STEP_FECHAMENTO - 1;
-  const progress = Math.round((step / effectiveTotal) * 100);
+  const progress = Math.round((Math.max(step, 0) / effectiveTotal) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>{labels[step]}</span>
+        <span style={styles.stepLabel}>{step === STEP_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
@@ -2677,6 +2802,7 @@ function Catalogo({
   onAbrirFerramenta12,
   onAbrirFerramenta13,
   onAbrirFerramenta14,
+  onAbrirFerramenta15,
   onAbrirComparacao,
   onAbrirNovaFamilia,
 }) {
@@ -2695,6 +2821,7 @@ function Catalogo({
     12: onAbrirFerramenta12,
     13: onAbrirFerramenta13,
     14: onAbrirFerramenta14,
+    15: onAbrirFerramenta15,
   };
 
   const [envioAberto, setEnvioAberto] = useState(null);
@@ -2968,6 +3095,7 @@ function NovaFamilia({ onVoltar }) {
       "12": "Ferramenta 12 · Escada do Legado",
       "13": "Ferramenta 13 · Acordo de Continuidade",
       "14": "Ferramenta 14 · Termômetro de Maturidade",
+      "15": "Ferramenta 15 · Radar de Equilíbrio",
     }[f] || `Ferramenta ${f}`);
 
   return (
@@ -3020,6 +3148,7 @@ function NovaFamilia({ onVoltar }) {
               <option value="12">Ferramenta 12 · Escada</option>
               <option value="13">Ferramenta 13 · Acordo</option>
               <option value="14">Ferramenta 14 · Termômetro</option>
+              <option value="15">Ferramenta 15 · Radar</option>
             </select>
             {p.ferramenta === "1" && (
               <select
@@ -3155,7 +3284,7 @@ function Comparacao({ onVoltar }) {
       .map((p) => `--- ${p.nome} ---\n${p.resumo}`)
       .join("\n\n");
     const prompt =
-      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n${LIVRO_CONTEXTO_F13}\n\n${LIVRO_CONTEXTO_F14}\n\n` +
+      `${LIVRO_CONTEXTO}\n\n${LIVRO_CONTEXTO_F2}\n\n${LIVRO_CONTEXTO_F3}\n\n${LIVRO_CONTEXTO_F4}\n\n${LIVRO_CONTEXTO_F5}\n\n${LIVRO_CONTEXTO_F6}\n\n${LIVRO_CONTEXTO_F7}\n\n${LIVRO_CONTEXTO_F8}\n\n${LIVRO_CONTEXTO_F9}\n\n${LIVRO_CONTEXTO_F10}\n\n${LIVRO_CONTEXTO_F11}\n\n${LIVRO_CONTEXTO_F12}\n\n${LIVRO_CONTEXTO_F13}\n\n${LIVRO_CONTEXTO_F14}\n\n${LIVRO_CONTEXTO_F15}\n\n` +
       `Você ajuda a preparar uma conversa de Consolidação Familiar, seguindo os métodos acima. ` +
       `Abaixo estão os resultados de diagnóstico individual de ${preenchidas.length} pessoas ` +
       `da mesma família. Cada resumo pode ser de ferramentas diferentes do método (lealdades ` +
@@ -3225,6 +3354,35 @@ function Comparacao({ onVoltar }) {
           <p style={styles.scriptText}>{analise}</p>
         </div>
       )}
+    </div>
+  );
+}
+
+function StepIntroF1({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>A quem ou a quê estou sendo leal quando tomo esta decisão?</h1>
+      <p style={styles.lead}>
+        Toda família empresária carrega compromissos emocionais, promessas nunca ditas e vínculos
+        de lealdade — com pais, sócios, colaboradores antigos, a própria história da empresa —
+        que influenciam decisões de sucessão sem que ninguém perceba isso conscientemente. Esta
+        ferramenta existe pra trazer essas lealdades invisíveis à consciência.
+      </p>
+      <p style={styles.lead}>
+        Você vai pontuar, de 0 a 5, o quanto cada relação ou compromisso pesa hoje quando você
+        precisa decidir algo sobre a sucessão. A nota não mede afeto, mede peso — quanto essa
+        lealdade influencia suas escolhas, mesmo quando você não fala sobre isso em voz alta.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={() => onCarregarExemplo(MARINA_EXEMPLO)} style={styles.demoLink}>
+          ⚡ Exemplo: Marina (herdeira)
+        </button>
+        <button onClick={() => onCarregarExemplo(FUNDADOR_EXEMPLO)} style={styles.demoLink}>
+          ⚡ Exemplo: Antônio (fundador)
+        </button>
+      </div>
     </div>
   );
 }
@@ -4198,6 +4356,7 @@ function StepFechamento({
   );
 }
 
+const STEP_F2_INTRO = -1;
 const STEP_F2_DISTRIBUICAO = 0;
 const STEP_F2_PREDOMINANTES = 1;
 const STEP_F2_CONTRIBUICOES = 2;
@@ -4325,7 +4484,7 @@ const ANTONIO_EXEMPLO_F2 = {
 };
 
 function Ferramenta2App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F2_DISTRIBUICAO);
+  const [step, setStep] = useState(STEP_F2_INTRO);
   const [pontos, setPontos] = useState(initPontosF2());
   const [contribuicoes, setContribuicoes] = useState({});
   const [reflexaoF2, setReflexaoF2] = useState({ influencia: "", limita: "", mudar: "" });
@@ -4393,12 +4552,18 @@ function Ferramenta2App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F2_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F2_DISTRIBUICAO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F2_INTRO, s - 1));
 
   return (
     <>
       <Header2 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F2_INTRO && (
+          <StepIntroF2
+            onCarregarExemploMarina={() => carregarExemploF2(MARINA_EXEMPLO_F2)}
+            onCarregarExemploAntonio={() => carregarExemploF2(ANTONIO_EXEMPLO_F2)}
+          />
+        )}
         {step === STEP_F2_DISTRIBUICAO && (
           <StepDistribuicao
             pontos={pontos}
@@ -4468,6 +4633,7 @@ function Ferramenta2App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F2_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F2_INTRO}
         />
       )}
     </>
@@ -4485,17 +4651,50 @@ function Header2({ step, onVoltarCatalogo }) {
     "Plano de ação",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F2_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F2_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Radar de Papéis Ocultos · {labels[step]}</span>
+        <span style={styles.stepLabel}>Radar de Papéis Ocultos · {step === STEP_F2_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF2({ onCarregarExemploMarina, onCarregarExemploAntonio }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Qual papel costumo assumir dentro da família empresária?</h1>
+      <p style={styles.lead}>
+        Pra manter o equilíbrio do sistema familiar, cada pessoa costuma assumir, muitas vezes
+        automaticamente, um papel emocional — Protetor, Controlador, Pacificador, Herói, Rebelde,
+        Invisível, Escolhido ou Guardião do Legado. Essa ferramenta traz esses papéis à
+        consciência, pra você decidir, de forma deliberada, se quer continuar nele.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemploMarina} style={styles.demoLink}>
+          ⚡ Exemplo: Marina (herdeira)
+        </button>
+        <button onClick={onCarregarExemploAntonio} style={styles.demoLink}>
+          ⚡ Exemplo: Antônio (fundador)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {PAPEIS.map((p) => (
+          <div key={p.key} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>{p.nome}</span>
+            <span style={styles.papelDescricao}>{p.oQueFaz}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -4631,6 +4830,68 @@ function RadarChart({ pontos }) {
             dominantBaseline="middle"
           >
             {p.nome}
+          </text>
+        );
+      })}
+    </svg>
+  );
+}
+
+function RadarChartF15({ pontuacoes }) {
+  const size = 320;
+  const center = size / 2;
+  const maxR = 105;
+  const scaleMax = 10;
+  const n = DIMENSOES_F15.length;
+
+  const angleFor = (i) => (Math.PI * 2 * i) / n - Math.PI / 2;
+
+  const pointFor = (i, valor) => {
+    const angle = angleFor(i);
+    const r = (Math.min(valor, scaleMax) / scaleMax) * maxR;
+    return [center + r * Math.cos(angle), center + r * Math.sin(angle)];
+  };
+
+  const ringPoints = (frac) =>
+    DIMENSOES_F15.map((_, i) => {
+      const angle = angleFor(i);
+      const r = maxR * frac;
+      return `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`;
+    }).join(" ");
+
+  const dataPoints = DIMENSOES_F15.map((d, i) => pointFor(i, pontuacoes[d.key] ?? 0));
+  const dataPath = dataPoints.map((pt) => pt.join(",")).join(" ");
+
+  return (
+    <svg viewBox={`-35 -10 ${size + 70} ${size + 20}`} style={styles.radarSvg}>
+      {[0.25, 0.5, 0.75, 1].map((frac) => (
+        <polygon key={frac} points={ringPoints(frac)} fill="none" stroke="#E4EAF0" strokeWidth={1} />
+      ))}
+      {DIMENSOES_F15.map((d, i) => {
+        const angle = angleFor(i);
+        return (
+          <line
+            key={d.key}
+            x1={center}
+            y1={center}
+            x2={center + maxR * Math.cos(angle)}
+            y2={center + maxR * Math.sin(angle)}
+            stroke="#E4EAF0"
+            strokeWidth={1}
+          />
+        );
+      })}
+      <polygon points={dataPath} fill={LIGHTBLUE} fillOpacity={0.35} stroke={BLUE} strokeWidth={2} />
+      {dataPoints.map((pt, i) => (
+        <circle key={i} cx={pt[0]} cy={pt[1]} r={3} fill={BLUE} />
+      ))}
+      {DIMENSOES_F15.map((d, i) => {
+        const angle = angleFor(i);
+        const lx = center + (maxR + 34) * Math.cos(angle);
+        const ly = center + (maxR + 34) * Math.sin(angle);
+        return (
+          <text key={d.key} x={lx} y={ly} fontSize={11} fontWeight={600} fill={NAVY} textAnchor="middle" dominantBaseline="middle">
+            {d.nome}
           </text>
         );
       })}
@@ -5288,6 +5549,7 @@ function StepFechamentoF2({
   );
 }
 
+const STEP_F3_INTRO = -1;
 const STEP_F3_TIMELINE = 0;
 const STEP_F3_PADROES = 1;
 const STEP_F3_CLASSIFICACAO = 2;
@@ -5404,7 +5666,7 @@ const FAMILIA_EXEMPLO_F3 = {
 };
 
 function Ferramenta3App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F3_TIMELINE);
+  const [step, setStep] = useState(STEP_F3_INTRO);
   const [eventos, setEventos] = useState(initEventosF3());
   const [padroes, setPadroes] = useState(initPadroesF3());
   const [padraoCustom, setPadraoCustom] = useState({ nome: "", ondeApareceu: "", geracoes: null });
@@ -5590,12 +5852,13 @@ function Ferramenta3App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F3_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F3_TIMELINE, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F3_INTRO, s - 1));
 
   return (
     <>
       <Header3 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F3_INTRO && <StepIntroF3 onCarregarExemplo={carregarExemploF3} />}
         {step === STEP_F3_TIMELINE && (
           <StepTimeline
             eventos={eventos}
@@ -5683,6 +5946,7 @@ function Ferramenta3App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F3_IMPACTOS}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F3_INTRO}
         />
       )}
     </>
@@ -5701,17 +5965,37 @@ function Header3({ step, onVoltarCatalogo }) {
     "Impactos esperados",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F3_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F3_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Linha de Repetição Familiar · {labels[step]}</span>
+        <span style={styles.stepLabel}>Linha de Repetição Familiar · {step === STEP_F3_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF3({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>O que estamos repetindo há gerações sem perceber?</h1>
+      <p style={styles.lead}>
+        Reconstitua a linha do tempo da família e da empresa pra identificar comportamentos,
+        decisões e dinâmicas que se repetem entre gerações — tornando conscientes os padrões que
+        sustentam a continuidade, e os que colocam a continuidade em risco.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família (caso do livro)
+        </button>
       </div>
     </div>
   );
@@ -6833,6 +7117,7 @@ function StepFechamentoF3({
   );
 }
 
+const STEP_F4_INTRO = -1;
 const STEP_F4_MAPEAMENTO = 0;
 const STEP_F4_FORMAL_REAL = 1;
 const STEP_F4_GARGALOS = 2;
@@ -6920,7 +7205,7 @@ const FAMILIA_EXEMPLO_F4 = {
 };
 
 function Ferramenta4App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F4_MAPEAMENTO);
+  const [step, setStep] = useState(STEP_F4_INTRO);
   const [pessoas, setPessoas] = useState(initPessoasF4());
   const [formalReal, setFormalReal] = useState({});
   const [gargalos, setGargalos] = useState(initGargalosF4());
@@ -7019,12 +7304,13 @@ function Ferramenta4App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F4_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F4_MAPEAMENTO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F4_INTRO, s - 1));
 
   return (
     <>
       <Header4 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F4_INTRO && <StepIntroF4 onCarregarExemplo={carregarExemploF4} />}
         {step === STEP_F4_MAPEAMENTO && (
           <StepMapeamento
             pessoas={pessoas}
@@ -7101,6 +7387,7 @@ function Ferramenta4App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F4_IMPACTOS}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F4_INTRO}
         />
       )}
     </>
@@ -7120,14 +7407,14 @@ function Header4({ step, onVoltarCatalogo }) {
     "Impactos esperados",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F4_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F4_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Matriz de Autoridade Real · {labels[step]}</span>
+        <span style={styles.stepLabel}>Matriz de Autoridade Real · {step === STEP_F4_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
@@ -7204,6 +7491,27 @@ function SliderScore({ label, desc, exemploAlto, exemploBaixo, valor, onChange }
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function StepIntroF4({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Quem realmente decide nesta família empresária?</h1>
+      <p style={styles.lead}>
+        Identifique quem realmente influencia, decide e assume responsabilidade dentro da família
+        empresária, comparando a autoridade formal (o cargo) com a autoridade real (a quem as
+        pessoas de fato procuram quando precisam decidir). O objetivo é redesenhar essa estrutura
+        com clareza, não apenas descrevê-la.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família (caso do livro)
+        </button>
+      </div>
     </div>
   );
 }
@@ -7954,6 +8262,7 @@ function StepFechamentoF4({
   );
 }
 
+const STEP_F5_INTRO = -1;
 const STEP_F5_GERACAO = 0;
 const STEP_F5_AUTOAVALIACAO = 1;
 const STEP_F5_AVALIACAO_OUTRA = 2;
@@ -8100,7 +8409,7 @@ const MARINA_EXEMPLO_F5 = {
 };
 
 function Ferramenta5App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F5_GERACAO);
+  const [step, setStep] = useState(STEP_F5_INTRO);
   const [geracao, setGeracao] = useState(null);
   const [notasPropria, setNotasPropria] = useState(initNotasF5());
   const [notasOutra, setNotasOutra] = useState(initNotasF5());
@@ -8176,12 +8485,18 @@ function Ferramenta5App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F5_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F5_GERACAO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F5_INTRO, s - 1));
 
   return (
     <>
       <Header5 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F5_INTRO && (
+          <StepIntroF5
+            onCarregarExemploAtual={() => carregarExemploF5(ANTONIO_EXEMPLO_F5)}
+            onCarregarExemploProxima={() => carregarExemploF5(MARINA_EXEMPLO_F5)}
+          />
+        )}
         {step === STEP_F5_GERACAO && (
           <StepGeracao
             geracao={geracao}
@@ -8257,6 +8572,7 @@ function Ferramenta5App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F5_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F5_INTRO}
         />
       )}
     </>
@@ -8276,17 +8592,41 @@ function Header5({ step, onVoltarCatalogo }) {
     "Plano de ação",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F5_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F5_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Ponte de Gerações · {labels[step]}</span>
+        <span style={styles.stepLabel}>Ponte de Gerações · {step === STEP_F5_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF5({ onCarregarExemploAtual, onCarregarExemploProxima }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>O que cada geração precisa compreender, preservar e desenvolver?</h1>
+      <p style={styles.lead}>
+        Compreenda como fundadores e sucessores se percebem mutuamente em aspectos centrais pra
+        continuidade — confiança, comunicação, liderança, autonomia, capacidade de delegar e
+        visão de futuro — e transforme essas percepções em compromissos concretos entre as
+        gerações.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemploAtual} style={styles.demoLink}>
+          ⚡ Exemplo: Antônio (geração atual)
+        </button>
+        <button onClick={onCarregarExemploProxima} style={styles.demoLink}>
+          ⚡ Exemplo: Marina (próxima geração)
+        </button>
       </div>
     </div>
   );
@@ -8981,6 +9321,7 @@ function StepFechamentoF5({
   );
 }
 
+const STEP_F6_INTRO = -1;
 const STEP_F6_AVALIACAO = 0;
 const STEP_F6_RESULTADO = 1;
 const STEP_F6_MAPA = 2;
@@ -9059,7 +9400,7 @@ const OLIVEIRA_EXEMPLO_F6 = {
 };
 
 function Ferramenta6App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F6_AVALIACAO);
+  const [step, setStep] = useState(STEP_F6_INTRO);
   const [nomeSucessor, setNomeSucessor] = useState("");
   const [notasICS, setNotasICS] = useState(initNotasICS());
   const [mapaEvolucao, setMapaEvolucao] = useState(initMapaEvolucao());
@@ -9128,12 +9469,13 @@ function Ferramenta6App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F6_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F6_AVALIACAO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F6_INTRO, s - 1));
 
   return (
     <>
       <Header6 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F6_INTRO && <StepIntroF6 onCarregarExemplo={carregarExemploF6} />}
         {step === STEP_F6_AVALIACAO && (
           <StepAvaliacaoICS
             nomeSucessor={nomeSucessor}
@@ -9185,6 +9527,7 @@ function Ferramenta6App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F6_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F6_INTRO}
         />
       )}
     </>
@@ -9202,17 +9545,41 @@ function Header6({ step, onVoltarCatalogo }) {
     "Plano de desenvolvimento",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F6_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F6_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Índice de Confiança Sucessória · {labels[step]}</span>
+        <span style={styles.stepLabel}>Índice de Confiança Sucessória · {step === STEP_F6_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF6({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Quanto realmente confiamos na capacidade da próxima geração?</h1>
+      <p style={styles.lead}>
+        Mensure, de forma objetiva, o nível de confiança existente pra transferência gradual de
+        responsabilidades, liderança e patrimônio entre gerações — a partir de cinco
+        dimensões-chave, não apenas da percepção subjetiva ou da vontade de acelerar o processo.
+      </p>
+      <p style={styles.lead}>
+        Idealmente, reúna mais de uma pessoa (o sucessor, o fundador, e se possível um observador
+        próximo) antes de preencher.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Rafael (caso do livro)
+        </button>
       </div>
     </div>
   );
@@ -9897,6 +10264,7 @@ function StepFechamentoF6({ nomeSucessor, notasICS, icsFinal, mapaEvolucao, deci
   );
 }
 
+const STEP_F7_INTRO = -1;
 const STEP_F7_CONTEXTUALIZAR = 0;
 const STEP_F7_LEVANTAR = 1;
 const STEP_F7_ALINHAR = 2;
@@ -9993,7 +10361,7 @@ const ANDRADE_EXEMPLO_F7 = {
 };
 
 function Ferramenta7App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F7_CONTEXTUALIZAR);
+  const [step, setStep] = useState(STEP_F7_INTRO);
   const [contexto, setContexto] = useState({
     assunto: "",
     porque: "",
@@ -10075,12 +10443,13 @@ function Ferramenta7App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F7_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F7_CONTEXTUALIZAR, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F7_INTRO, s - 1));
 
   return (
     <>
       <Header7 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F7_INTRO && <StepIntroF7 onCarregarExemplo={carregarExemploF7} />}
         {step === STEP_F7_CONTEXTUALIZAR && (
           <StepContextualizar contexto={contexto} setContexto={setContexto} onCarregarExemplo={carregarExemploF7} />
         )}
@@ -10130,6 +10499,7 @@ function Ferramenta7App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F7_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F7_INTRO}
         />
       )}
     </>
@@ -10149,14 +10519,14 @@ function Header7({ step, onVoltarCatalogo }) {
     "Plano de ação",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F7_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F7_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Protocolo CLARO · {labels[step]}</span>
+        <span style={styles.stepLabel}>Protocolo CLARO · {step === STEP_F7_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
@@ -10180,6 +10550,38 @@ function ClaroGuiaMini({ atual }) {
           {e.letra}
         </div>
       ))}
+    </div>
+  );
+}
+
+function StepIntroF7({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Como transformar uma conversa difícil em uma decisão construtiva?</h1>
+      <p style={styles.lead}>
+        Estruture conversas difíceis — sobre sucessão, remuneração, dividendos, venda da empresa
+        ou qualquer tema sensível — em um processo claro de cinco etapas, pra que elas terminem
+        em decisão e compromisso, não em mais um ciclo de discussão sem resolução. Um facilitador,
+        interno ou externo, deve conduzir as cinco etapas.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Andrade (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {ETAPAS_CLARO.map((e) => (
+          <div key={e.letra} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>
+              {e.letra} — {e.nome}
+            </span>
+            <span style={styles.papelDescricao}>{e.fazer}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -10917,6 +11319,7 @@ function StepFechamentoF7({ contexto, divergencias, decisaoF7, planoF7, onReinic
   );
 }
 
+const STEP_F8_INTRO = -1;
 const STEP_F8_SEMAFORO = 0;
 const STEP_F8_RESULTADO = 1;
 const STEP_F8_TEMAS_VERMELHOS = 2;
@@ -10987,7 +11390,7 @@ const BRUNO_EXEMPLO_F8 = {
 };
 
 function Ferramenta8App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F8_SEMAFORO);
+  const [step, setStep] = useState(STEP_F8_INTRO);
   const [temas, setTemas] = useState(initTemasF8());
   const [temasVermelhosDetalhe, setTemasVermelhosDetalhe] = useState([]);
   const [reflexaoF8, setReflexaoF8] = useState({
@@ -11056,12 +11459,13 @@ function Ferramenta8App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F8_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F8_SEMAFORO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F8_INTRO, s - 1));
 
   return (
     <>
       <Header8 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F8_INTRO && <StepIntroF8 onCarregarExemplo={carregarExemploF8} />}
         {step === STEP_F8_SEMAFORO && (
           <StepSemaforo temas={temas} setTemas={setTemas} onCarregarExemplo={carregarExemploF8} />
         )}
@@ -11107,6 +11511,7 @@ function Ferramenta8App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F8_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F8_INTRO}
         />
       )}
     </>
@@ -11124,17 +11529,42 @@ function Header8({ step, onVoltarCatalogo }) {
     "Plano de ação",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F8_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F8_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Semáforo dos Temas Sensíveis · {labels[step]}</span>
+        <span style={styles.stepLabel}>Semáforo dos Temas Sensíveis · {step === STEP_F8_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF8({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Quais assuntos ainda estão presentes, mesmo sem ninguém falar deles?</h1>
+      <p style={styles.lead}>
+        Identifique ressentimentos silenciosos, frustrações acumuladas e temas não resolvidos que
+        podem comprometer a continuidade da família empresária, classificando-os por prioridade
+        de atenção — pra que sejam tratados antes de se tornarem conflitos abertos ou decisões
+        travadas.
+      </p>
+      <p style={styles.lead}>
+        O preenchimento é individual e, a princípio, confidencial. Cada pessoa registra sua
+        própria percepção, sem influência dos demais.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Bruno (caso do livro)
+        </button>
       </div>
     </div>
   );
@@ -11832,6 +12262,7 @@ function StepFechamentoF8({ temas, contagem, decisaoF8, planoF8, onReiniciar, en
   );
 }
 
+const STEP_F9_INTRO = -1;
 const STEP_F9_PARTICIPANTES = 0;
 const STEP_F9_RELACOES = 1;
 const STEP_F9_RUIDOS = 2;
@@ -11889,7 +12320,7 @@ const PRADO_EXEMPLO_F9 = {
 };
 
 function Ferramenta9App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F9_PARTICIPANTES);
+  const [step, setStep] = useState(STEP_F9_INTRO);
   const [participantes, setParticipantes] = useState([
     { id: 1, nome: "", familia: false, empresa: false, propriedade: false, influencia: 3, observacoes: "" },
   ]);
@@ -11939,12 +12370,13 @@ function Ferramenta9App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F9_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F9_PARTICIPANTES, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F9_INTRO, s - 1));
 
   return (
     <>
       <Header9 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F9_INTRO && <StepIntroF9 onCarregarExemplo={carregarExemploF9} />}
         {step === STEP_F9_PARTICIPANTES && (
           <StepParticipantesF9
             participantes={participantes}
@@ -11993,6 +12425,7 @@ function Ferramenta9App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F9_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F9_INTRO}
         />
       )}
     </>
@@ -12010,17 +12443,42 @@ function Header9({ step, onVoltarCatalogo }) {
     "Plano de ação",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F9_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F9_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Mapa de Ruídos Relacionais · {labels[step]}</span>
+        <span style={styles.stepLabel}>Mapa de Ruídos Relacionais · {step === STEP_F9_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF9({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Como a comunicação realmente acontece dentro da família empresária?</h1>
+      <p style={styles.lead}>
+        Identifique como a comunicação realmente acontece — revelando ruídos, silêncios,
+        triangulações, alianças e padrões relacionais que podem impactar a confiança, a tomada de
+        decisão e a continuidade do legado. O ponto alto é o sociograma: um desenho visual da rede
+        de comunicação real da família.
+      </p>
+      <p style={styles.lead}>
+        Este mapeamento deve ser conduzido por um facilitador, com contribuição de múltiplas
+        pessoas — não faça isso sozinho.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Prado (caso do livro)
+        </button>
       </div>
     </div>
   );
@@ -12910,6 +13368,7 @@ function StepFechamentoF9({ participantesPreenchidos, relacoes, ruidos, planoF9,
   );
 }
 
+const STEP_F10_INTRO = -1;
 const STEP_F10_QUERO = 0;
 const STEP_F10_EXPECTATIVAS = 1;
 const STEP_F10_COMPETENCIAS = 2;
@@ -12960,7 +13419,7 @@ const PEDRO_EXEMPLO_F10 = {
 };
 
 function Ferramenta10App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F10_QUERO);
+  const [step, setStep] = useState(STEP_F10_INTRO);
   const [quero, setQuero] = useState([]);
   const [expectativas, setExpectativas] = useState([
     { id: 1, pessoa: "", expectativa: "", influencia: 3 },
@@ -13035,12 +13494,13 @@ function Ferramenta10App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F10_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F10_QUERO, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F10_INTRO, s - 1));
 
   return (
     <>
       <Header10 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F10_INTRO && <StepIntroF10 onCarregarExemplo={carregarExemploF10} />}
         {step === STEP_F10_QUERO && (
           <StepQueroF10 quero={quero} setQuero={setQuero} onCarregarExemplo={carregarExemploF10} />
         )}
@@ -13098,6 +13558,7 @@ function Ferramenta10App({ onVoltarCatalogo, envioIdInicial }) {
           isPenultimate={step === STEP_F10_PLANO}
           onBack={goBack}
           onNext={goNext}
+          minStep={STEP_F10_INTRO}
         />
       )}
     </>
@@ -13116,14 +13577,14 @@ function Header10({ step, onVoltarCatalogo }) {
     "Plano de desenvolvimento",
     "Fechamento",
   ];
-  const progress = Math.round((step / STEP_F10_FECHAMENTO) * 100);
+  const progress = Math.round((Math.max(step, 0) / STEP_F10_FECHAMENTO) * 100);
   return (
     <div style={styles.header} className="no-print">
       <div style={styles.headerTop}>
         <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
           ← Catálogo
         </button>
-        <span style={styles.stepLabel}>Bússola da Escolha Profissional · {labels[step]}</span>
+        <span style={styles.stepLabel}>Bússola da Escolha Profissional · {step === STEP_F10_INTRO ? "Antes de começar" : labels[step]}</span>
       </div>
       <div style={styles.progressTrack}>
         <div style={{ ...styles.progressFill, width: `${progress}%` }} />
@@ -13170,6 +13631,31 @@ function SeletorChipsTop4({ opcoes, selecionados, setSelecionados, max = 4 }) {
         {selecionados.length} de {max} escolhidos
       </span>
     </>
+  );
+}
+
+function StepIntroF10({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>Minha escolha está sendo guiada por um projeto de vida consciente?</h1>
+      <p style={styles.lead}>
+        Ou apenas por expectativas externas? Esta ferramenta ajuda você a compreender sua relação
+        com a empresa familiar, diferenciando expectativas familiares, vocação pessoal,
+        competências, interesses e projeto de vida — pra que a escolha profissional seja
+        consciente, não apenas uma obrigação presumida.
+      </p>
+      <p style={styles.lead}>
+        No final, uma Matriz cruza três perguntas — Eu quero isso? Tenho competência? A família
+        precisa disso? — revelando uma de oito combinações possíveis.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Pedro Martins (caso do livro)
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -15226,14 +15712,15 @@ function StepFechamentoF12({ pontuacoes, planoF12, onReiniciar, envioId }) {
   );
 }
 
-const STEP_F13_PRESERVAR = 0;
-const STEP_F13_NAO_REPETIR = 1;
-const STEP_F13_COMUNICACAO = 2;
-const STEP_F13_PROXIMAS_GERACOES = 3;
-const STEP_F13_INDIVIDUAIS = 4;
-const STEP_F13_CONSOLIDACAO = 5;
-const STEP_F13_PLANO = 6;
-const STEP_F13_FECHAMENTO = 7;
+const STEP_F13_INTRO = 0;
+const STEP_F13_PRESERVAR = 1;
+const STEP_F13_NAO_REPETIR = 2;
+const STEP_F13_COMUNICACAO = 3;
+const STEP_F13_PROXIMAS_GERACOES = 4;
+const STEP_F13_INDIVIDUAIS = 5;
+const STEP_F13_CONSOLIDACAO = 6;
+const STEP_F13_PLANO = 7;
+const STEP_F13_FECHAMENTO = 8;
 
 const CORDEIRO_EXEMPLO_F13 = {
   participantesF13: [
@@ -15286,7 +15773,7 @@ function initNotasObjF13(lista) {
 }
 
 function Ferramenta13App({ onVoltarCatalogo, envioIdInicial }) {
-  const [step, setStep] = useState(STEP_F13_PRESERVAR);
+  const [step, setStep] = useState(STEP_F13_INTRO);
   const [participantesF13, setParticipantesF13] = useState([{ id: 1, nome: "", geracao: "" }]);
   const [preservar, setPreservar] = useState(initNotasObjF13(ELEMENTOS_PRESERVAR_F13));
   const [naoRepetir, setNaoRepetir] = useState([{ id: 1, comportamento: "", impacto: "", eliminar: "" }]);
@@ -15329,19 +15816,19 @@ function Ferramenta13App({ onVoltarCatalogo, envioIdInicial }) {
   };
 
   const goNext = () => setStep((s) => Math.min(STEP_F13_FECHAMENTO, s + 1));
-  const goBack = () => setStep((s) => Math.max(STEP_F13_PRESERVAR, s - 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F13_INTRO, s - 1));
 
   return (
     <>
       <Header13 step={step} onVoltarCatalogo={onVoltarCatalogo} />
       <div style={styles.body}>
+        {step === STEP_F13_INTRO && <StepIntroF13 onCarregarExemplo={carregarExemploF13} />}
         {step === STEP_F13_PRESERVAR && (
           <StepPreservarF13
             participantesF13={participantesF13}
             setParticipantesF13={setParticipantesF13}
             preservar={preservar}
             setPreservar={setPreservar}
-            onCarregarExemplo={carregarExemploF13}
           />
         )}
         {step === STEP_F13_NAO_REPETIR && <StepNaoRepetirF13 naoRepetir={naoRepetir} setNaoRepetir={setNaoRepetir} />}
@@ -15395,6 +15882,7 @@ function Ferramenta13App({ onVoltarCatalogo, envioIdInicial }) {
 
 function Header13({ step, onVoltarCatalogo }) {
   const labels = [
+    "Antes de começar",
     "O que preservar",
     "O que não repetir",
     "Compromissos de comunicação",
@@ -15420,7 +15908,58 @@ function Header13({ step, onVoltarCatalogo }) {
   );
 }
 
-function StepPreservarF13({ participantesF13, setParticipantesF13, preservar, setPreservar, onCarregarExemplo }) {
+function StepIntroF13({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>ANTES DE COMEÇAR</span>
+      <h1 style={styles.h1}>O que precisamos preservar, respeitar e construir juntos?</h1>
+      <p style={styles.lead}>
+        Toda família empresária já opera segundo um conjunto de acordos — sobre o que se pode
+        falar, quem decide o quê, o que é aceitável. O problema é que, na maioria das vezes, esses
+        acordos nunca foram ditos em voz alta. Esta ferramenta constrói, juntos, um acordo
+        explícito sobre princípios, compromissos e responsabilidades pra sustentar a continuidade
+        familiar.
+      </p>
+      <p style={styles.lead}>
+        Este é um <strong>workshop coletivo</strong>, não individual — reúna representantes de
+        mais de uma geração, idealmente com um facilitador conduzindo. O resultado não é um
+        documento jurídico final, é a base de conteúdo pra um protocolo familiar, conselho de
+        família ou constituição familiar, formalizados depois.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Cordeiro (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        <div style={styles.padraoGuiaRow}>
+          <span style={styles.padraoGuiaNome}>1. O que preservar</span>
+          <span style={styles.papelDescricao}>Os elementos que não deveriam se perder.</span>
+        </div>
+        <div style={styles.padraoGuiaRow}>
+          <span style={styles.padraoGuiaNome}>2. O que não repetir</span>
+          <span style={styles.papelDescricao}>Comportamentos e padrões que já prejudicaram a família.</span>
+        </div>
+        <div style={styles.padraoGuiaRow}>
+          <span style={styles.padraoGuiaNome}>3. Compromissos de comunicação</span>
+          <span style={styles.papelDescricao}>Como a família deseja conversar e resolver conflitos.</span>
+        </div>
+        <div style={styles.padraoGuiaRow}>
+          <span style={styles.padraoGuiaNome}>4. Compromissos com as próximas gerações</span>
+          <span style={styles.papelDescricao}>O que é prioritário pra preparar as futuras gerações.</span>
+        </div>
+        <div style={styles.padraoGuiaRow}>
+          <span style={styles.padraoGuiaNome}>5. Compromissos individuais</span>
+          <span style={styles.papelDescricao}>Cada participante completa: eu me comprometo a...</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StepPreservarF13({ participantesF13, setParticipantesF13, preservar, setPreservar }) {
   const addParticipante = () =>
     setParticipantesF13((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, nome: "", geracao: "" }]);
   const removeParticipante = (id) => setParticipantesF13((prev) => prev.filter((p) => p.id !== id));
@@ -15436,12 +15975,6 @@ function StepPreservarF13({ participantesF13, setParticipantesF13, preservar, se
         preencher, idealmente com um facilitador conduzindo. Avalie a importância de cada
         elemento de 1 a 5.
       </p>
-
-      <div style={styles.demoLinksRow}>
-        <button onClick={onCarregarExemplo} style={styles.demoLink}>
-          ⚡ Exemplo: Família Cordeiro (caso do livro)
-        </button>
-      </div>
 
       <div style={styles.padraoCard}>
         <span style={styles.papelNome}>Quem está presente neste workshop</span>
@@ -16555,13 +17088,578 @@ function StepFechamentoF14({ pontuacoes, imf, achadosF14, planoF14, onReiniciar,
   );
 }
 
-function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext }) {
+const STEP_F15_INTRO = 0;
+const STEP_F15_AVALIACAO = 1;
+const STEP_F15_RADAR = 2;
+const STEP_F15_ACHADOS = 3;
+const STEP_F15_PLANO = 4;
+const STEP_F15_FECHAMENTO = 5;
+
+const LOUREIRO_EXEMPLO_F15 = {
+  pontuacoes: { familia: 4, comunicacao: 5, negocio: 9, patrimonio: 6, governanca: 5, novaGeracao: 5, continuidade: 5 },
+  achadosF15: [
+    {
+      id: 1,
+      achado: "Negócio muito acima de todos os demais sistemas, especialmente Família.",
+      evidencia: "Nota 9 em Negócio, nota 4 em Família — a maior distância entre as sete dimensões.",
+      impacto: "Continuidade sustentada quase inteiramente pelo desempenho da empresa, e pouco pelos relacionamentos que deveriam sustentá-la por trás.",
+    },
+  ],
+  planoF15: [
+    {
+      id: 1,
+      acao: "Criar Conselho de Família.",
+      objetivo: "Fortalecer o sistema Família e Governança",
+      responsavel: "Liderança familiar",
+      prazo: "90 dias",
+    },
+    {
+      id: 2,
+      acao: "Promover encontros familiares estruturados, sem pauta de negócios.",
+      objetivo: "Reconstruir espaço de abertura real entre os membros",
+      responsavel: "Liderança familiar",
+      prazo: "30 dias",
+    },
+  ],
+};
+
+function Ferramenta15App({ onVoltarCatalogo, envioIdInicial }) {
+  const [step, setStep] = useState(STEP_F15_INTRO);
+  const [pontuacoes, setPontuacoes] = useState(
+    DIMENSOES_F15.reduce((acc, d) => {
+      acc[d.key] = null;
+      return acc;
+    }, {})
+  );
+  const [achadosF15, setAchadosF15] = useState([{ id: 1, achado: "", evidencia: "", impacto: "" }]);
+  const [planoF15, setPlanoF15] = useState([{ id: 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+
+  const todasPreenchidas = DIMENSOES_F15.every((d) => pontuacoes[d.key] !== null);
+  const ies = todasPreenchidas
+    ? Math.round((DIMENSOES_F15.reduce((s, d) => s + pontuacoes[d.key], 0) / 7) * 10) / 10
+    : null;
+
+  const carregarExemploF15 = () => {
+    setPontuacoes(LOUREIRO_EXEMPLO_F15.pontuacoes);
+    setAchadosF15(LOUREIRO_EXEMPLO_F15.achadosF15);
+    setPlanoF15(LOUREIRO_EXEMPLO_F15.planoF15);
+    setStep(STEP_F15_RADAR);
+  };
+
+  const canAdvance = () => {
+    if (step === STEP_F15_AVALIACAO) return todasPreenchidas;
+    if (step === STEP_F15_ACHADOS) return achadosF15.some((a) => a.achado.trim());
+    if (step === STEP_F15_PLANO) return planoF15.some((a) => a.acao.trim().length > 3 && a.responsavel.trim().length > 0);
+    return true;
+  };
+
+  const goNext = () => setStep((s) => Math.min(STEP_F15_FECHAMENTO, s + 1));
+  const goBack = () => setStep((s) => Math.max(STEP_F15_INTRO, s - 1));
+
+  return (
+    <>
+      <Header15 step={step} onVoltarCatalogo={onVoltarCatalogo} />
+      <div style={styles.body}>
+        {step === STEP_F15_INTRO && <StepIntroF15 onCarregarExemplo={carregarExemploF15} />}
+        {step === STEP_F15_AVALIACAO && <StepAvaliacaoF15 pontuacoes={pontuacoes} setPontuacoes={setPontuacoes} />}
+        {step === STEP_F15_RADAR && <StepRadarF15 pontuacoes={pontuacoes} ies={ies} />}
+        {step === STEP_F15_ACHADOS && <StepAchadosF15 achadosF15={achadosF15} setAchadosF15={setAchadosF15} pontuacoes={pontuacoes} ies={ies} />}
+        {step === STEP_F15_PLANO && <StepPlanoF15 planoF15={planoF15} setPlanoF15={setPlanoF15} achadosF15={achadosF15} />}
+        {step === STEP_F15_FECHAMENTO && (
+          <StepFechamentoF15
+            pontuacoes={pontuacoes}
+            ies={ies}
+            achadosF15={achadosF15}
+            planoF15={planoF15}
+            onReiniciar={onVoltarCatalogo}
+            envioId={envioIdInicial}
+          />
+        )}
+      </div>
+      {step < STEP_F15_FECHAMENTO && (
+        <Footer
+          step={step}
+          canAdvance={canAdvance()}
+          isLastQuadrante={false}
+          isDesempate={false}
+          isPenultimate={step === STEP_F15_PLANO}
+          onBack={goBack}
+          onNext={goNext}
+        />
+      )}
+    </>
+  );
+}
+
+function Header15({ step, onVoltarCatalogo }) {
+  const labels = ["Antes de começar", "As sete dimensões", "Seu radar", "Principais achados", "Plano de equilíbrio sistêmico", "Fechamento"];
+  const progress = Math.round((step / STEP_F15_FECHAMENTO) * 100);
+  return (
+    <div style={styles.header} className="no-print">
+      <div style={styles.headerTop}>
+        <button onClick={onVoltarCatalogo} style={styles.backToCatalogo}>
+          ← Catálogo
+        </button>
+        <span style={styles.stepLabel}>Radar de Equilíbrio Sistêmico · {labels[step]}</span>
+      </div>
+      <div style={styles.progressTrack}>
+        <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StepIntroF15({ onCarregarExemplo }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>A ÚLTIMA FERRAMENTA DO MÉTODO MOVER</span>
+      <h1 style={styles.h1}>Estamos cuidando de forma equilibrada de tudo que sustenta a continuidade?</h1>
+      <p style={styles.lead}>
+        Esta ferramenta é uma síntese de tudo que veio antes — não substitui nenhuma das quatorze
+        ferramentas anteriores, ela aponta pra onde vale a pena voltar. Avalie sete sistemas de 0
+        a 10 cada. O mais importante não é a média final, é a <em>forma</em> do radar — duas
+        famílias podem ter a mesma média e formas completamente diferentes.
+      </p>
+
+      <div style={styles.demoLinksRow}>
+        <button onClick={onCarregarExemplo} style={styles.demoLink}>
+          ⚡ Exemplo: Família Loureiro (caso do livro)
+        </button>
+      </div>
+
+      <div style={styles.familiaList}>
+        {DIMENSOES_F15.map((d) => (
+          <div key={d.key} style={styles.padraoGuiaRow}>
+            <span style={styles.padraoGuiaNome}>{d.nome}</span>
+            <span style={styles.papelDescricao}>{d.desc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepAvaliacaoF15({ pontuacoes, setPontuacoes }) {
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>AS SETE DIMENSÕES</span>
+      <h1 style={styles.h1}>Avalie cada sistema de 0 a 10.</h1>
+      <p style={styles.lead}>
+        0-2 é crítico, 3-4 é fragilizado, 5-6 é adequado, 7-8 é forte, 9-10 é muito forte. Reflita
+        o estado atual, não o estado desejado.
+      </p>
+
+      <div style={styles.familiaList}>
+        {DIMENSOES_F15.map((d) => (
+          <LinhaScore
+            key={d.key}
+            label={`${d.nome} — ${d.desc}`}
+            valor={pontuacoes[d.key]}
+            onChange={(n) => setPontuacoes((prev) => ({ ...prev, [d.key]: n }))}
+            min={0}
+            max={10}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepRadarF15({ pontuacoes, ies }) {
+  const interpretacao = ies !== null ? interpretaIES_F15(ies) : null;
+  const dimensoesFrageis = DIMENSOES_F15.filter((d) => pontuacoes[d.key] !== null && pontuacoes[d.key] <= 4);
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>SEU RADAR</span>
+      <h1 style={styles.h1}>Este é o seu Radar de Equilíbrio Sistêmico.</h1>
+      <p style={styles.lead}>
+        Observe a forma, não só a média — onde o radar se projeta mais e onde ele encolhe é o que
+        conta a história real da sua família empresária.
+      </p>
+
+      <div style={styles.padraoCard}>
+        <RadarChartF15 pontuacoes={pontuacoes} />
+      </div>
+
+      {interpretacao && (
+        <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+          <span style={styles.unlockLabel}>ÍNDICE DE EQUILÍBRIO SISTÊMICO</span>
+          <div style={styles.icsPainelRow}>
+            <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{ies}</span>
+            <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+          </div>
+        </div>
+      )}
+
+      {dimensoesFrageis.length > 0 && (
+        <div style={styles.familiaList}>
+          <span style={styles.papelNome}>Dimensões que pedem atenção prioritária</span>
+          {dimensoesFrageis.map((d) => {
+            const relacionadas = FERRAMENTAS_RELACIONADAS_F15[d.key];
+            return (
+              <div key={d.key} style={styles.padraoCard}>
+                <span style={styles.papelNome}>
+                  {d.nome} — {pontuacoes[d.key]}/10
+                </span>
+                {relacionadas && (
+                  <span style={styles.papelDescricao}>
+                    Vale revisitar: {relacionadas.map((f) => `Ferramenta ${f.numero} (${f.nome})`).join(", ")}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepAchadosF15({ achadosF15, setAchadosF15, pontuacoes, ies }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const sugerirAchados = () => {
+    setGerando(true);
+    setErro(false);
+    const resumo = DIMENSOES_F15.map((d) => `${d.nome}: ${pontuacoes[d.key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F15}\n\n` +
+      `Você ajuda alguém que aplicou o Radar de Equilíbrio Sistêmico a identificar os principais ` +
+      `achados. Pontuações: ${resumo}. IES: ${ies}.\n\n` +
+      `Sugira 1 a 2 achados relevantes sobre a FORMA do radar (o contraste entre a dimensão mais ` +
+      `alta e a mais baixa), cada um com achado, evidência (baseada nas notas reais acima) e ` +
+      `impacto.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"achado":"","evidencia":"","impacto":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAchadosF15(parsed.map((a, i) => ({ id: i + 1, achado: a.achado || "", evidencia: a.evidencia || "", impacto: a.impacto || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PRINCIPAIS ACHADOS</span>
+      <h1 style={styles.h1}>Registre os achados revelados pelo formato do radar.</h1>
+      <p style={styles.lead}>Com a evidência que os sustenta, e o impacto que eles têm hoje.</p>
+
+      <button onClick={sugerirAchados} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Lendo suas pontuações…" : "✦ Sugerir achados com base nas suas pontuações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <TabelaTresColunas
+        titulo="Achados"
+        linhas={achadosF15}
+        setLinhas={setAchadosF15}
+        campos={["achado", "evidencia", "impacto"]}
+        labels={["ACHADO", "EVIDÊNCIA", "IMPACTO"]}
+        placeholders={[
+          "Ex.: negócio muito mais forte que família",
+          "Ex.: nota 9 em Negócio, nota 4 em Família",
+          "Ex.: continuidade depende só do desempenho da empresa",
+        ]}
+      />
+    </div>
+  );
+}
+
+function StepPlanoF15({ planoF15, setPlanoF15, achadosF15 }) {
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  const addAcao = () => setPlanoF15((prev) => [...prev, { id: (prev[prev.length - 1]?.id || 0) + 1, acao: "", objetivo: "", responsavel: "", prazo: "" }]);
+  const removeAcao = (id) => setPlanoF15((prev) => prev.filter((a) => a.id !== id));
+  const setAcao = (id, field, val) => setPlanoF15((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: val } : a)));
+
+  const sugerirAcoes = () => {
+    setGerando(true);
+    setErro(false);
+    const achadosTexto = achadosF15.filter((a) => a.achado.trim()).map((a) => a.achado).join("; ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F15}\n\n` +
+      `Você ajuda uma família a transformar os achados do Radar de Equilíbrio Sistêmico em um ` +
+      `Plano de Equilíbrio Sistêmico.${achadosTexto ? ` Achados: "${achadosTexto}".` : ""}\n\n` +
+      `Sugira 2 ações concretas, cada uma no infinitivo, com objetivo, responsável e prazo.\n\n` +
+      `Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, ` +
+      `neste formato exato:\n` +
+      `[{"acao":"","objetivo":"","responsavel":"","prazo":""},{"acao":"","objetivo":"","responsavel":"","prazo":""}]`;
+
+    callClaude(prompt, 400)
+      .then((texto) => {
+        const limpo = texto.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(limpo);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPlanoF15(parsed.map((a, i) => ({ id: i + 1, acao: a.acao || "", objetivo: a.objetivo || "", responsavel: a.responsavel || "", prazo: a.prazo || "" })));
+        }
+      })
+      .catch(() => setErro(true))
+      .finally(() => setGerando(false));
+  };
+
+  return (
+    <div style={styles.stepWrap}>
+      <span style={styles.eyebrowSmall}>PLANO DE EQUILÍBRIO SISTÊMICO</span>
+      <h1 style={styles.h1}>Transforme os achados em ações concretas.</h1>
+      <p style={styles.lead}>Com objetivo, responsável e prazo pra cada uma.</p>
+
+      <button onClick={sugerirAcoes} disabled={gerando} style={styles.demoLink}>
+        {gerando ? "Gerando sugestões…" : "✦ Sugerir ações"}
+      </button>
+      {erro && <span style={styles.saveStatusErr}>Não deu pra gerar agora, escreva livremente abaixo.</span>}
+
+      <div style={styles.familiaList}>
+        {planoF15.map((a, i) => (
+          <div key={a.id} style={styles.timelineCard}>
+            <div style={styles.timelineTopRow}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              {planoF15.length > 1 && (
+                <button onClick={() => removeAcao(a.id)} style={styles.removeRowButton} type="button">
+                  ×
+                </button>
+              )}
+            </div>
+            <textarea
+              style={styles.textareaSmall}
+              rows={2}
+              value={a.acao}
+              onChange={(e) => setAcao(a.id, "acao", e.target.value)}
+              placeholder="Ex.: criar Conselho de Família…"
+            />
+            <label style={styles.fieldLabel}>Objetivo</label>
+            <input
+              style={{ ...styles.input, flex: "none" }}
+              value={a.objetivo}
+              onChange={(e) => setAcao(a.id, "objetivo", e.target.value)}
+              placeholder="Ex.: fortalecer o sistema Família e Governança"
+            />
+            <div style={styles.planoRow}>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Responsável</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.responsavel}
+                  onChange={(e) => setAcao(a.id, "responsavel", e.target.value)}
+                  placeholder="Quem conduz"
+                />
+              </div>
+              <div style={styles.planoField}>
+                <label style={styles.fieldLabel}>Prazo</label>
+                <input
+                  style={{ ...styles.input, flex: "none" }}
+                  value={a.prazo}
+                  onChange={(e) => setAcao(a.id, "prazo", e.target.value)}
+                  placeholder="Ex.: 90 dias"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button onClick={addAcao} type="button" style={styles.demoLink}>
+        + Adicionar outra ação
+      </button>
+    </div>
+  );
+}
+
+function StepFechamentoF15({ pontuacoes, ies, achadosF15, planoF15, onReiniciar, envioId }) {
+  const [salvando, setSalvando] = useState(true);
+  const [salvo, setSalvo] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState(false);
+  const [sintese, setSintese] = useState(null);
+  const [carregandoSintese, setCarregandoSintese] = useState(false);
+  const interpretacao = ies !== null ? interpretaIES_F15(ies) : null;
+  const achadosPreenchidos = achadosF15.filter((a) => a.achado.trim());
+
+  useEffect(() => {
+    let cancelado = false;
+    setSalvando(true);
+    setErroSalvar(false);
+
+    supabaseInsert("respostas", {
+      envio_id: envioId || null,
+      ferramenta_numero: 15,
+      notas: { ...pontuacoes, IES: ies },
+      conflito: { classificacao: interpretacao ? interpretacao.label : null },
+      plano_acao: planoF15,
+    })
+      .then(() => {
+        if (!cancelado) setSalvo(true);
+      })
+      .catch(() => {
+        if (!cancelado) setErroSalvar(true);
+      })
+      .finally(() => {
+        if (!cancelado) setSalvando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+    setCarregandoSintese(true);
+    const resumo = DIMENSOES_F15.map((d) => `${d.nome}: ${pontuacoes[d.key]}`).join(", ");
+    const prompt =
+      `${LIVRO_CONTEXTO_F15}\n\n` +
+      `Alguém completou o Radar de Equilíbrio Sistêmico, a última ferramenta do Método MOVER. ` +
+      `Pontuações: ${resumo}. IES: ${ies} (${interpretacao ? interpretacao.label : ""}).\n\n` +
+      `Escreva um parágrafo curto de fechamento (3-4 frases, no máximo 80 palavras) que amarre ` +
+      `isso numa síntese concreta e acolhedora, reforçando que a forma do radar conta mais que a ` +
+      `média, e que o valor está em revisitar essa avaliação anualmente. Tom direto, sem clichês ` +
+      `de autoajuda. Responda só com o texto, sem introdução, em português do Brasil.`;
+
+    callClaude(prompt, 220)
+      .then((texto) => {
+        if (!cancelado && texto) setSintese(texto);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelado) setCarregandoSintese(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const montarResumo = () => {
+    const linhas = [
+      "Radar de Equilíbrio Sistêmico",
+      "",
+      `IES: ${ies}/10 — ${interpretacao ? interpretacao.label : "—"}`,
+      `Pontuações: ${DIMENSOES_F15.map((d) => `${d.nome} ${pontuacoes[d.key]}/10`).join(", ")}`,
+      "",
+      sintese ? `Síntese: ${sintese}` : null,
+      sintese ? "" : null,
+      "Principais achados:",
+      achadosPreenchidos.map((a, i) => `${i + 1}. ${a.achado} — Evidência: ${a.evidencia || "—"} — Impacto: ${a.impacto || "—"}`).join("\n") || "—",
+      "",
+      "Plano de equilíbrio sistêmico:",
+      planoF15
+        .filter((a) => a.acao.trim())
+        .map((a, i) => `${i + 1}. ${a.acao} — Objetivo: ${a.objetivo || "—"} — Responsável: ${a.responsavel || "—"} — Prazo: ${a.prazo || "—"}`)
+        .join("\n") || "—",
+    ].filter((l) => l !== null);
+    return linhas.join("\n");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notifyConsultor(`Radar de Equilíbrio Sistêmico — IES ${ies}`, montarResumo());
+    }, 3000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div style={styles.stepWrap}>
+      <div style={styles.saveStatus}>
+        {salvando && <span style={styles.saveStatusText}>Salvando seu resultado…</span>}
+        {!salvando && salvo && <span style={styles.saveStatusOk}>✓ Resultado salvo</span>}
+        {!salvando && erroSalvar && <span style={styles.saveStatusErr}>Não deu pra salvar automaticamente</span>}
+      </div>
+      <span style={styles.eyebrowSmall}>FECHAMENTO</span>
+      <h1 style={styles.h1}>Seu Radar de Equilíbrio Sistêmico, resumido.</h1>
+
+      <div style={styles.padraoCard}>
+        <RadarChartF15 pontuacoes={pontuacoes} />
+      </div>
+
+      {interpretacao && (
+        <div style={{ ...styles.unlockBox, borderColor: interpretacao.cor }}>
+          <span style={styles.unlockLabel}>ÍNDICE DE EQUILÍBRIO SISTÊMICO</span>
+          <div style={styles.icsPainelRow}>
+            <span style={{ ...styles.icsPainelNumero, color: interpretacao.cor }}>{ies}</span>
+            <span style={{ ...styles.padraoGuiaNome, color: interpretacao.cor }}>{interpretacao.label}</span>
+          </div>
+        </div>
+      )}
+
+      <div style={styles.unlockBox}>
+        <span style={styles.unlockLabel}>SÍNTESE</span>
+        {carregandoSintese ? (
+          <p style={styles.unlockHow}>
+            <span style={{ opacity: 0.6 }}>Gerando síntese pra sua situação específica…</span>
+          </p>
+        ) : (
+          <>
+            <p style={styles.unlockHow}>{sintese || "A forma do radar conta mais que a média. Revisite essa avaliação anualmente."}</p>
+            {sintese && <span style={styles.aiTag}>✦ gerado pra sua situação</span>}
+          </>
+        )}
+      </div>
+
+      <div style={styles.familiaList}>
+        {planoF15
+          .filter((a) => a.acao.trim())
+          .map((a, i) => (
+            <div key={a.id} style={styles.padraoCard}>
+              <span style={styles.papelNome}>{i + 1}ª ação</span>
+              <span style={styles.papelDescricao}>{a.acao}</span>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>OBJETIVO</span>
+                <span style={styles.fechamentoValue}>{a.objetivo || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>RESPONSÁVEL</span>
+                <span style={styles.fechamentoValue}>{a.responsavel || "—"}</span>
+              </div>
+              <div style={styles.fechamentoRow}>
+                <span style={styles.fechamentoLabel}>PRAZO</span>
+                <span style={styles.fechamentoValue}>{a.prazo || "—"}</span>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div style={styles.ctaBox}>
+        <p style={styles.ctaTitle}>Você completou o Método MOVER inteiro.</p>
+        <p style={styles.ctaSub}>
+          Quinze ferramentas, cinco etapas — Mentalidade e Consciência, Validação e Confiança,
+          Objetividade e Clareza, Estratégia de Direção, e Regras de Continuidade. Este radar é a
+          síntese de tudo isso, e também o ponto de partida pro próximo ciclo: revisite essa
+          avaliação anualmente, e volte às ferramentas específicas onde o radar apontar fragilidade.
+        </p>
+      </div>
+
+      <p style={{ ...styles.papelDescricao, marginTop: 4 }} className="no-print">
+        Um resumo desse resultado já foi enviado automaticamente pro consultor.
+      </p>
+      <div style={styles.finalButtonsRow} className="no-print">
+        <button onClick={() => window.print()} style={styles.ctaButton}>
+          🖨️ Baixar / imprimir PDF
+        </button>
+        <button onClick={onReiniciar} style={styles.restartButton}>
+          ↺ Voltar ao início
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Footer({ step, canAdvance, isLastQuadrante, isDesempate, isPenultimate, onBack, onNext, minStep = STEP_ROLE }) {
   return (
     <div style={styles.footer} className="no-print">
       <button
         onClick={onBack}
-        disabled={step === STEP_ROLE}
-        style={{ ...styles.navButton, ...styles.navButtonGhost, opacity: step === STEP_ROLE ? 0.3 : 1 }}
+        disabled={step === minStep}
+        style={{ ...styles.navButton, ...styles.navButtonGhost, opacity: step === minStep ? 0.3 : 1 }}
       >
         ← Voltar
       </button>
